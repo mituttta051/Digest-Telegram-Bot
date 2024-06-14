@@ -3,6 +3,7 @@ from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 
 from content.keyboards.generate_keyboards import channels_keyboard
+from utils.LLMUtils import generate_summary
 from utils.botUtils import get_messages_last_week, get_channels_with_permissions
 
 generate_router = Router()
@@ -17,4 +18,4 @@ async def get_posts(message: Message):
 @generate_router.callback_query()
 async def generate_callback_query(call: CallbackQuery):
     channels = await get_channels_with_permissions(call.message.chat.id)
-    await call.message.answer(str(get_messages_last_week(int(call.data))), reply_markup=channels_keyboard(channels))
+    await call.message.answer(await generate_summary(get_messages_last_week(int(call.data))), reply_markup=channels_keyboard(channels))

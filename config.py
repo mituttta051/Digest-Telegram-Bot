@@ -1,3 +1,5 @@
 import os
 BOT_TOKEN = os.environ['BOT_TOKEN']
+YGPT_FOLDER_ID = os.environ['YGPT_FOLDER_ID']
+YGPT_TOKEN = os.environ['YGPT_TOKEN']
 # CHANNEL_ID = -1002236051094
