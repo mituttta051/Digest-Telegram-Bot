@@ -1,8 +1,8 @@
 import asyncio
 from create_bot import bot, dp
-from handlers.start import start_router
-from handlers.generate import generate_router
-from handlers.channel_messages import channel_messages_router
+from content.handlers.start import start_router
+from content.handlers.generate import generate_router
+from content.handlers.channel_messages import channel_messages_router
 
 
 async def main():
