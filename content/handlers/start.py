@@ -2,7 +2,7 @@ from aiogram import Router, F
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message
 
-from content.keyboards.generate_keyboards import generate_keyboard
+from content.keyboards.digest_keyboards import generate_keyboard
 from create_bot import bot
 from utils.botUtils import get_channels_with_permissions
 

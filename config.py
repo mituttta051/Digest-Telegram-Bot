@@ -1,5 +1,9 @@
 import os
-BOT_TOKEN = os.environ['BOT_TOKEN']
-YGPT_FOLDER_ID = os.environ['YGPT_FOLDER_ID']
-YGPT_TOKEN = os.environ['YGPT_TOKEN']
-# CHANNEL_ID = -1002236051094
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+YGPT_FOLDER_ID = os.getenv('YGPT_FOLDER_ID')
+YGPT_TOKEN = os.getenv('YGPT_TOKEN')

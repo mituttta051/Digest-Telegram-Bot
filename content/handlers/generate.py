@@ -2,7 +2,7 @@ from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 
-from content.keyboards.generate_keyboards import channels_keyboard
+from content.keyboards.digest_keyboards import channels_keyboard
 from utils.LLMUtils import generate_summary
 from utils.botUtils import get_messages_last_week, get_channels_with_permissions
 

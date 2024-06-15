@@ -1,9 +1,11 @@
+# Import built-in packages
 import asyncio
 import json
-import logging
 
+# Import downloaded packages
 import aiohttp
 
+# Import project files
 from config import YGPT_FOLDER_ID, YGPT_TOKEN
 
 
