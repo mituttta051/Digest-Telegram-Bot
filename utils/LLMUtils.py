@@ -55,4 +55,5 @@ async def create_response(message):
                     res = "Too many requests"
                 else:
                     res = str(e)
+            response.close()
     return res

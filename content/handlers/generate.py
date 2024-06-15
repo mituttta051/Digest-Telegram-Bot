@@ -18,4 +18,10 @@ async def get_posts(message: Message):
 @generate_router.callback_query()
 async def generate_callback_query(call: CallbackQuery):
     channels = await get_channels_with_permissions(call.message.chat.id)
-    await call.message.answer(await generate_summary(get_messages_last_week(int(call.data))), reply_markup=channels_keyboard(channels))
+    messages = get_messages_last_week(int(call.data))
+    if len(messages) == 0:
+        await call.message.answer("С момента добавления бота не было выложено ни одного поста",
+                                  reply_markup=channels_keyboard(channels))
+    else:
+        await call.message.answer(await generate_summary(get_messages_last_week(int(call.data))),
+                                  reply_markup=channels_keyboard(channels))
