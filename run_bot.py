@@ -1,14 +1,15 @@
 import asyncio
 from create_bot import bot, dp
-from content.handlers.start import start_router
-from content.handlers.generate import generate_router
-from content.handlers.channel_messages import channel_messages_router
+from content.handlers.general_handlers import general_router
+from content.handlers.digest_handlers import digest_router
+from content.handlers.settings_handlers import settings_router
 
 
 async def main():
-    dp.include_router(start_router)
-    dp.include_router(generate_router)
-    dp.include_router(channel_messages_router)
+    dp.include_router(general_router)
+    dp.include_router(digest_router)
+    dp.include_router(settings_router)
+
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 

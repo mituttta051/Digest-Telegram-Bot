@@ -2,7 +2,7 @@
 # Import downloaded packages
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
-update_channels_inline_button = InlineKeyboardButton(text="Update channel list", callback_data="update_channel")
+week_period_inline_button = InlineKeyboardButton(text="Week (7 days)", callback_data="7")
 
 approve_inline_button = InlineKeyboardButton(text="Approve", callback_data="digest_approve")
 edit_inline_button = InlineKeyboardButton(text="Edit", callback_data="digest_edit")
@@ -17,6 +17,10 @@ digest_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [regenerate_inline_button]
 ])
 
+supported_period_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
+    [week_period_inline_button]
+])
+
 
 def channels_keyboard(channels):
     channels_kb_list = [
@@ -24,9 +28,3 @@ def channels_keyboard(channels):
     ]
     return InlineKeyboardMarkup(inline_keyboard=channels_kb_list)
 
-
-def generate_keyboard():
-    keyboard = kb = [
-        [KeyboardButton(text="Generate")]
-    ]
-    return ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)

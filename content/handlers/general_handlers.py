@@ -3,16 +3,19 @@
 from aiogram import Router, F
 from aiogram.filters import CommandStart, ChatMemberUpdatedFilter, IS_NOT_MEMBER, ADMINISTRATOR
 from aiogram.types import Message, ChatMemberUpdated
+from aiogram.fsm.context import FSMContext
 
 # Import project files
 import content.keyboards.general_keyboards as gk
+from utils.databaseUtils import put_message, put_channel
 
 general_router = Router()
 
 
 # /start a.k.a. main menu command
 @general_router.message(CommandStart())
-async def bot_start(message: Message):
+async def bot_start(message: Message, state: FSMContext):
+    await state.clear()
     await message.answer("Hello!", reply_markup=gk.start_reply_keyboard)
 
 
@@ -24,7 +27,7 @@ async def bot_help(message: Message):
 
 @general_router.my_chat_member(ChatMemberUpdatedFilter(member_status_changed=IS_NOT_MEMBER >> ADMINISTRATOR))
 async def bot_added_as_admin(event: ChatMemberUpdated):
-    print(event.chat.id, event.chat.title, "Added")
+    put_channel(event.chat.id, event.chat.title)
 
 
 @general_router.my_chat_member(ChatMemberUpdatedFilter(member_status_changed=ADMINISTRATOR >> IS_NOT_MEMBER))
@@ -33,5 +36,5 @@ async def bot_removed_from_channel(event: ChatMemberUpdated):
 
 
 @general_router.channel_post()
-async def get_channel_post(message: Message):
-    print(message.text, message.chat.id)
+async def get_post(message: Message):
+    put_message(message, message.chat.id)
