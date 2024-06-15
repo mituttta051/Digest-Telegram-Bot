@@ -49,14 +49,17 @@ async def digest_generate(callback: CallbackQuery, state: FSMContext):
     await state.set_state(DigestFSM.digest)
     data = await state.get_data()
 
-    messages = get_messages_in_days(data['channel'], data['period'])
+    await callback.message.answer(text="Digest is preparing...")
 
+    messages = get_messages_in_days(data['channel'], data['period'])
     if len(messages) == 0:
         digest = "No posts have been posted since the bot was added"
     else:
         digest = await generate_summary(messages)
 
+    # Todo: Make this one change previous bot message (line 52)
     await callback.message.answer(text=digest, reply_markup=dk.digest_inline_keyboard)
+
 
 
 @digest_router.callback_query(F.data == "digest_approve", DigestFSM.digest)

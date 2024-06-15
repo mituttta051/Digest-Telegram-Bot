@@ -3,7 +3,6 @@
 from aiogram import Router, F
 from aiogram.filters import CommandStart, ChatMemberUpdatedFilter, IS_NOT_MEMBER, ADMINISTRATOR
 from aiogram.types import Message, ChatMemberUpdated
-from aiogram.fsm.context import FSMContext
 
 # Import project files
 import content.keyboards.general_keyboards as gk
@@ -14,8 +13,7 @@ general_router = Router()
 
 # /start a.k.a. main menu command
 @general_router.message(CommandStart())
-async def bot_start(message: Message, state: FSMContext):
-    await state.clear()
+async def bot_start(message: Message):
     await message.answer("Hello!", reply_markup=gk.start_reply_keyboard)
 
 
