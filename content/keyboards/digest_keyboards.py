@@ -17,3 +17,7 @@ digest_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [cancel_inline_button],
     [regenerate_inline_button]
 ])
+
+
+def get_user_channels():
+    pass
