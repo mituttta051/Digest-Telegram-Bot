@@ -1,7 +1,6 @@
 # Import built-in packages
 import logging
 import sqlite3
-import os
 
 # Import downloaded packages
 from aiogram import Bot, Dispatcher

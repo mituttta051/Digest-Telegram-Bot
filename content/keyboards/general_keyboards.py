@@ -2,8 +2,7 @@
 # Or keyboards that doesn't belong to branches
 
 # Import downloaded packages
-from aiogram.types import (ReplyKeyboardMarkup, KeyboardButton,
-                           InlineKeyboardMarkup, InlineKeyboardButton)
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
 # Start menu
 start_reply_keyboard = ReplyKeyboardMarkup(keyboard=[

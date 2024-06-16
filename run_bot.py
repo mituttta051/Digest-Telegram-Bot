@@ -1,4 +1,7 @@
+# Import downloaded packages
 import asyncio
+
+# Import project files
 from create_bot import bot, dp
 from content.handlers.general_handlers import general_router
 from content.handlers.digest_handlers import digest_router

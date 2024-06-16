@@ -1,5 +1,7 @@
+# Import built-in packages
 import os
 
+# Import downloaded packages
 from dotenv import load_dotenv
 
 load_dotenv()

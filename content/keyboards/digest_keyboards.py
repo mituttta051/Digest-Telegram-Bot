@@ -1,6 +1,7 @@
 # A file that will store digest branch keyboards
+
 # Import downloaded packages
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 week_period_inline_button = InlineKeyboardButton(text="Week (7 days)", callback_data="7")
 

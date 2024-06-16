@@ -1,6 +1,6 @@
 # A file that will contain message, command and callback handlers from digest branch
+
 # Import downloaded packages
-import aiogram.types
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.state import StatesGroup, State
@@ -59,7 +59,6 @@ async def digest_generate(callback: CallbackQuery, state: FSMContext):
 
     # Todo: Make this one change previous bot message (line 52)
     await callback.message.answer(text=digest, reply_markup=dk.digest_inline_keyboard)
-
 
 
 @digest_router.callback_query(F.data == "digest_approve", DigestFSM.digest)
