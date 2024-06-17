@@ -1,21 +1,80 @@
+# A file that will contain various technical functions
+
+# Import downloaded packages
 from datetime import datetime
 
+# Import project files
 from create_bot import bot
 from utils.databaseUtils import get_messages, get_channels
 
 
-def get_period_in_seconds(date):
+# Define a function to calculate the period in seconds between the current time and a given date
+def get_period_in_seconds(date: str) -> float:
+    """
+    Function to calculate the period in seconds between the current time and a given date.
+
+    This function takes a date string in the format "%Y-%m-%d %H:%M:%S.%f" and calculates the difference in seconds
+    between that date and the current time.
+
+    Args:
+        date (str): The date string in the format "%Y-%m-%d %H:%M:%S.%f".
+
+    Returns:
+        float: The period in seconds between the current time and the given date.
+    """
     return (datetime.now() - datetime.strptime(date, "%Y-%m-%d %H:%M:%S.%f")).total_seconds()
 
 
-def get_messages_last_week(channel_id):
+# Define a function to retrieve messages from the last week for a given channel
+def get_messages_last_week(channel_id: str) -> list[str]:
+    """
+    Function to retrieve messages from the last week for a given channel.
+
+    This function queries the database for messages from the specified channel and filters them to include only those
+    that were posted within the last week.
+
+    Args:
+        channel_id (str): The ID of the channel to retrieve messages from.
+
+    Returns:
+        list[str]: A list of messages posted within the last week.
+    """
     return list(filter(lambda x: get_period_in_seconds(x[1]) / 3600 / 24 <= 7, get_messages(channel_id)))
 
 
-def get_messages_in_days(channel_id: str, period: str):
+# Define a function to retrieve messages within a specified number of days for a given channel
+def get_messages_in_days(channel_id: str, period: str) -> list[str]:
+    """
+    Function to retrieve messages within a specified number of days for a given channel.
+
+    This function queries the database for messages from the specified channel and filters them to include only those
+    that were posted within the specified number of days.
+
+    Args:
+        channel_id (str): The ID of the channel to retrieve messages from.
+        period (str): The number of days to consider for message retrieval.
+
+    Returns:
+        list[str]: A list of messages posted within the specified number of days.
+    """
     return list(filter(lambda x: get_period_in_seconds(x[1]) / 3600 / 24 <= int(period), get_messages(channel_id)))
 
 
-async def get_channels_with_permissions(user_id):
+# Define an asynchronous function to retrieve channels with permissions for a given user
+async def get_channels_with_permissions(user_id: int) -> list[(str, str)]:
+    """
+    Asynchronous function to retrieve channels with permissions for a given user.
+
+    This function queries the database for channels and checks if the user with the specified ID is an administrator
+    in those channels. It returns a list of tuples, where each tuple contains the channel ID and name for channels
+    where the user has administrator permissions.
+
+    Args:
+        user_id (int): The ID of the user to check for channel permissions.
+
+    Returns:
+        list[(str, str)]: A list of tuples, where each tuple contains the channel ID and name for channels where the
+        user has administrator permissions.
+    """
     return [(channel_id, name) for (_, channel_id, name) in get_channels() if
             user_id in list(map(lambda x: x.user.id, await bot.get_chat_administrators(channel_id)))]

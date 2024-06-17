@@ -9,11 +9,21 @@ from content.handlers.settings_handlers import settings_router
 
 
 async def main():
-    dp.include_router(general_router)
-    dp.include_router(digest_router)
-    dp.include_router(settings_router)
+    """
+        Asynchronous main function to initialize and start the Telegram bot.
 
+        This function includes routers for handling different types of commands and messages,
+        deletes the bot's webhook to allow polling, and starts the polling mechanism to receive updates.
+    """
+    # Include routers in the dispatcher
+    dp.include_router(general_router)  # Include general router
+    dp.include_router(digest_router)  # Include digest router
+    dp.include_router(settings_router)  # Include settings router
+
+    # Delete the bot's webhook and allow polling for updates
     await bot.delete_webhook(drop_pending_updates=True)
+
+    # Start polling to receive updates
     await dp.start_polling(bot)
 
 
