@@ -3,9 +3,10 @@
 # Import downloaded packages
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-# Define inline keyboard buttons for various actions
+# Buttons to choose digest period
 week_period_inline_button = InlineKeyboardButton(text="Week (7 days)", callback_data="7")
 
+# Buttons connected with digest activity
 approve_inline_button = InlineKeyboardButton(text="Approve", callback_data="digest_approve")
 edit_inline_button = InlineKeyboardButton(text="Edit", callback_data="digest_edit")
 cancel_inline_button = InlineKeyboardButton(text="Cancel", callback_data="digest_cancel")
@@ -27,7 +28,7 @@ supported_period_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
 
 
 # Define a function to create an inline keyboard for channel selection
-def channels_keyboard(channels):
+def channels_keyboard(channels: list[(str, str)]) -> InlineKeyboardMarkup:
     """
     Function to generate an inline keyboard for selecting channels.
 
