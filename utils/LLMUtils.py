@@ -82,12 +82,12 @@ async def create_response(messages: list[str], by_one_message: bool) -> str:
     }
 
     url = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
-    async with aiohttp.ClientSession(headers=headers) as session:
-        response = await session.post(url, json=prompt)
+    async with aiohttp.ClientSession(headers=headers, trust_env=True) as session:
+        response = await session.post(url, json=prompt, ssl=False)
         tries = 10
         while response.status == 429 and tries > 0:
             await asyncio.sleep(1)
-            response = await session.post(url, json=prompt)
+            response = await session.post(url, json=prompt, ssl=False)
             tries -= 1
         res = await response.text()
         try:
