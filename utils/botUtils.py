@@ -1,10 +1,10 @@
 # A file that will contain various technical functions
-
+import logging
 # Import downloaded packages
 from datetime import datetime
 
 # Import project files
-from create_bot import bot
+from create_bot import bot, logger
 from utils.databaseUtils import get_messages, get_channels
 
 
@@ -76,5 +76,11 @@ async def get_channels_with_permissions(user_id: int) -> list[(str, str)]:
         list[(str, str)]: A list of tuples, where each tuple contains the channel ID and name for channels where the
         user has administrator permissions.
     """
-    return [(channel_id, name) for (_, channel_id, name) in get_channels() if
-            user_id in list(map(lambda x: x.user.id, await bot.get_chat_administrators(channel_id)))]
+    result = []
+    for _, channel_id, name in get_channels():
+        try:
+            if user_id in list(map(lambda x: x.user.id, await bot.get_chat_administrators(channel_id))):
+                result.append((channel_id, name))
+        except Exception as e:
+            logger.exception(f"Bot not in the channel: {channel_id}")
+    return result

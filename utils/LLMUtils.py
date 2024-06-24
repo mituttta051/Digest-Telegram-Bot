@@ -9,7 +9,7 @@ import aiohttp
 from config import YGPT_FOLDER_ID, YGPT_TOKEN
 
 
-async def generate_summary(messages: list[str]) -> str:
+async def generate_summary(messages: list[str], by_one_message: bool = False) -> str:
     """
     Asynchronously generates a summary by creating a response for each message in the provided list.
 
@@ -21,16 +21,21 @@ async def generate_summary(messages: list[str]) -> str:
 
     This function uses list comprehension to asynchronously call `create_response` for each message and collects the results.
     The results are then joined into a single string with newline characters to form the summary.
+    :param messages:
+    :param by_one_message:
     """
-    # Create a list of responses by asynchronously calling create_response for each message
-    res = [await create_response(message[2]) for message in messages]
+    if by_one_message:
+        # Create a list of responses by asynchronously calling create_response for each message
+        res = [await create_response([message[2]], by_one_message) for message in messages]
+    else:
+        res = [await create_response(list(map(lambda x: x[2], messages)), by_one_message)]
 
     # Join the responses into a single string with newline characters
     return "\n\n".join(res)
 
 
 # Define an asynchronous function to create a response using the Yandex GPT API
-async def create_response(message: str) -> str:
+async def create_response(messages: list[str], by_one_message: bool) -> str:
     """
     Asynchronous function to create a response using the Yandex GPT API.
 
@@ -44,25 +49,32 @@ async def create_response(message: str) -> str:
 
     Returns:
         str: The generated response text from the Yandex GPT API.
+        :param by_one_message:
+        :param messages:
     """
     prompt = {
-        "modelUri": f"gpt://{YGPT_FOLDER_ID}/yandexgpt-lite",
+        "modelUri": f"gpt://{YGPT_FOLDER_ID}/yandexgpt",
         "completionOptions": {
             "stream": False,
-            "temperature": 0.6,
+            "temperature": 0.3,
             "maxTokens": "2000"
         },
         "messages": [
-            {
-                "role": "system",
-                "text": "Опиши назначение инструмента 1 предложением с упоминанием его названия"
-            },
-            {
-                "role": "user",
-                "text": message
-            }
+
         ]
     }
+
+    if by_one_message:
+        prompt["messages"].append(
+            {"role": "system", "text": "Опиши назначение инструмента 1 предложением с упоминанием его названия"})
+    else:
+        prompt["messages"].append(
+            {"role": "system",
+             "text": "Опиши назначение объекта в каждом предыдущем сообщении с упоминанием его названия по 1 сообщению"})
+
+    for message in messages:
+        dict_message = {"role": "user", "text": message}
+        prompt["messages"].append(dict_message)
 
     headers = {
         "Content-Type": "application/json",
