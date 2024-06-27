@@ -25,7 +25,10 @@ async def bot_start(message: Message):
     Args:
         message (Message): The incoming message object containing the /start command.
     """
-    await message.answer("Hello!", reply_markup=gk.start_reply_keyboard)
+    message_start = """🤖 <b>Welcome to Digest Bot!</b>
+    For more detailed information, click the “Help” button."""
+
+    await message.answer(message_start, reply_markup=gk.start_reply_keyboard)
 
 
 # Define a handler for the "Help" command
@@ -39,7 +42,16 @@ async def bot_help(message: Message):
     Args:
         message (Message): The incoming message object containing the "Help" text.
     """
-    await message.answer("I'm going to help you!")
+    message_help = """<b>Here's how you can use our Digest Bot:</b>
+
+    ⚙️ <b>Settings</b>
+      -  Change bot language: Select the bot interface language for ease of use.
+      -  Change LLM API key: List of language models that the bot can use for generating responses.
+
+    📝 <b>Create Digest</b>
+      -  The bot will automatically create and send a summary of posts for the selected period. You can change or confirm the generated text before publishing."""
+
+    await message.answer(message_help)
 
 
 # Define a handler for when the bot is added as an administrator in a chat
