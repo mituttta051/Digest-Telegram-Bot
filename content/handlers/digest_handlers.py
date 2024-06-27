@@ -138,30 +138,44 @@ async def digest_generate(callback: CallbackQuery, state: FSMContext) -> None:
     await callback.message.answer(text=digest, reply_markup=dk.digest_inline_keyboard)
 
 
+
 @digest_router.callback_query(F.data == "digest_approve", DigestFSM.digest)
 async def digest_approve(callback: CallbackQuery, state: FSMContext) -> None:
     """
-        Asynchronous function to handle the "Approve" callback query for the digest.
+        Callback function for handling the approval of a digest message.
 
-        This function is triggered when a user selects the "Approve" option via a callback query while in the `DigestFSM.digest` state.
-        It acknowledges the approval, edits the message to remove inline buttons, and prepares to post the digest to the channel.
-        After handling the approval, it returns the user to the main menu and clears the state.
+        This function is triggered when a callback query with the data "digest_approve" is received.
+        It posts the digest message to a selected channel and handles any exceptions that occur during the process.
 
-        Args:
-            callback (aiogram.types.CallbackQuery): The callback query object with the "digest_approve" data.
-            state (aiogram.fsm.context.FSMContext): The state context object used to manage the finite state machine.
+        Parameters:
+            callback (CallbackQuery): The callback query that triggered the function.
+            state (FSMContext): The current state of the finite state machine.
 
-        See:
-            `content.handlers.general_handlers.bot_start`: function that prints greeting message and calls the main menu keyboard
+        Returns:
+            None
         """
-    # Acknowledge the approval selection
+    # Acknowledge the callback with a message
     await callback.answer('You chose "Approve"')
 
-    # Edit the message to remove inline buttons
-    await callback.message.edit_text(text=callback.message.text,
-                                     reply_markup=gk.one_button_keyboard("inline", "Approve"))
+    # Edit the current message text and display an "Approve" button
+    await callback.message.edit_text(text=callback.message.text, reply_markup=gk.one_button_keyboard("inline", "Approve"))
 
-    # Channel posting actions (Todo: Implement channel posting logic)
+    # Retrieve the stored state data
+    data = await state.get_data()
+    channel_id = data['channel'] # Extract the channel ID from the state data
+    digest_text = callback.message.text # Get the digest text from the callback message
+
+    try:
+        # Post the digest to the selected channel
+        await callback.bot.send_message(chat_id=channel_id, text=digest_text)
+        await callback.message.answer("Digest posted successfully!")
+    except Exception as e:
+        # Handle any exceptions that occur during the message posting
+        await callback.message.answer(f"Failed to post digest: {e}")
+
+    await callback.message.answer("Return back to main menu")
+    await state.clear()
+    await bot_start(callback.message)
 
     # Send a message to return to the main menu
     await callback.message.answer("Return back to main menu")
