@@ -39,8 +39,14 @@ def put_message(message: Message, channel_id: str) -> None:
         message (Message): The Telegram message object to store.
         channel_id (str): The ID of the channel to store the message in.
     """
+    # to retrieve message link
+    base_url = "https://t.me/"
+    chat_id = message.chat.id
+    message_id = message.message_id
     table = "messages" + str(channel_id).replace("-", "_")
-    cur.execute(f"""INSERT INTO {table} (date, text) VALUES (?, ?)""", (datetime.now(), message.html_text))
+    message_url = f"{base_url}c/{str(chat_id)[4:]}/{message_id}"
+    print(message_url)
+    cur.execute(f"""INSERT INTO {table} (date, text, link) VALUES (?, ?, ?)""", (datetime.now(), message.html_text, message_url))
     conn.commit()
 
 
@@ -61,7 +67,7 @@ def put_channel(channel_id: str, name: str) -> None:
     cur.execute(
         f"""INSERT INTO channels (channel_id, name) VALUES (?, ?) ON CONFLICT(channel_id) DO UPDATE SET name = ?""",
         (channel_id, name, name))
-    cur.execute(f"""CREATE TABLE IF NOT EXISTS {table} (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, text TEXT)""")
+    cur.execute(f"""CREATE TABLE IF NOT EXISTS {table} (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, text TEXT, link TEXT)""")
     conn.commit()
 
 
