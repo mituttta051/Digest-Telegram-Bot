@@ -9,7 +9,7 @@ import aiohttp
 from config import YGPT_FOLDER_ID, YGPT_TOKEN
 
 
-async def generate_summary(messages: list[str], by_one_message: bool = True) -> str:
+async def generate_summary(messages: list[tuple[int, str, str, str]], by_one_message: bool = True) -> str:
     """
     Asynchronously generates a summary by creating a response for each message in the provided list.
 
@@ -25,16 +25,16 @@ async def generate_summary(messages: list[str], by_one_message: bool = True) -> 
     """
     if by_one_message:
         # Create a list of responses by asynchronously calling create_response for each message
-        res = [await create_response([message[2]], by_one_message) for message in messages]
+        res = [await create_response([(message[2], message[3])], by_one_message) for message in messages]
     else:
-        res = [await create_response(list(map(lambda x: x[2], messages)), by_one_message)]
+        res = [await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message)]
 
     # Join the responses into a single string with newline characters
     return "\n\n".join(res)
 
 
 # Define an asynchronous function to create a response using the Yandex GPT API
-async def create_response(messages: list[str], by_one_message: bool) -> str:
+async def create_response(messages: list[tuple[str, str]], by_one_message: bool) -> str:
     """
     Asynchronous function to create a response using the Yandex GPT API.
 
@@ -93,7 +93,7 @@ async def create_response(messages: list[str], by_one_message: bool) -> str:
                      "символов в твоем ответе = 1024, к каждому названию добавляй логичные смайлики."})
 
     for message in messages:
-        dict_message = {"role": "user", "text": message}
+        dict_message = {"role": "user", "text": message[0]}
         prompt["messages"].append(dict_message)
 
     headers = {

@@ -81,6 +81,6 @@ async def get_channels_with_permissions(user_id: int) -> list[(str, str)]:
         try:
             if user_id in list(map(lambda x: x.user.id, await bot.get_chat_administrators(channel_id))):
                 result.append((channel_id, name))
-        except Exception as e:
+        except:
             logger.exception(f"Bot not in the channel: {channel_id}")
     return result
