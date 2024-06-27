@@ -1,7 +1,7 @@
 # A file that will contain general message, command and callback handlers
 
 # Import downloaded packages
-from aiogram import Router, F
+from aiogram import Router, F, Bot
 from aiogram.filters import CommandStart, ChatMemberUpdatedFilter, IS_NOT_MEMBER, ADMINISTRATOR
 from aiogram.types import Message, ChatMemberUpdated
 
@@ -74,7 +74,7 @@ async def bot_removed_from_channel(event: ChatMemberUpdated):
 
 # Define a handler for channel posts
 @general_router.channel_post()
-async def get_post(message: Message):
+async def get_post(message: Message, bot: Bot):
     """
     Asynchronous function to handle channel posts.
 
@@ -83,5 +83,7 @@ async def get_post(message: Message):
 
     Args:
         message (Message): The incoming channel post message object.
+        bot (Bot): The bot instance to get the bot's user ID.
     """
-    put_message(message, message.chat.id)
+    if message.from_user.id != bot.id:
+        put_message(message, message.chat.id)
