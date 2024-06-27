@@ -45,7 +45,6 @@ def put_message(message: Message, channel_id: str) -> None:
     message_id = message.message_id
     table = "messages" + str(channel_id).replace("-", "_")
     message_url = f"{base_url}c/{str(chat_id)[4:]}/{message_id}"
-    print(message_url)
     cur.execute(f"""INSERT INTO {table} (date, text, link) VALUES (?, ?, ?)""", (datetime.now(), message.html_text, message_url))
     conn.commit()
 
