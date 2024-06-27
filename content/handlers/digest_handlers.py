@@ -138,7 +138,6 @@ async def digest_generate(callback: CallbackQuery, state: FSMContext) -> None:
     await callback.message.answer(text=digest, reply_markup=dk.digest_inline_keyboard)
 
 
-
 @digest_router.callback_query(F.data == "digest_approve", DigestFSM.digest)
 async def digest_approve(callback: CallbackQuery, state: FSMContext) -> None:
     """
@@ -173,9 +172,6 @@ async def digest_approve(callback: CallbackQuery, state: FSMContext) -> None:
         # Handle any exceptions that occur during the message posting
         await callback.message.answer(f"Failed to post digest: {e}")
 
-    await callback.message.answer("Return back to main menu")
-    await state.clear()
-    await bot_start(callback.message)
 
     # Send a message to return to the main menu
     await callback.message.answer("Return back to main menu")
