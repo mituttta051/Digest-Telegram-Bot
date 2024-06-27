@@ -27,6 +27,8 @@ digest_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
 # Create an inline keyboard for supported period selection
 supported_period_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [week_period_inline_button]
+    [two_weeks_period_inline_button]
+    [month_period_inline_button]
 ])
 
 
