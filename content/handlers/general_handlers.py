@@ -85,5 +85,5 @@ async def get_post(message: Message, bot: Bot):
         message (Message): The incoming channel post message object.
         bot (Bot): The bot instance to get the bot's user ID.
     """
-    if message.from_user.id != bot.id:
+    if message.from_user.id != bot.id and "#digest" not in message.text:
         put_message(message, message.chat.id)
