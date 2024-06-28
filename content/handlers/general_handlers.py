@@ -51,7 +51,7 @@ async def bot_help(message: Message):
     📝 <b>Create Digest</b>
       -  The bot will automatically create and send a summary of posts for the selected period. You can change or confirm the generated text before publishing."""
 
-    await message.answer(message_help)
+    await message.answer(message_help, reply_markup=gk.start_reply_keyboard)
 
 
 # Define a handler for when the bot is added as an administrator in a chat
