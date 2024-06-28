@@ -87,7 +87,6 @@ async def get_channels_with_permissions(user_id: int) -> list[(str, str)]:
 
 
 def attach_link_to_message(message: str, link: str):
-    message = "a ofuclio vov"
     if message.find("—") != -1 and message.find("-") != -1:
         index = min(message.find("—"), message.find("-"))
     else:
