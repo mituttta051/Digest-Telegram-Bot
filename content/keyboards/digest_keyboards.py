@@ -5,9 +5,6 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # Buttons to choose digest period
 week_period_inline_button = InlineKeyboardButton(text="Week (7 days)", callback_data="7")
-two_weeks_period_inline_button = InlineKeyboardButton(text="2 weeks (14 days)", callback_data="14")
-month_period_inline_button = InlineKeyboardButton(text="1 Month (30 days)", callback_data="30")
-
 
 # Buttons connected with digest activity
 approve_inline_button = InlineKeyboardButton(text="Approve", callback_data="digest_approve")
@@ -27,8 +24,6 @@ digest_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
 # Create an inline keyboard for supported period selection
 supported_period_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [week_period_inline_button]
-    [two_weeks_period_inline_button]
-    [month_period_inline_button]
 ])
 
 
