@@ -7,7 +7,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMar
 
 # Define the start menu reply keyboard
 start_reply_keyboard = ReplyKeyboardMarkup(keyboard=[
-    [KeyboardButton(text="Create digest"), KeyboardButton(text="Settings")],
+    [KeyboardButton(text="Create digest")],
     [KeyboardButton(text="Help")]
 ],
     resize_keyboard=True,
