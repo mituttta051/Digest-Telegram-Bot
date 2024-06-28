@@ -56,7 +56,7 @@ async def create_response(messages: list[tuple[str, str]], by_one_message: bool)
         "modelUri": f"gpt://{YGPT_FOLDER_ID}/yandexgpt",
         "completionOptions": {
             "stream": False,
-            "temperature": 0.01,
+            "temperature": 0.3,
             "maxTokens": "6000"
         },
         "messages": [
