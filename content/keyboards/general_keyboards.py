@@ -1,5 +1,6 @@
 # A file that will store the general keyboards
 # Or keyboards that doesn't belong to branches
+from typing import Union
 
 # Import downloaded packages
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
@@ -37,7 +38,7 @@ def make_inline_keyboard(*buttons: InlineKeyboardButton) -> InlineKeyboardMarkup
 
 
 # Define a function to create a keyboard with a single button of either reply or inline type
-def one_button_keyboard(button_type: str, text: str) -> ReplyKeyboardMarkup | InlineKeyboardMarkup:
+def one_button_keyboard(button_type: str, text: str) -> Union[ReplyKeyboardMarkup, InlineKeyboardMarkup]:
     """
     Function to generate a keyboard with a single button of either reply or inline type.
 
@@ -50,7 +51,7 @@ def one_button_keyboard(button_type: str, text: str) -> ReplyKeyboardMarkup | In
         text (str): The text to display on the button.
 
     Returns:
-        ReplyKeyboardMarkup | InlineKeyboardMarkup: A keyboard with a single button of the specified type.
+        Union[ReplyKeyboardMarkup, InlineKeyboardMarkup]: A keyboard with a single button of the specified type.
     """
     if button_type.lower() == "reply":
         return ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text=text)]], resize_keyboard=True, one_time_keyboard=True)
