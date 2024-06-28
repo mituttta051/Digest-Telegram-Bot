@@ -81,6 +81,27 @@ async def get_channels_with_permissions(user_id: int) -> list[(str, str)]:
         try:
             if user_id in list(map(lambda x: x.user.id, await bot.get_chat_administrators(channel_id))):
                 result.append((channel_id, name))
-        except Exception as e:
+        except:
             logger.exception(f"Bot not in the channel: {channel_id}")
     return result
+
+
+def attach_link_to_message(message: str, link: str):
+    if message.find("—") != -1 and message.find("-") != -1:
+        index = min(message.find("—"), message.find("-"))
+    else:
+        index = max(message.find("—"), message.find("-"))
+
+    if index != -1:
+        message = "<a href=\"{0}\">{1}</a>".format(link, message[:index]) + message[index:]
+    else:
+        words = message.split()
+        message = ""
+        found = False
+        for word in words:
+            if len(word) > 2 and not found:
+                message += " " + "<a href=\"{0}\">{1}</a>".format(link, word)
+                found = True
+                continue
+            message += " " + word
+    return message
