@@ -7,6 +7,7 @@ import aiohttp
 
 # Import project files
 from config import YGPT_FOLDER_ID, YGPT_TOKEN
+from utils.botUtils import attach_link_to_message
 
 
 async def generate_summary(messages: list[tuple[int, str, str, str]], by_one_message: bool = True) -> str:
@@ -30,7 +31,7 @@ async def generate_summary(messages: list[tuple[int, str, str, str]], by_one_mes
         res = [await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message)]
 
     # Join the responses into a single string with newline characters
-    return "\n\n".join(res)
+    return "\n\n".join(res) + "\n\n#digest"
 
 
 # Define an asynchronous function to create a response using the Yandex GPT API
@@ -115,6 +116,7 @@ async def create_response(messages: list[tuple[str, str]], by_one_message: bool)
             res = json.loads(res)
             res = res["result"]["alternatives"]
             res = res[0]["message"]["text"]
+            res = attach_link_to_message(res, message[1])
         except Exception as e:
             if response.status == 429:
                 res = "Too many requests"
