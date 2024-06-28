@@ -157,24 +157,20 @@ async def digest_approve(callback: CallbackQuery, state: FSMContext) -> None:
     await callback.answer('You chose "Approve"')
 
     # Edit the current message text and display an "Approve" button
-    await callback.message.edit_text(text=callback.message.text, reply_markup=gk.one_button_keyboard("inline", "Approve"))
+    await callback.message.edit_text(text=callback.message.html_text, reply_markup=gk.one_button_keyboard("inline", "Approve"))
 
     # Retrieve the stored state data
     data = await state.get_data()
     channel_id = data['channel'] # Extract the channel ID from the state data
-    digest_text = callback.message.text # Get the digest text from the callback message
+    digest_text = callback.message.html_text # Get the digest text from the callback message
 
     try:
         # Post the digest to the selected channel
         await callback.bot.send_message(chat_id=channel_id, text=digest_text)
-        await callback.message.answer("Digest posted successfully!")
+        await callback.message.answer("🥳Digest posted successfully!")
     except Exception as e:
         # Handle any exceptions that occur during the message posting
         await callback.message.answer(f"Failed to post digest: {e}")
-
-
-    # Send a message to return to the main menu
-    await callback.message.answer("Return back to main menu")
 
     # Clear the state to reset the FSM
     await state.clear()
@@ -206,10 +202,10 @@ async def digest_edit(callback: CallbackQuery, state: FSMContext) -> None:
     await callback.answer('You chose "Edit"')
 
     # Store the initial text of the digest
-    await state.update_data(initial_text=callback.message.text)
+    await state.update_data(initial_text=callback.message.html_text)
 
     # Edit the message to remove inline buttons
-    await callback.message.edit_text(text=callback.message.text,
+    await callback.message.edit_text(text=callback.message.html_text,
                                      reply_markup=gk.one_button_keyboard("inline", "Edit"))
 
     # Prompt user to write their own version and provide a cancel button
@@ -240,7 +236,7 @@ async def cancel_editing(callback: CallbackQuery, state: FSMContext) -> None:
     await callback.answer()
 
     # Restore the initial text and remove the editing prompt
-    await callback.message.edit_text(text=callback.message.text,
+    await callback.message.edit_text(text=callback.message.html_text,
                                      reply_markup=gk.one_button_keyboard("inline", "Cancel editing"))
 
     # Retrieve the initial text from the state data
@@ -271,7 +267,7 @@ async def edit_digest(message: Message, state: FSMContext) -> None:
     await state.set_state(DigestFSM.digest)
 
     # Send the edited text with the digest inline keyboard
-    await message.answer(text=message.text, reply_markup=dk.digest_inline_keyboard)
+    await message.answer(text=message.html_text, reply_markup=dk.digest_inline_keyboard)
 
 
 @digest_router.callback_query(F.data == "digest_cancel", DigestFSM.digest)
@@ -296,7 +292,7 @@ async def digest_cancel(callback: CallbackQuery, state: FSMContext) -> None:
     await callback.answer('You chose "Cancel"')
 
     # Edit the message to remove inline buttons
-    await callback.message.edit_text(text=callback.message.text,
+    await callback.message.edit_text(text=callback.message.html_text,
                                      reply_markup=gk.one_button_keyboard("inline", "Cancel"))
 
     # Clear the state to reset the FSM

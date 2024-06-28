@@ -25,8 +25,9 @@ async def bot_start(message: Message):
     Args:
         message (Message): The incoming message object containing the /start command.
     """
-    message_start = """🤖 <b>Welcome to Digest Bot!</b>
-    For more detailed information, click the “Help” button."""
+    message_start = """🤖 <b>Welcome to Digest Bot!</b> I will help you make up a summary of posts.\n
+    To get started click <b>Create digest</b> button.\n
+    For more detailed information, click <b>Help</b> button."""
 
     await message.answer(message_start, reply_markup=gk.start_reply_keyboard)
 
