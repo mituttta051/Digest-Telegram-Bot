@@ -34,25 +34,3 @@ supported_period_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [month_period_inline_button],
     [return_back_button]
 ])
-
-
-# Define a function to create an inline keyboard for channel selection
-def channels_keyboard(channels: list[(str, str)]) -> InlineKeyboardMarkup:
-    """
-    Function to generate an inline keyboard for selecting channels.
-
-    This function takes a list of tuples where each tuple contains a channel ID and a channel name. It creates an
-    inline keyboard with buttons for each channel, where the button text is the channel name and the callback data is
-    the channel ID.
-
-    Args:
-        channels (list of tuples): A list of tuples where each tuple contains a channel ID and a channel name.
-
-    Returns:
-        InlineKeyboardMarkup: An inline keyboard with buttons for each channel.
-    """
-    channels_kb_list = [
-        [InlineKeyboardButton(text=name, callback_data=str(channel_id))] for (channel_id, name) in channels
-    ]
-    channels_kb_list.append([return_back_button])
-    return InlineKeyboardMarkup(inline_keyboard=channels_kb_list)

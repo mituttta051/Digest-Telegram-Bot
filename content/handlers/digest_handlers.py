@@ -66,11 +66,11 @@ async def bot_digest(message: Message, state: FSMContext) -> None:
     channels = await get_channels_with_permissions(message.chat.id)
 
     # Send a message with a keyboard to choose a channel
-    await message.answer("Choose a channel", reply_markup=dk.channels_keyboard(channels))
+    await message.answer("Choose a channel", reply_markup=gk.channels_keyboard(channels))
 
 
 @digest_router.callback_query(F.data == "back", DigestFSM.choose_channel)
-async def digest_edit(callback: CallbackQuery, state: FSMContext) -> None:
+async def digest_back_to_main(callback: CallbackQuery, state: FSMContext) -> None:
     await callback.answer(f'You return back')
     # Clear the state to reset the FSM
     await state.clear()
@@ -106,7 +106,7 @@ async def choose_period(callback: CallbackQuery, state: FSMContext) -> None:
 
 
 @digest_router.callback_query(F.data == "back", DigestFSM.choose_period)
-async def digest_edit(callback: CallbackQuery, state: FSMContext) -> None:
+async def digest_back_to_choose_channel(callback: CallbackQuery, state: FSMContext) -> None:
     await callback.answer(f'You return back')
     # Clear the state to reset the FSM
     await state.clear()

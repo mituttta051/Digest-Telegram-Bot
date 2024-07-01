@@ -1,48 +1,54 @@
 # A file that will store settings branch keyboards
 
 # Import downloaded packages
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
+
+return_back_inline_button = InlineKeyboardButton(text="⬅️Return back", callback_data="back")
+
+# Define reply keyboard buttons for settings actions
+return_back_reply_button = KeyboardButton(text="⬅️Return back")
+change_bot_language_reply_button = KeyboardButton(text="🌍Change bot language")
+channel_settings_key_reply_button = KeyboardButton(text="⚙️Channel settings")
 
 # Define inline keyboard buttons for settings actions
-return_back_button = InlineKeyboardButton(text="⬅️Return back", callback_data="back")
-change_bot_language_inline_button = InlineKeyboardButton(text="Change bot language",
-                                                         callback_data="change_bot_language")
-change_api_key_inline_button = InlineKeyboardButton(text="Change LLM API key", callback_data="change_llm_api_key")
+ru_language_button = InlineKeyboardButton(text="Russian", callback_data="ru")
+en_language_button = InlineKeyboardButton(text="English", callback_data="en")
 
-# Create an inline keyboard for settings actions
+# Define inline keyboard buttons for channel settings actions
+api_button = InlineKeyboardButton(text="API", callback_data="api")
+main_language_button = InlineKeyboardButton(text="Main language", callback_data="main_language")
+addition_language_button = InlineKeyboardButton(text="Addition language", callback_data="addition_language")
+
+# Create a reply keyboard for settings actions
+settings_reply_keyboard = ReplyKeyboardMarkup(keyboard=[
+    [change_bot_language_reply_button, channel_settings_key_reply_button],
+    [return_back_reply_button]
+],
+    resize_keyboard=True,
+    input_field_placeholder="Select a menu button",
+    one_time_keyboard=True
+)
+
+# Create an inline keyboard for choosing language
 settings_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
-    [change_bot_language_inline_button],
-    [change_api_key_inline_button],
-    [return_back_button]
+    [ru_language_button],
+    [en_language_button],
+    [return_back_inline_button]
 ])
 
+channel_settings_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
+    [api_button],
+    [main_language_button],
+    [addition_language_button],
+    [return_back_inline_button]
+])
 
-# Define a function to retrieve supported bot languages from the database
-def get_supported_bot_languages():
-    """
-    Function to retrieve a list of supported bot languages from the database.
-
-    This function is intended to query the database and return a list of languages that the bot can operate in.
-    However, the implementation is currently a placeholder and does not perform any actual database operations.
-
-    Returns:
-        list: A list of supported bot languages.
-    """
-    # Get some data from database
-    pass
+digest_languages = ["Russian", "English"]
 
 
-# Define a function to retrieve supported LLMs (Language Models) from the database
-def get_supported_llms():
-    """
-    Function to retrieve a list of supported LLMs (Language Models) from the database.
-
-    This function is intended to query the database and return a list of language models that the bot can use for
-    generating responses. However, the implementation is currently a placeholder and does not perform any actual
-    database operations.
-
-    Returns:
-        list: A list of supported LLMs.
-    """
-    # Get some data from database
-    pass
+def digest_bot_languages_keyboard():
+    channels_kb_list = [
+        [InlineKeyboardButton(text=language, callback_data=language)] for language in digest_languages
+    ]
+    channels_kb_list.append([return_back_inline_button])
+    return InlineKeyboardMarkup(inline_keyboard=channels_kb_list)
