@@ -43,7 +43,7 @@ class DigestFSM(StatesGroup):
     edit_text = State()
 
 
-@digest_router.message(F.text == "Create digest")
+@digest_router.message(F.text == "✍🏼Create digest")
 async def bot_digest(message: Message, state: FSMContext) -> None:
     """
         Asynchronous function to handle the "Create digest" message and initiate the digest creation process.
@@ -67,6 +67,16 @@ async def bot_digest(message: Message, state: FSMContext) -> None:
 
     # Send a message with a keyboard to choose a channel
     await message.answer("Choose a channel", reply_markup=dk.channels_keyboard(channels))
+
+
+@digest_router.callback_query(F.data == "back", DigestFSM.choose_channel)
+async def digest_edit(callback: CallbackQuery, state: FSMContext) -> None:
+    await callback.answer(f'You return back')
+    # Clear the state to reset the FSM
+    await state.clear()
+
+    # Start the bot from the main menu
+    await bot_start(callback.message)
 
 
 @digest_router.callback_query(DigestFSM.choose_channel)
@@ -93,6 +103,16 @@ async def choose_period(callback: CallbackQuery, state: FSMContext) -> None:
 
     # Send a message with an inline keyboard to choose a digest period
     await callback.message.answer(text="Choose a digest period", reply_markup=dk.supported_period_inline_keyboard)
+
+
+@digest_router.callback_query(F.data == "back", DigestFSM.choose_period)
+async def digest_edit(callback: CallbackQuery, state: FSMContext) -> None:
+    await callback.answer(f'You return back')
+    # Clear the state to reset the FSM
+    await state.clear()
+
+    # return bot to the choose channel
+    await bot_digest(callback.message, state)
 
 
 @digest_router.callback_query(DigestFSM.choose_period)
@@ -157,12 +177,13 @@ async def digest_approve(callback: CallbackQuery, state: FSMContext) -> None:
     await callback.answer('You chose "Approve"')
 
     # Edit the current message text and display an "Approve" button
-    await callback.message.edit_text(text=callback.message.html_text, reply_markup=gk.one_button_keyboard("inline", "Approve"))
+    await callback.message.edit_text(text=callback.message.html_text,
+                                     reply_markup=gk.one_button_keyboard("inline", "✅Approve"))
 
     # Retrieve the stored state data
     data = await state.get_data()
-    channel_id = data['channel'] # Extract the channel ID from the state data
-    digest_text = callback.message.html_text # Get the digest text from the callback message
+    channel_id = data['channel']  # Extract the channel ID from the state data
+    digest_text = callback.message.html_text  # Get the digest text from the callback message
 
     try:
         # Post the digest to the selected channel
@@ -206,7 +227,7 @@ async def digest_edit(callback: CallbackQuery, state: FSMContext) -> None:
 
     # Edit the message to remove inline buttons
     await callback.message.edit_text(text=callback.message.html_text,
-                                     reply_markup=gk.one_button_keyboard("inline", "Edit"))
+                                     reply_markup=gk.one_button_keyboard("inline", "✏️Edit"))
 
     # Prompt user to write their own version and provide a cancel button
     await callback.message.answer("Write your own version",
@@ -237,7 +258,7 @@ async def cancel_editing(callback: CallbackQuery, state: FSMContext) -> None:
 
     # Restore the initial text and remove the editing prompt
     await callback.message.edit_text(text=callback.message.html_text,
-                                     reply_markup=gk.one_button_keyboard("inline", "Cancel editing"))
+                                     reply_markup=gk.one_button_keyboard("inline", "❌Cancel editing"))
 
     # Retrieve the initial text from the state data
     data = await state.get_data()
@@ -293,7 +314,7 @@ async def digest_cancel(callback: CallbackQuery, state: FSMContext) -> None:
 
     # Edit the message to remove inline buttons
     await callback.message.edit_text(text=callback.message.html_text,
-                                     reply_markup=gk.one_button_keyboard("inline", "Cancel"))
+                                     reply_markup=gk.one_button_keyboard("inline", "❌Cancel"))
 
     # Clear the state to reset the FSM
     await state.clear()

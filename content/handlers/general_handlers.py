@@ -33,7 +33,7 @@ async def bot_start(message: Message):
 
 
 # Define a handler for the "Help" command
-@general_router.message(F.text == "Help")
+@general_router.message(F.text == "❓Help")
 async def bot_help(message: Message):
     """
     Asynchronous function to handle the "Help" command.
@@ -82,7 +82,7 @@ async def bot_removed_from_channel(event: ChatMemberUpdated):
     Args:
         event (ChatMemberUpdated): The event object containing the chat member status update.
     """
-    print(event.chat.id, event.chat.title, "Removed")
+    print(event.chat.id, event.chat.title, "Removed")  # todo: delete channel from db
 
 
 # Define a handler for channel posts

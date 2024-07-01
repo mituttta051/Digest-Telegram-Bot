@@ -2,6 +2,8 @@
 
 # Import downloaded packages
 from aiogram import Router, F
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message, CallbackQuery
 
 # Import project files
@@ -11,10 +13,14 @@ import content.keyboards.settings_keyboards as sk
 # Create a router instance for settings-related message and callback handlers
 settings_router = Router()
 
+class SettingsFSM(StatesGroup):
+
+    settings = State()
+
 
 # Define a handler for the "Settings" command
-@settings_router.message(F.text == "Settings")
-async def bot_settings(message: Message):
+@settings_router.message(F.text == "⚙️Settings")
+async def bot_settings(message: Message, state: FSMContext):
     """
     Asynchronous function to handle the "Settings" command.
 
@@ -24,11 +30,14 @@ async def bot_settings(message: Message):
     Args:
         message (Message): The incoming message object containing the "Settings" text.
     """
+
+    await state.set_state(SettingsFSM.settings)
+
     await message.answer("Welcome to the settings!", reply_markup=sk.settings_inline_keyboard)
 
 
 # Define a handler for callback queries with data "settings_back"
-@settings_router.callback_query(lambda callback: callback.data == "settings_back")
+@settings_router.callback_query(lambda callback: callback.data == "back", SettingsFSM.settings)
 async def settings_back(callback: CallbackQuery):
     """
     Asynchronous function to handle the "Return back" callback query from the settings.
