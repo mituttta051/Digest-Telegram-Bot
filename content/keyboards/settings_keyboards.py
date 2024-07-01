@@ -11,13 +11,13 @@ change_bot_language_reply_button = KeyboardButton(text="🌍Change bot language"
 channel_settings_key_reply_button = KeyboardButton(text="⚙️Channel settings")
 
 # Define inline keyboard buttons for settings actions
-ru_language_button = InlineKeyboardButton(text="Russian", callback_data="ru")
-en_language_button = InlineKeyboardButton(text="English", callback_data="en")
+ru_language_button = InlineKeyboardButton(text="🇷🇺Russian", callback_data="ru")
+en_language_button = InlineKeyboardButton(text="🇬🇧English", callback_data="en")
 
 # Define inline keyboard buttons for channel settings actions
-api_button = InlineKeyboardButton(text="API", callback_data="api")
-main_language_button = InlineKeyboardButton(text="Main language", callback_data="main_language")
-addition_language_button = InlineKeyboardButton(text="Addition language", callback_data="addition_language")
+api_button = InlineKeyboardButton(text="🛠API", callback_data="api")
+main_language_button = InlineKeyboardButton(text="🌍Main language", callback_data="main_language")
+addition_language_button = InlineKeyboardButton(text="🌎Addition language", callback_data="addition_language")
 
 # Create a reply keyboard for settings actions
 settings_reply_keyboard = ReplyKeyboardMarkup(keyboard=[
@@ -43,7 +43,7 @@ channel_settings_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [return_back_inline_button]
 ])
 
-digest_languages = ["Russian", "English"]
+digest_languages = ["🇷🇺Russian", "🇬🇧English"]
 
 
 def digest_bot_languages_keyboard():
