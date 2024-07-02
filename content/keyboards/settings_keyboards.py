@@ -7,7 +7,7 @@ return_back_inline_button = InlineKeyboardButton(text="⬅️Back", callback_dat
 
 # Define reply keyboard buttons for settings actions
 return_back_reply_button = KeyboardButton(text="⬅️Back")
-change_bot_language_reply_button = KeyboardButton(text="🌍Change bot language")
+change_bot_language_reply_button = KeyboardButton(text="🌍Bot language")
 channel_settings_key_reply_button = KeyboardButton(text="⚙️Channel settings")
 
 # Define inline keyboard buttons for settings actions

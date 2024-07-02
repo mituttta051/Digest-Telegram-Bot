@@ -65,7 +65,7 @@ async def settings_back(message: Message, state: FSMContext):
     await bot_start(message)
 
 
-@settings_router.message(F.text == "🌍Change bot language", SettingsFSM.settings)
+@settings_router.message(F.text == "🌍Bot language", SettingsFSM.settings)
 async def choose_bot_language(message: Message, state: FSMContext):
     await state.set_state(SettingsFSM.change_language)
 
