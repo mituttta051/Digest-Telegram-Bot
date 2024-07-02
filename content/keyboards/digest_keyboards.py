@@ -5,7 +5,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # Return back button
 
-return_back_button = InlineKeyboardButton(text="⬅️Return back", callback_data="back")
+return_back_button = InlineKeyboardButton(text="⬅️Back", callback_data="back")
 
 # Buttons to choose digest period
 week_period_inline_button = InlineKeyboardButton(text="Week (7 days)", callback_data="7")

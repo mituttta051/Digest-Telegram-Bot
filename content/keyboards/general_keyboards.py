@@ -5,7 +5,7 @@ from typing import Union
 # Import downloaded packages
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
-return_back_button = InlineKeyboardButton(text="⬅️Return back", callback_data="back")
+return_back_button = InlineKeyboardButton(text="⬅️Back", callback_data="back")
 
 # Define the start menu reply keyboard
 start_reply_keyboard = ReplyKeyboardMarkup(keyboard=[

@@ -3,10 +3,10 @@
 # Import downloaded packages
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 
-return_back_inline_button = InlineKeyboardButton(text="⬅️Return back", callback_data="back")
+return_back_inline_button = InlineKeyboardButton(text="⬅️Back", callback_data="back")
 
 # Define reply keyboard buttons for settings actions
-return_back_reply_button = KeyboardButton(text="⬅️Return back")
+return_back_reply_button = KeyboardButton(text="⬅️Back")
 change_bot_language_reply_button = KeyboardButton(text="🌍Change bot language")
 channel_settings_key_reply_button = KeyboardButton(text="⚙️Channel settings")
 

@@ -45,7 +45,7 @@ async def bot_settings(message: Message, state: FSMContext):
     await message.answer("Welcome to the settings!", reply_markup=sk.settings_reply_keyboard)
 
 
-@settings_router.message(F.text == "⬅️Return back", SettingsFSM.settings)
+@settings_router.message(F.text == "⬅️Back", SettingsFSM.settings)
 async def settings_back(message: Message, state: FSMContext):
     """
     Asynchronous function to handle the "Return back" callback query from the settings.
