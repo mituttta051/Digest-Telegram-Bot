@@ -6,12 +6,13 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message, CallbackQuery
 
+
 # Import project files
 from content.handlers.general_handlers import bot_start
 import content.keyboards.settings_keyboards as sk
 import content.keyboards.general_keyboards as gk
 from utils.botUtils import get_channels_with_permissions
-
+from create_bot import cur, conn
 # Create a router instance for settings-related message and callback handlers
 settings_router = Router()
 
@@ -111,7 +112,7 @@ async def choose_channel_back_to_settings(callback: CallbackQuery, state: FSMCon
 @settings_router.callback_query(SettingsFSM.choose_channel)
 async def channel_settings(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.channel_settings)
-
+    await state.update_data(channel_id=callback.data)
     await callback.answer("You chose channel")  # todo: channel name
 
     await callback.message.answer("choose option", reply_markup=sk.channel_settings_inline_keyboard)
@@ -135,6 +136,15 @@ async def choose_main_language(callback: CallbackQuery, state: FSMContext):
     await callback.message.answer("Choose main language for digest", reply_markup=sk.digest_bot_languages_keyboard())
 
 
+@settings_router.callback_query(F.data == "addition_language", SettingsFSM.channel_settings)
+async def choose_addition_language(callback: CallbackQuery, state: FSMContext):
+    await state.set_state(SettingsFSM.addition_language)
+    await callback.answer(f"You chose option")
+
+    await callback.message.answer("Choose addition language for digest",
+                                  reply_markup=sk.digest_bot_languages_keyboard())
+
+
 @settings_router.callback_query(F.data == "back", SettingsFSM.main_language or SettingsFSM.addition_language)
 async def choose_main_language_back_to_channel_settings(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.channel_settings)
@@ -147,25 +157,28 @@ async def choose_main_language_back_to_channel_settings(callback: CallbackQuery,
 @settings_router.callback_query(SettingsFSM.main_language)
 async def chose_main_language(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.channel_settings)
-
+    data = await state.get_data()
+    channel_id = data.get('channel_id')
     await callback.answer(f"You chose {callback.data}")
-
+    if callback.data == "🇬🇧English":
+        new_language = "en"
+    else:
+        new_language = "ru"
+    cur.execute("UPDATE channels SET main_language = ? WHERE channel_id = ?", (new_language, channel_id))
+    conn.commit()
     await callback.message.answer("choose option", reply_markup=sk.channel_settings_inline_keyboard)
-
-
-@settings_router.callback_query(F.data == "addition_language", SettingsFSM.channel_settings)
-async def choose_addition_language(callback: CallbackQuery, state: FSMContext):
-    await state.set_state(SettingsFSM.main_language)
-
-    await callback.answer(f"You chose option")
-
-    await callback.message.answer("Choose addition language for digest", reply_markup=sk.digest_bot_languages_keyboard())
 
 
 @settings_router.callback_query(SettingsFSM.addition_language)
 async def chose_addition_language(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.channel_settings)
-
+    data = await state.get_data()
+    channel_id = data.get('channel_id')
     await callback.answer(f"You chose {callback.data}")
-
+    if callback.data == "🇬🇧English":
+        new_language = "en"
+    else:
+        new_language = "ru"
+    cur.execute("UPDATE channels SET additional_language = ? WHERE channel_id = ?", (new_language, channel_id))
+    conn.commit()
     await callback.message.answer("choose option", reply_markup=sk.channel_settings_inline_keyboard)
