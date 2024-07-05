@@ -152,7 +152,7 @@ async def digest_generate(callback: CallbackQuery, state: FSMContext) -> None:
     if len(messages) == 0:
         digest = "No posts have been posted since the bot was added"
     else:
-        digest = await generate_summary(messages)
+        digest = await generate_summary(messages, data['channel'])
 
     # Send the digest with an inline keyboard for further actions
     await callback.message.answer(text=digest, reply_markup=dk.digest_inline_keyboard)
