@@ -5,17 +5,21 @@ from typing import Union
 # Import downloaded packages
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
+from resources.locales.translation_dictionary import localise
+
 return_back_button = InlineKeyboardButton(text="⬅️Back", callback_data="back")
 
+
 # Define the start menu reply keyboard
-start_reply_keyboard = ReplyKeyboardMarkup(keyboard=[
-    [KeyboardButton(text="✍🏼Create digest")],
-    [KeyboardButton(text="❓Help"), KeyboardButton(text="⚙️Settings")]
-],
-    resize_keyboard=True,
-    input_field_placeholder="Select a menu button",
-    one_time_keyboard=True
-)
+async def start_reply_keyboard(state):
+    return ReplyKeyboardMarkup(keyboard=[
+        [KeyboardButton(text=await localise("✍🏼Create digest", state))],
+        [KeyboardButton(text=await localise("❓Help", state)), KeyboardButton(text=await localise("⚙️Settings", state))]
+    ],
+        resize_keyboard=True,
+        input_field_placeholder="Select a menu button",
+        one_time_keyboard=True
+    )
 
 
 # Define a function to create an inline keyboard with multiple buttons
@@ -62,7 +66,7 @@ def one_button_keyboard(button_type: str, text: str) -> Union[ReplyKeyboardMarku
 
 
 # Define a function to create an inline keyboard for channel selection
-def channels_keyboard(channels: list[(str, str)]) -> InlineKeyboardMarkup:
+async def channels_keyboard(channels: list[(str, str)], state) -> InlineKeyboardMarkup:
     """
     Function to generate an inline keyboard for selecting channels.
 
@@ -79,5 +83,5 @@ def channels_keyboard(channels: list[(str, str)]) -> InlineKeyboardMarkup:
     channels_kb_list = [
         [InlineKeyboardButton(text=name, callback_data=str(channel_id))] for (channel_id, name) in channels
     ]
-    channels_kb_list.append([return_back_button])
+    channels_kb_list.append([InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")])
     return InlineKeyboardMarkup(inline_keyboard=channels_kb_list)

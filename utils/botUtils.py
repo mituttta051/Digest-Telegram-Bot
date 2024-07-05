@@ -4,6 +4,7 @@ import logging
 from datetime import datetime
 
 # Import project files
+from content.FSMs.settings_FSMs import SettingsFSM
 from create_bot import bot, logger
 from utils.databaseUtils import get_messages, get_channels
 from aiogram.fsm.context import FSMContext
@@ -136,12 +137,18 @@ def attach_link_to_message(message: str, link: str):
     return message
 
 
-def get_bot_language(state: FSMContext):
+async def get_bot_language(state: FSMContext):
+    temp = await state.get_state()
+    await state.set_state(SettingsFSM.selected_bot_language)
     data = await state.get_data()
+    await state.set_state(temp)
     selected = data.get('selected_bot_language', "empty")
     if selected == "empty":
-        if False:
+        if False:  # todo: database
             pass
-        return "en"
+        elif False:  # todo: user local
+            pass
+        else:
+            return "en"
     return selected
 
