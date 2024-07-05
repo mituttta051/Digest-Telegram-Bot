@@ -77,7 +77,7 @@ def channels_keyboard(channels: list[(str, str)]) -> InlineKeyboardMarkup:
         InlineKeyboardMarkup: An inline keyboard with buttons for each channel.
     """
     channels_kb_list = [
-        [InlineKeyboardButton(text=name, callback_data=str(channel_id))] for (channel_id, name) in channels
+        [InlineKeyboardButton(text=name, callback_data=str(channel_id))] for (channel_id, name, main_l, additional_l) in channels
     ]
     channels_kb_list.append([return_back_button])
     return InlineKeyboardMarkup(inline_keyboard=channels_kb_list)
