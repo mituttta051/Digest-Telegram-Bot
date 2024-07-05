@@ -12,6 +12,9 @@ import content.keyboards.general_keyboards as gk
 import content.keyboards.digest_keyboards as dk
 from utils.LLMUtils import generate_summary
 from utils.botUtils import get_messages_in_days, get_channels_with_permissions
+from resources.translation_dictionary import localise
+from utils.botUtils import get_bot_language
+from settings_handlers import SettingsFSM
 
 digest_router = Router()
 
@@ -66,7 +69,7 @@ async def bot_digest(message: Message, state: FSMContext) -> None:
     channels = await get_channels_with_permissions(message.chat.id)
 
     # Send a message with a keyboard to choose a channel
-    await message.answer("Choose a channel", reply_markup=gk.channels_keyboard(channels))
+    await message.answer(localise("Choose a channel", get_bot_language(SettingsFSM.selected_bot_language)), reply_markup=gk.channels_keyboard(channels))
 
 
 @digest_router.callback_query(F.data == "back", DigestFSM.choose_channel)
@@ -102,7 +105,7 @@ async def choose_period(callback: CallbackQuery, state: FSMContext) -> None:
     await state.set_state(DigestFSM.choose_period)
 
     # Send a message with an inline keyboard to choose a digest period
-    await callback.message.answer(text="Choose a digest period", reply_markup=dk.supported_period_inline_keyboard)
+    await callback.message.answer(text= localise("Choose a digest period", get_bot_language(SettingsFSM.selected_bot_language)), reply_markup=dk.supported_period_inline_keyboard)
 
 
 @digest_router.callback_query(F.data == "back", DigestFSM.choose_period)
@@ -145,12 +148,12 @@ async def digest_generate(callback: CallbackQuery, state: FSMContext) -> None:
     data = await state.get_data()
 
     # Notify user that the digest is being prepared
-    await callback.message.answer(text="Digest is preparing...")
+    await callback.message.answer(text=localise("Digest is preparing...", get_bot_language(SettingsFSM.selected_bot_language)))
 
     # Get messages within the specified period
     messages = get_messages_in_days(data['channel'], data['period'])
     if len(messages) == 0:
-        digest = "No posts have been posted since the bot was added"
+        digest = localise("Nothing has been posted since the bot was added", get_bot_language(SettingsFSM.selected_bot_language))
     else:
         digest = await generate_summary(messages)
 

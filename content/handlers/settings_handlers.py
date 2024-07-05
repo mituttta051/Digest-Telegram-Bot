@@ -10,7 +10,8 @@ from aiogram.types import Message, CallbackQuery
 from content.handlers.general_handlers import bot_start
 import content.keyboards.settings_keyboards as sk
 import content.keyboards.general_keyboards as gk
-from utils.botUtils import get_channels_with_permissions
+from resources.translation_dictionary import localise
+from utils.botUtils import get_bot_language
 
 # Create a router instance for settings-related message and callback handlers
 settings_router = Router()
@@ -23,6 +24,7 @@ class SettingsFSM(StatesGroup):
     channel_settings = State()
     main_language = State()
     addition_language = State()
+    selected_bot_language = State()
 
 
 # Define a handler for the "Settings" command
@@ -42,7 +44,7 @@ async def bot_settings(message: Message, state: FSMContext):
 
     await state.set_state(SettingsFSM.settings)
 
-    await message.answer("Welcome to the settings!", reply_markup=sk.settings_reply_keyboard)
+    await message.answer(localise("Welcome to the settings!", get_bot_language(SettingsFSM.selected_bot_language)), reply_markup=sk.settings_reply_keyboard)
 
 
 @settings_router.message(F.text == "⬅️Back", SettingsFSM.settings)
@@ -69,7 +71,7 @@ async def settings_back(message: Message, state: FSMContext):
 async def choose_bot_language(message: Message, state: FSMContext):
     await state.set_state(SettingsFSM.change_language)
 
-    await message.answer("Choose language", reply_markup=sk.settings_inline_keyboard)
+    await message.answer(localise("Choose language", get_bot_language(SettingsFSM.selected_bot_language)), reply_markup=sk.settings_inline_keyboard)
 
 
 @settings_router.callback_query(F.data == "back", SettingsFSM.change_language)
@@ -83,6 +85,10 @@ async def settings_back_to_settings(callback: CallbackQuery, state: FSMContext):
 
 @settings_router.callback_query(SettingsFSM.change_language)
 async def chose_bot_language(callback: CallbackQuery, state: FSMContext):
+    selected_language = callback.data
+
+    await state.update_data(selected_language=selected_language)
+
     await state.set_state(SettingsFSM.settings)
 
     await callback.answer(f"You chose {callback.data}")
