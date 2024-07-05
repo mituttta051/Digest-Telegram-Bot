@@ -89,7 +89,7 @@ def get_messages_in_days(channel_id: str, period: str) -> list[str]:
 
 
 # Define an asynchronous function to retrieve channels with permissions for a given user
-async def get_channels_with_permissions(user_id: int) -> list[(str, str)]:
+async def get_channels_with_permissions(user_id: int) -> list[(str, str, str, str)]:
     """
     Asynchronous function to retrieve channels with permissions for a given user.
 
@@ -105,10 +105,10 @@ async def get_channels_with_permissions(user_id: int) -> list[(str, str)]:
         user has administrator permissions.
     """
     result = []
-    for _, channel_id, name in get_channels():
+    for _, channel_id, name, main_l, additional_l in get_channels():
         try:
             if user_id in list(map(lambda x: x.user.id, await bot.get_chat_administrators(channel_id))):
-                result.append((channel_id, name))
+                result.append((channel_id, name, main_l, additional_l))
         except:
             logger.exception(f"Bot not in the channel: {channel_id}")
     return result
