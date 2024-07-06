@@ -5,6 +5,7 @@ from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
+from content.keyboards.digest_keyboards import supported_period_inline_keyboard
 
 # Import project files
 from content.handlers.general_handlers import bot_start
@@ -12,7 +13,18 @@ import content.keyboards.general_keyboards as gk
 import content.keyboards.digest_keyboards as dk
 from utils.LLMUtils import generate_summary
 from utils.botUtils import get_messages_in_days, get_channels_with_permissions
+from aiogram import Bot, Dispatcher, types
+from aiogram.enums import ParseMode
+from config import BOT_TOKEN
+from aiogram.client.default import DefaultBotProperties
+from aiogram.fsm.storage.memory import MemoryStorage
 
+# Initialize bot with default properties
+bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+
+# Initialize storage and dispatcher
+storage = MemoryStorage()
+dp = Dispatcher(storage=storage)
 digest_router = Router()
 
 
@@ -35,6 +47,8 @@ class DigestFSM(StatesGroup):
 
     # State for choosing the period for the digest
     choose_period = State()
+
+    choose_custom_period = State()
 
     # State for the digest itself
     digest = State()
@@ -115,7 +129,42 @@ async def digest_back_to_choose_channel(callback: CallbackQuery, state: FSMConte
     await bot_digest(callback.message, state)
 
 
-@digest_router.callback_query(DigestFSM.choose_period)
+# @digest_router.callback_query(lambda callback_query: callback_query.data == "custom_period", F.data == "custom_period", DigestFSM.choose_period)
+# async def digest_back_to_choose_channel(callback: types.CallbackQuery, state: FSMContext) -> None:
+#     await bot.send_message(callback_query.from_user.id, "Please enter your custom period in days:")
+#     # Clear the state to reset the FSM
+#     await state.clear()
+#
+#     # return bot to the choose channel
+#     await bot_digest(callback.message, state)
+
+def register_handlers(dp: Dispatcher):
+    dp.callback_query.register(ask_for_custom_period, lambda callback_query: callback_query.data == "custom_period")
+    dp.message.register(set_custom_period, lambda message: message.text.isdigit())
+    dp.callback_query.register(return_back, lambda callback_query: callback_query.data == "back")
+@digest_router.callback_query(lambda callback_query: callback_query.data == "custom_period", F.data == "custom_period", DigestFSM.choose_period)
+async def ask_for_custom_period(callback_query: types.CallbackQuery) -> None:
+    await bot.send_message(callback_query.from_user.id, "Please enter your custom period in days:")
+
+# Handler for custom period input
+@digest_router.callback_query(lambda callback_query: callback_query.data == "custom_period", F.data == "custom_period", DigestFSM.choose_period)
+async def set_custom_period(message: types.Message):
+    custom_period = int(message.text)
+    await bot.send_message(message.from_user.id, f"Custom period set to {custom_period} days.")
+
+
+# Handler for return back button
+@digest_router.callback_query(lambda callback_query: callback_query.data == "back", DigestFSM.choose_custom_period)
+async def return_back(callback_query: types.CallbackQuery):
+    await bot.send_message(callback_query.from_user.id, "Returning back...", reply_markup=supported_period_inline_keyboard)
+
+# Register handlers with the dispatcher
+
+
+# Register handlers with the dispatcher
+register_handlers(dp)
+
+@digest_router.callback_query(DigestFSM.choose_custom_period)
 async def digest_generate(callback: CallbackQuery, state: FSMContext) -> None:
     """
         Asynchronous function to generate a digest based on the chosen period.
