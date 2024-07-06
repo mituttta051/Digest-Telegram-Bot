@@ -17,7 +17,6 @@ translations = {
         "🔄Regenerate": "🔄Регенерировать",
         "❌Cancel": "❌Отмена",
         "✏️Edit": "✏️Редактировать",
-        "✅Approve": "✅Подтверить",
         "1 Month (30 days)": "1 Месяц (30 дней)",
         "2 weeks (14 days)": "2 недели (14 дней)",
         "Week (7 days)": "Неделя (7 дней)",
@@ -37,9 +36,10 @@ translations = {
         "You chose the main language": "Вы выбрали основной язык",
         "Choose one of the options": "Выбирете один из вариантов",
         "Choose the addition language for digest": "Выберите язык дайджеста",
-        "🥳Digest posted successfully!" : "🥳Дайджест успешно опубликован!",
+        "🥳Digest posted successfully!": "🥳Дайджест успешно опубликован!",
+        'You chose "Edit"': 'Вы выбрали "✏️Edit"',
         "Welcome":
-        """
+            """
         🤖 <b>Добро пожаловать в Digest Bot!</b> Я помогу Вам суммаризировать посты в канале.
 
     Чтобы начать, нажмите кнопку <b>✍🏼Создать дайджест</b>.
@@ -47,7 +47,7 @@ translations = {
     Для подробной информации нажмите кнопку <b>❓Помощь</b>.
         """,
 
-     "Settings": """<b>Вы можете использовать Digest Bot следующим образом:</b>
+        "Settings": """<b>Вы можете использовать Digest Bot следующим образом:</b>
 
     ⚙️ <b>Настройки</b>
       -  Изменить язык бота: Выберите язык бота для легкости использования.
@@ -55,11 +55,10 @@ translations = {
 
     📝 <b>Создать дайджест</b>
       -  Бот автоматически создаст подборку постов выбранного периода. Вы можете изменить сгенерированный текст до публикации.""",
+        "✅Approve": "✅Подтвердить",
+        "Write your own version and send it here": "Напишите и отправьте Вашу версию",
+        'You return back': 'Вы возвращаетесь назад',
     },
-    "✅Approve": "✅Подтвердить",
-    "🥳Digest posted successfully!": "🥳Дайджест успешно опубликован!",
-    "Write your own version and send it here": "Напишите и отправьте Вашу версию",
-    'You return back': 'Вы возвращаетесь назад',
     'en': {
         "Choose a channel": "Choose a channel",
         "back": "back",
@@ -87,16 +86,17 @@ translations = {
         "⚙️Settings": "⚙️Settings",
         "❓Help": "❓Help",
         'You return back': 'You return back',
-        'You chose channel':'You chose channel',
+        'You chose channel': 'You chose channel',
         'You chose channel': 'You chose channel',
         "You chose period": "You chose period",
         'You chose "✅Approve"': 'You chose "✅Approve"',
         "You chose ": "You chose ",
         "You chose the option language": "You chose option language",
         "You chose the main language": "You chose the main language",
-        "Choose one of the options" : "Choose one of the options",
+        "Choose one of the options": "Choose one of the options",
+        'You chose "Edit"': 'You chose "Edit"',
         "Welcome":
-        """
+            """
         🤖 <b>Welcome to Digest Bot!</b> I will help you make up a summary of posts.
 
     To get started click <b>✍🏼Create digest</b> button.
@@ -111,14 +111,14 @@ translations = {
       -  Channel settings: List of your channels that you can use for digests.
 
     📝 <b>Create Digest</b>
-      -  The bot will automatically create and send a summary of posts for the selected period. You can change or confirm the generated text before publishing."""
+      -  The bot will automatically create and send a summary of posts for the selected period. You can change or confirm the generated text before publishing.""",
+        "✅Approve": "✅Approve",
+        "🥳Digest posted successfully!": "🥳Digest posted successfully!",
+        "Write your own version": "Write your own version",
+        'You chose "❌Cancel"': 'You chose "❌Cancel"',
+        "Choose the addition language for digest": "Choose the addition language for digest",
+        "Write your own version and send it here": "Write your own version and send it here",
     },
-    "✅Approve": "✅Approve",
-    "🥳Digest posted successfully!": "🥳Digest posted successfully!",
-    "Write your own version": "Write your own version",
-    'You chose "❌Cancel"': 'You chose "❌Cancel"',
-    "Choose the addition language for digest": "Choose the addition language for digest",
-    "Write your own version and send it here" : "Write your own version and send it here",
 }
 
 

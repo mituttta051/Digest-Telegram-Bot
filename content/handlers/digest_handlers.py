@@ -196,7 +196,7 @@ async def digest_edit(callback: CallbackQuery, state: FSMContext) -> None:
             `content.keyboards.general_keyboards.make_inline_keyboard`: function that accepts inline buttons and forms a keyboard from them
         """
     # Acknowledge the edit selection
-    await callback.answer('You chose "Edit"')
+    await callback.answer(await localise('You chose "Edit"', state))
 
     # Store the initial text of the digest
     await state.update_data(initial_text=callback.message.html_text)
@@ -207,7 +207,8 @@ async def digest_edit(callback: CallbackQuery, state: FSMContext) -> None:
 
     # Prompt user to write their own version and provide a cancel button
     await callback.message.answer(await localise("Write your own version and send it here", state),
-                                  reply_markup=gk.make_inline_keyboard(dk.InlineKeyboardButton(text=await localise("❌Cancel", state), callback_data="digest_cancel")))
+                                  reply_markup=gk.make_inline_keyboard(dk.InlineKeyboardButton(text=await localise("❌Cancel", state), callback_data="cancel_editing")))
+    print("a")
 
     # Set the state to edit the text of the digest
     await state.set_state(DigestFSM.edit_text)
@@ -234,8 +235,9 @@ async def cancel_editing(callback: CallbackQuery, state: FSMContext) -> None:
 
     # Restore the initial text and remove the editing prompt
     await callback.message.edit_text(text=callback.message.html_text,
-                                     reply_markup=gk.one_button_keyboard("inline", await localise("❌Cancel editing"), state))
+                                     reply_markup=gk.one_button_keyboard("inline", await localise("❌Cancel editing", state))
 
+                                     )
     # Retrieve the initial text from the state data
     data = await state.get_data()
     initial_text = data['initial_text']
