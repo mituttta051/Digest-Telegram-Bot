@@ -28,6 +28,16 @@ translations = {
         "✍🏼Create digest": "✍🏼Создать дайджест",
         "⚙️Settings": "⚙️Настройки",
         "❓Help": "❓Помощь",
+        'You chose channel': 'Вы выбрали канал',
+        "You chose period": "Вы выбрали период",
+        'You chose "✅Approve"': 'Вы выбрали "✅Подтвердить"',
+        'You chose "❌Cancel"': 'Вы выбрали "❌Отмена"',
+        "You chose ": "Вы выбрали ",
+        "You chose the option language": "Вы выбрали дополнительный язык",
+        "You chose the main language": "Вы выбрали основной язык",
+        "Choose one of the options": "Выбирете один из вариантов",
+        "Choose the addition language for digest": "Выберите язык дайджеста",
+        "🥳Digest posted successfully!" : "🥳Дайджест успешно опубликован!",
         "Welcome":
         """
         🤖 <b>Добро пожаловать в Digest Bot!</b> Я помогу Вам суммаризировать посты в канале.
@@ -44,8 +54,12 @@ translations = {
       -  Настройки канала: Выберите нужный канал из списока своих каналов.
 
     📝 <b>Создать дайджест</b>
-      -  Бот автоматически создаст подборку постов выбранного периода. Вы можете изменить генерированный текст до публикации.""",
+      -  Бот автоматически создаст подборку постов выбранного периода. Вы можете изменить сгенерированный текст до публикации.""",
     },
+    "✅Approve": "✅Подтвердить",
+    "🥳Digest posted successfully!": "🥳Дайджест успешно опубликован!",
+    "Write your own version and send it here": "Напишите и отправьте Вашу версию",
+    'You return back': 'Вы возвращаетесь назад',
     'en': {
         "Choose a channel": "Choose a channel",
         "back": "back",
@@ -72,6 +86,15 @@ translations = {
         "✍🏼Create digest": "✍🏼Create digest",
         "⚙️Settings": "⚙️Settings",
         "❓Help": "❓Help",
+        'You return back': 'You return back',
+        'You chose channel':'You chose channel',
+        'You chose channel': 'You chose channel',
+        "You chose period": "You chose period",
+        'You chose "✅Approve"': 'You chose "✅Approve"',
+        "You chose ": "You chose ",
+        "You chose the option language": "You chose option language",
+        "You chose the main language": "You chose the main language",
+        "Choose one of the options" : "Choose one of the options",
         "Welcome":
         """
         🤖 <b>Welcome to Digest Bot!</b> I will help you make up a summary of posts.
@@ -89,7 +112,13 @@ translations = {
 
     📝 <b>Create Digest</b>
       -  The bot will automatically create and send a summary of posts for the selected period. You can change or confirm the generated text before publishing."""
-    }
+    },
+    "✅Approve": "✅Approve",
+    "🥳Digest posted successfully!": "🥳Digest posted successfully!",
+    "Write your own version": "Write your own version",
+    'You chose "❌Cancel"': 'You chose "❌Cancel"',
+    "Choose the addition language for digest": "Choose the addition language for digest",
+    "Write your own version and send it here" : "Write your own version and send it here",
 }
 
 
