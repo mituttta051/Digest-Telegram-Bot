@@ -129,20 +129,31 @@ async def channel_settings_back_to_settings(callback: CallbackQuery, state: FSMC
 
 @settings_router.callback_query(F.data == "main_language", SettingsFSM.channel_settings)
 async def choose_main_language(callback: CallbackQuery, state: FSMContext):
+    data = await state.get_data()
+    channel = data.get('channel_id')
     await state.set_state(SettingsFSM.main_language)
-
+    cur.execute("SELECT main_language FROM channels WHERE channel_id = ?", (channel,))
+    language = cur.fetchone()
+    languages = {"en":"English", "ru":"Russia"}
     await callback.answer(f"You chose option")
-
-    await callback.message.answer("Choose main language for digest", reply_markup=sk.digest_bot_languages_keyboard())
+    await callback.message.answer("Choose main language for digest, сurrent language - "+str(languages[language[0]]), reply_markup=sk.digest_bot_languages_keyboard())
 
 
 @settings_router.callback_query(F.data == "addition_language", SettingsFSM.channel_settings)
 async def choose_addition_language(callback: CallbackQuery, state: FSMContext):
+    data = await state.get_data()
+    channel = data.get('channel_id')
     await state.set_state(SettingsFSM.addition_language)
+    cur.execute("SELECT additional_language FROM channels WHERE channel_id = ?", (channel,))
+    language = cur.fetchone()
+    cur.execute("SELECT main_language FROM channels WHERE channel_id = ?", (channel,))
+    language_main = cur.fetchone()
+    if language_main[0] == language[0]:
+        language = "no"
+    languages = {"en": "English", "ru": "Russia", "no":"not selected"}
     await callback.answer(f"You chose option")
-
-    await callback.message.answer("Choose addition language for digest",
-                                  reply_markup=sk.digest_bot_languages_keyboard())
+    await callback.message.answer("Choose addition language for digest, сurrent language - "+str(languages[language[0]]),
+                                  reply_markup=sk.digest_bot_addition_languages_keyboard())
 
 
 @settings_router.callback_query(F.data == "back", SettingsFSM.main_language or SettingsFSM.addition_language)
@@ -177,6 +188,8 @@ async def chose_addition_language(callback: CallbackQuery, state: FSMContext):
     await callback.answer(f"You chose {callback.data}")
     if callback.data == "🇬🇧English":
         new_language = "en"
+    elif callback.data == "❌Cancel":
+        new_language = "no"
     else:
         new_language = "ru"
     cur.execute("UPDATE channels SET additional_language = ? WHERE channel_id = ?", (new_language, channel_id))
