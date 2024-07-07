@@ -20,7 +20,7 @@ bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTM
 dp = Dispatcher(storage=MemoryStorage())
 
 # Initialize database connection
-conn = sqlite3.connect('../resources/dbs/data.db')
+conn = sqlite3.connect('resources/dbs/data.db')
 cur = conn.cursor()
 
 if not cur:  # In case of connection error (not exist, wrong path, ...)
