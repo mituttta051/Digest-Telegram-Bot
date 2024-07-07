@@ -6,13 +6,13 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message, CallbackQuery
 
-
 # Import project files
 from content.handlers.general_handlers import bot_start
 import content.keyboards.settings_keyboards as sk
 import content.keyboards.general_keyboards as gk
 from utils.botUtils import get_channels_with_permissions
 from create_bot import cur, conn
+
 # Create a router instance for settings-related message and callback handlers
 settings_router = Router()
 
@@ -134,9 +134,11 @@ async def choose_main_language(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.main_language)
     cur.execute("SELECT main_language FROM channels WHERE channel_id = ?", (channel,))
     language = cur.fetchone()
-    languages = {"en":"English", "ru":"Russia"}
+    languages = {"en": "English", "ru": "Russia"}
     await callback.answer(f"You chose option")
-    await callback.message.answer("Choose main language for digest, сurrent language - "+str(languages[language[0]]), reply_markup=sk.digest_bot_languages_keyboard())
+    # str(languages[language[0]])
+    await callback.message.answer("Choose main language for digest",
+                                  reply_markup=sk.digest_bot_languages_keyboard())
 
 
 @settings_router.callback_query(F.data == "addition_language", SettingsFSM.channel_settings)
@@ -146,9 +148,11 @@ async def choose_addition_language(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.addition_language)
     cur.execute("SELECT additional_language FROM channels WHERE channel_id = ?", (channel,))
     language = cur.fetchone()
-    languages = {"en": "English", "ru": "Russia", "no":"not selected"}
+    languages = {"en": "English", "ru": "Russia", "no": "not selected"}
     await callback.answer(f"You chose option")
-    await callback.message.answer("Choose addition language for digest, сurrent language - "+str(languages[language[0]]), reply_markup=sk.digest_bot_addition_languages_keyboard())
+    await callback.message.answer(
+        "Choose addition language for digest",
+        reply_markup=sk.digest_bot_addition_languages_keyboard())
 
 
 @settings_router.callback_query(F.data == "back", SettingsFSM.main_language or SettingsFSM.addition_language)
@@ -187,7 +191,7 @@ async def chose_addition_language(callback: CallbackQuery, state: FSMContext):
     new_language = "?"
     if callback.data == "🇬🇧English":
         new_language = "en"
-    elif callback.data == "❌Cancel":
+    elif callback.data == "without_language":
         new_language = "no"
     elif callback.data == "🇷🇺Russian":
         new_language = "ru"

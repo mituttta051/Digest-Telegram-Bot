@@ -43,7 +43,7 @@ channel_settings_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
 ])
 
 digest_languages = ["🇷🇺Russian", "🇬🇧English"]
-digest_addition_languages = ["🇷🇺Russian", "🇬🇧English", "❌Cancel"]
+
 
 def digest_bot_languages_keyboard():
     channels_kb_list = [
@@ -52,9 +52,11 @@ def digest_bot_languages_keyboard():
     channels_kb_list.append([return_back_inline_button])
     return InlineKeyboardMarkup(inline_keyboard=channels_kb_list)
 
+
 def digest_bot_addition_languages_keyboard():
     channels_kb_list = [
-        [InlineKeyboardButton(text=language, callback_data=language)] for language in digest_addition_languages
+        [InlineKeyboardButton(text=language, callback_data=language)] for language in digest_languages
     ]
+    channels_kb_list.append([InlineKeyboardButton(text="❌Without language", callback_data="without_language")])
     channels_kb_list.append([return_back_inline_button])
     return InlineKeyboardMarkup(inline_keyboard=channels_kb_list)

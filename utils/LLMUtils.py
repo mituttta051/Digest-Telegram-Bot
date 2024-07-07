@@ -29,21 +29,24 @@ async def generate_summary(messages: list[tuple[int, str, str, str]], channel: s
     main_language = cur.fetchone()
     cur.execute("SELECT additional_language FROM channels WHERE channel_id = ?", (channel,))
     additional_language = cur.fetchone()
-    texts = {"en":"Digest", "ru":"Дайджест"}
-    res = ["🦄 " + str(texts[main_language[0]])+"\n"]
+    texts = {"en": "Digest", "ru": "Дайджест"}
+    res = ["🦄 " + str(texts[main_language[0]]) + "\n"]
     if by_one_message:
         # Create a list of responses by asynchronously calling create_response for each message
-        res += [await create_response([(message[2], message[3])], by_one_message, main_language[0]) for message in messages]
+        res += [await create_response([(message[2], message[3])], by_one_message, main_language[0]) for message in
+                messages]
     else:
         res += [await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, main_language[0])]
 
     if additional_language[0] != "no":
-        res += ["\n🌐 "+str(texts[additional_language[0]])+"\n"]
+        res += ["\n🌐 " + str(texts[additional_language[0]]) + "\n"]
     if additional_language[0] != "no" and by_one_message:
         # Create a list of responses by asynchronously calling create_response for each message
-        res += [await create_response([(message[2], message[3])], by_one_message, additional_language[0]) for message in messages]
+        res += [await create_response([(message[2], message[3])], by_one_message, additional_language[0]) for message in
+                messages]
     elif additional_language[0] != "no":
-        res += [await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, additional_language[0])]
+        res += [
+            await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, additional_language[0])]
     # Join the responses into a single string with newline characters
     return "\n".join(res) + "\n\n#digest"
 
@@ -79,8 +82,8 @@ async def create_response(messages: list[tuple[str, str]], by_one_message: bool,
     }
     text_ru = f"Опиши назначение инструмента 1 предложением с упоминанием его названия ОБЯЗАТЕЛЬНО через тире. Если ты не поставил тире, поставь тире."
     text_en = f"Опиши на английском назначение инструмента 1 предложением с упоминанием его названия ОБЯЗАТЕЛЬНО через тире. Если ты не поставил тире, поставь тире."
-    #text_ru = f"Опиши назначение инструмента 1 предложением с упоминанием его названия ОБЯЗАТЕЛЬНО через тире. Если ты не поставил тире, поставь тире. Всегда используй смайлик в начале сообщения. Если ты не поставил смайлик, поставь смайлик 🦄"
-    #text_en = f"Опиши на английском назначение инструмента 1 предложением с упоминанием его названия ОБЯЗАТЕЛЬНО через тире. Если ты не поставил тире, поставь тире. Всегда используй смайлик в начале сообщения. Если ты не поставил смайлик, поставь смайлик 🦄"
+    # text_ru = f"Опиши назначение инструмента 1 предложением с упоминанием его названия ОБЯЗАТЕЛЬНО через тире. Если ты не поставил тире, поставь тире. Всегда используй смайлик в начале сообщения. Если ты не поставил смайлик, поставь смайлик 🦄"
+    # text_en = f"Опиши на английском назначение инструмента 1 предложением с упоминанием его названия ОБЯЗАТЕЛЬНО через тире. Если ты не поставил тире, поставь тире. Всегда используй смайлик в начале сообщения. Если ты не поставил смайлик, поставь смайлик 🦄"
 
     for message in messages:
         dict_message = {"role": "user", "text": message[0]}
@@ -91,8 +94,8 @@ async def create_response(messages: list[tuple[str, str]], by_one_message: bool,
              "text": f"Обязательно используй тире! Никогда не используй символ \"*\" в сообщении."})
         if digest_lang == "en":
             prompt["messages"].append(
-            {"role": "user",
-             "text": text_en})
+                {"role": "user",
+                 "text": text_en})
         else:
             prompt["messages"].append(
                 {"role": "user",
