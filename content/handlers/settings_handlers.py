@@ -146,14 +146,9 @@ async def choose_addition_language(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.addition_language)
     cur.execute("SELECT additional_language FROM channels WHERE channel_id = ?", (channel,))
     language = cur.fetchone()
-    cur.execute("SELECT main_language FROM channels WHERE channel_id = ?", (channel,))
-    language_main = cur.fetchone()
-    if language_main[0] == language[0]:
-        language = "no"
     languages = {"en": "English", "ru": "Russia", "no":"not selected"}
     await callback.answer(f"You chose option")
-    await callback.message.answer("Choose addition language for digest, сurrent language - "+str(languages[language[0]]),
-                                  reply_markup=sk.digest_bot_addition_languages_keyboard())
+    await callback.message.answer("Choose addition language for digest, сurrent language - "+str(languages[language[0]]), reply_markup=sk.digest_bot_addition_languages_keyboard())
 
 
 @settings_router.callback_query(F.data == "back", SettingsFSM.main_language or SettingsFSM.addition_language)
@@ -171,11 +166,14 @@ async def chose_main_language(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     channel_id = data.get('channel_id')
     await callback.answer(f"You chose {callback.data}")
+    new_language = "?"
     if callback.data == "🇬🇧English":
         new_language = "en"
-    else:
+    elif callback.data == "🇷🇺Russian":
         new_language = "ru"
-    cur.execute("UPDATE channels SET main_language = ? WHERE channel_id = ?", (new_language, channel_id))
+
+    if new_language != "?":
+        cur.execute("UPDATE channels SET main_language = ? WHERE channel_id = ?", (new_language, channel_id))
     conn.commit()
     await callback.message.answer("choose option", reply_markup=sk.channel_settings_inline_keyboard)
 
@@ -186,12 +184,15 @@ async def chose_addition_language(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     channel_id = data.get('channel_id')
     await callback.answer(f"You chose {callback.data}")
+    new_language = "?"
     if callback.data == "🇬🇧English":
         new_language = "en"
     elif callback.data == "❌Cancel":
         new_language = "no"
-    else:
+    elif callback.data == "🇷🇺Russian":
         new_language = "ru"
-    cur.execute("UPDATE channels SET additional_language = ? WHERE channel_id = ?", (new_language, channel_id))
+
+    if new_language != "?":
+        cur.execute("UPDATE channels SET additional_language = ? WHERE channel_id = ?", (new_language, channel_id))
     conn.commit()
     await callback.message.answer("choose option", reply_markup=sk.channel_settings_inline_keyboard)
