@@ -29,8 +29,8 @@ async def generate_summary(messages: list[tuple[int, str, str, str]], channel: s
     main_language = cur.fetchone()
     cur.execute("SELECT additional_language FROM channels WHERE channel_id = ?", (channel,))
     additional_language = cur.fetchone()
-    texts = {"en":"🌐 Digest", "ru":"🦄 Дайджест"}
-    res = [str(texts[main_language[0]])+"\n"]
+    texts = {"en":"Digest", "ru":"Дайджест"}
+    res = ["🦄 " + str(texts[main_language[0]])+"\n"]
     if by_one_message:
         # Create a list of responses by asynchronously calling create_response for each message
         res += [await create_response([(message[2], message[3])], by_one_message, main_language[0]) for message in messages]
@@ -38,7 +38,7 @@ async def generate_summary(messages: list[tuple[int, str, str, str]], channel: s
         res += [await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, main_language[0])]
 
     if additional_language[0] != "no":
-        res += ["\n"+str(texts[additional_language[0]])+"\n"]
+        res += ["\n🌐 "+str(texts[additional_language[0]])+"\n"]
     if additional_language[0] != "no" and by_one_message:
         # Create a list of responses by asynchronously calling create_response for each message
         res += [await create_response([(message[2], message[3])], by_one_message, additional_language[0]) for message in messages]
