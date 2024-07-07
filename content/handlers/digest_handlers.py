@@ -119,13 +119,16 @@ async def set_custom_period(message: Message, state: FSMContext) -> None:
 
         # Get messages within the specified period
         messages = get_messages_in_days(data['channel'], data['period'])
+
+        user_message = await message.answer(text="...")
+
         if len(messages) == 0:
             digest = await localise("Nothing has been posted since the bot was added", state)
         else:
-            digest = await generate_summary(messages, data['channel'])
+            digest = await generate_summary(messages, data['channel'], user_message)
 
         # Send the digest with an inline keyboard for further actions
-        await message.answer(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
+        await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
     except:
         await message.answer(await localise("You write incorrect number", state))
         await state.set_state(DigestFSM.choose_period)
@@ -178,13 +181,16 @@ async def digest_generate(callback: CallbackQuery, state: FSMContext) -> None:
 
     # Get messages within the specified period
     messages = get_messages_in_days(data['channel'], data['period'])
+
+    user_message = await callback.message.answer(text="...")
+
     if len(messages) == 0:
         digest = await localise("Nothing has been posted since the bot was added", state)
     else:
-        digest = await generate_summary(messages, data['channel'])
+        digest = await generate_summary(messages, data['channel'], user_message)
 
     # Send the digest with an inline keyboard for further actions
-    await callback.message.answer(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
+    await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
 
 
 @digest_router.callback_query(F.data == "digest_approve", DigestFSM.digest)
@@ -378,20 +384,24 @@ async def digest_regenerate(callback: CallbackQuery, state: FSMContext) -> None:
     # Acknowledge the regeneration selection
     await callback.answer('You chose "Regenerate"')
 
+    await callback.message.answer(text=await localise("Digest is preparing...", state))
+
     # Retrieve the state data
     data = await state.get_data()
 
     # Get the latest messages within the specified period
     messages = get_messages_in_days(data['channel'], data['period'])
 
+    user_message = await callback.message.answer(text="...")
+
     # Generate the digest summary
     if len(messages) == 0:
         digest = "No posts have been posted since the bot was added"
     else:
-        digest = await generate_summary(messages, data['channel'])
+        digest = await generate_summary(messages, data['channel'], user_message)
 
     # Edit the message to display the new digest with the digest inline keyboard
-    await callback.message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
+    await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
 
 
 @digest_router.callback_query(F.data == "empty-data")

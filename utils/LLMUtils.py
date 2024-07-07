@@ -4,6 +4,7 @@ import json
 
 # Import downloaded packages
 import aiohttp
+from aiogram.types import CallbackQuery, Message
 
 # Import project files
 from config import YGPT_FOLDER_ID, YGPT_TOKEN
@@ -11,7 +12,7 @@ from utils.botUtils import attach_link_to_message
 from create_bot import cur, conn
 
 
-async def generate_summary(messages: list[tuple[int, str, str, str]], channel: str, by_one_message: bool = True) -> str:
+async def generate_summary(messages: list[tuple[int, str, str, str]], channel: str, user_message: Message, by_one_message: bool = True) -> str:
     """
     Asynchronously generates a summary by creating a response for each message in the provided list.
 
@@ -31,19 +32,25 @@ async def generate_summary(messages: list[tuple[int, str, str, str]], channel: s
     additional_language = cur.fetchone()
     texts = {"en": "Digest", "ru": "Дайджест"}
     res = ["🦄 " + str(texts[main_language[0]]) + "\n"]
+    await user_message.edit_text("\n".join(res) + "\n...")
     if by_one_message:
         # Create a list of responses by asynchronously calling create_response for each message
-        res += [await create_response([(message[2], message[3])], by_one_message, main_language[0]) for message in
-                messages]
+        for message in messages:
+            ans = await create_response([(message[2], message[3])], by_one_message, main_language[0])
+            res.append(ans)
+            await user_message.edit_text("\n".join(res) + "\n...")
     else:
         res += [await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, main_language[0])]
 
     if additional_language[0] != "no":
         res += ["\n🌐 " + str(texts[additional_language[0]]) + "\n"]
+    await user_message.edit_text("\n".join(res) + "\n...")
     if additional_language[0] != "no" and by_one_message:
         # Create a list of responses by asynchronously calling create_response for each message
-        res += [await create_response([(message[2], message[3])], by_one_message, additional_language[0]) for message in
-                messages]
+        for message in messages:
+            ans = await create_response([(message[2], message[3])], by_one_message, additional_language[0])
+            res.append(ans)
+            await user_message.edit_text("\n".join(res) + "\n...")
     elif additional_language[0] != "no":
         res += [
             await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, additional_language[0])]
