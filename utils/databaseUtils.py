@@ -65,7 +65,7 @@ def put_channel(channel_id: str, name: str) -> None:
     """
     table = "messages" + str(channel_id).replace("-", "_")
     cur.execute(
-        f"""INSERT INTO channels (channel_id, name) VALUES (?, ?) ON CONFLICT(channel_id) DO UPDATE SET name = ?""",
+        f"""INSERT INTO channels (channel_id, name, main_language, additional_language) VALUES (?, ?, 'en', 'no') ON CONFLICT(channel_id) DO UPDATE SET name = ?""",
         (channel_id, name, name))
     cur.execute(
         f"""CREATE TABLE IF NOT EXISTS {table} (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, text TEXT, link TEXT)""")

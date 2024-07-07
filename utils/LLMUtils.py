@@ -44,7 +44,7 @@ async def generate_summary(messages: list[tuple[int, str, str, str]], channel: s
 
     if additional_language[0] != "no":
         res += ["\n🌐 " + str(texts[additional_language[0]]) + "\n"]
-    await user_message.edit_text("\n".join(res) + "\n...")
+        await user_message.edit_text("\n".join(res) + "\n...")
     if additional_language[0] != "no" and by_one_message:
         # Create a list of responses by asynchronously calling create_response for each message
         for message in messages:
