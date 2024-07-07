@@ -1,19 +1,7 @@
-from aiogram import Bot, Dispatcher, types
-from aiogram.enums import ParseMode
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from config import BOT_TOKEN
-from aiogram.client.default import DefaultBotProperties
-from aiogram.fsm.storage.memory import MemoryStorage
-
-# Initialize bot with default properties
-bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-
-# Initialize storage and dispatcher
-storage = MemoryStorage()
-dp = Dispatcher(storage=storage)
 
 # Define inline keyboard buttons
-return_back_button = InlineKeyboardButton(text="⬅️Return back", callback_data="back")
+return_back_button = InlineKeyboardButton(text="⬅️Back", callback_data="back")
 week_period_inline_button = InlineKeyboardButton(text="Week (7 days)", callback_data="7")
 two_weeks_period_inline_button = InlineKeyboardButton(text="2 weeks (14 days)", callback_data="14")
 month_period_inline_button = InlineKeyboardButton(text="1 Month (30 days)", callback_data="30")
@@ -41,4 +29,6 @@ supported_period_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
     [return_back_button]
 ])
 
-# Handler for custom period button
+return_back_button_keyboard = InlineKeyboardMarkup(inline_keyboard=[
+    [return_back_button]
+])
