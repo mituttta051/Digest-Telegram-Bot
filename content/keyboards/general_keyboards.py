@@ -81,7 +81,7 @@ async def channels_keyboard(channels: list[(str, str)], state) -> InlineKeyboard
         InlineKeyboardMarkup: An inline keyboard with buttons for each channel.
     """
     channels_kb_list = [
-        [InlineKeyboardButton(text=name, callback_data=str(channel_id))] for (channel_id, name) in channels
+        [InlineKeyboardButton(text=name, callback_data=str(channel_id))] for (channel_id, name, main_l, additional_l) in channels
     ]
     channels_kb_list.append([InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")])
     return InlineKeyboardMarkup(inline_keyboard=channels_kb_list)

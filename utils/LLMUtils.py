@@ -8,9 +8,10 @@ import aiohttp
 # Import project files
 from config import YGPT_FOLDER_ID, YGPT_TOKEN
 from utils.botUtils import attach_link_to_message
+from create_bot import cur, conn
 
 
-async def generate_summary(messages: list[tuple[int, str, str, str]], by_one_message: bool = True) -> str:
+async def generate_summary(messages: list[tuple[int, str, str, str]], channel: str, by_one_message: bool = True) -> str:
     """
     Asynchronously generates a summary by creating a response for each message in the provided list.
 
@@ -24,18 +25,34 @@ async def generate_summary(messages: list[tuple[int, str, str, str]], by_one_mes
     results. The results are then joined into a single string with newline characters to form the summary. :param
     messages: :param by_one_message:
     """
+    cur.execute("SELECT main_language FROM channels WHERE channel_id = ?", (channel,))
+    main_language = cur.fetchone()
+    cur.execute("SELECT additional_language FROM channels WHERE channel_id = ?", (channel,))
+    additional_language = cur.fetchone()
+    texts = {"en": "Digest", "ru": "Дайджест"}
+    res = ["🦄 " + str(texts[main_language[0]]) + "\n"]
     if by_one_message:
         # Create a list of responses by asynchronously calling create_response for each message
-        res = [await create_response([(message[2], message[3])], by_one_message) for message in messages]
+        res += [await create_response([(message[2], message[3])], by_one_message, main_language[0]) for message in
+                messages]
     else:
-        res = [await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message)]
+        res += [await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, main_language[0])]
 
+    if additional_language[0] != "no":
+        res += ["\n🌐 " + str(texts[additional_language[0]]) + "\n"]
+    if additional_language[0] != "no" and by_one_message:
+        # Create a list of responses by asynchronously calling create_response for each message
+        res += [await create_response([(message[2], message[3])], by_one_message, additional_language[0]) for message in
+                messages]
+    elif additional_language[0] != "no":
+        res += [
+            await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, additional_language[0])]
     # Join the responses into a single string with newline characters
-    return "\n\n".join(res) + "\n\n#digest"
+    return "\n".join(res) + "\n\n#digest"
 
 
 # Define an asynchronous function to create a response using the Yandex GPT API
-async def create_response(messages: list[tuple[str, str]], by_one_message: bool) -> str:
+async def create_response(messages: list[tuple[str, str]], by_one_message: bool, digest_lang: str) -> str:
     """
     Asynchronous function to create a response using the Yandex GPT API.
 
@@ -63,20 +80,26 @@ async def create_response(messages: list[tuple[str, str]], by_one_message: bool)
 
         ]
     }
+    text_ru = f"Опиши назначение инструмента 1 предложением с упоминанием его названия ОБЯЗАТЕЛЬНО через тире. Если ты не поставил тире, поставь тире."
+    text_en = f"Опиши на английском назначение инструмента 1 предложением с упоминанием его названия ОБЯЗАТЕЛЬНО через тире. Если ты не поставил тире, поставь тире."
+    # text_ru = f"Опиши назначение инструмента 1 предложением с упоминанием его названия ОБЯЗАТЕЛЬНО через тире. Если ты не поставил тире, поставь тире. Всегда используй смайлик в начале сообщения. Если ты не поставил смайлик, поставь смайлик 🦄"
+    # text_en = f"Опиши на английском назначение инструмента 1 предложением с упоминанием его названия ОБЯЗАТЕЛЬНО через тире. Если ты не поставил тире, поставь тире. Всегда используй смайлик в начале сообщения. Если ты не поставил смайлик, поставь смайлик 🦄"
 
     for message in messages:
         dict_message = {"role": "user", "text": message[0]}
         prompt["messages"].append(dict_message)
-
-
     if by_one_message:
         prompt["messages"].append(
             {"role": "system",
              "text": f"Обязательно используй тире! Никогда не используй символ \"*\" в сообщении."})
-        prompt["messages"].append(
-            {"role": "user",
-             "text": f"Опиши назначение инструмента 1 предложением с упоминанием его названия ОБЯЗАТЕЛЬНО через тире. Если ты не поставил тире, поставь тире. Всегда используй смайлик в начале сообщения. Если ты не поставил смайлик, поставь смайлик 🦄"})
-
+        if digest_lang == "en":
+            prompt["messages"].append(
+                {"role": "user",
+                 "text": text_en})
+        else:
+            prompt["messages"].append(
+                {"role": "user",
+                 "text": text_ru})
         # prompt["messages"].append(
         #     {"role": "system",
         #      "text": "Опиши назначение объекта в каждом предыдущем сообщении с упоминанием его названия по 1. Ты "
@@ -117,6 +140,7 @@ async def create_response(messages: list[tuple[str, str]], by_one_message: bool)
             res = res["result"]["alternatives"]
             res = res[0]["message"]["text"]
             res = attach_link_to_message(res, message[1])
+            res = "* " + res
         except Exception as e:
             if response.status == 429:
                 res = "Too many requests"
