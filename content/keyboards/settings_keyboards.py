@@ -13,7 +13,6 @@ channel_settings_key_reply_button = KeyboardButton(text="⚙️Channel settings"
 # Define inline keyboard buttons for settings actions
 ru_language_button = InlineKeyboardButton(text="🇷🇺Russian", callback_data="ru")
 en_language_button = InlineKeyboardButton(text="🇬🇧English", callback_data="en")
-
 # Define inline keyboard buttons for channel settings actions
 api_button = InlineKeyboardButton(text="🛠API", callback_data="api")
 main_language_button = InlineKeyboardButton(text="🌍Main language", callback_data="main_language")
