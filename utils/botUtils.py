@@ -44,38 +44,6 @@ def get_messages_last_week(channel_id: str) -> list[str]:
     return list(filter(lambda x: get_period_in_seconds(x[1]) / 3600 / 24 <= 7, get_messages(channel_id)))
 
 
-def get_messages_last_2weeks(channel_id: str) -> list[str]:
-    """
-    Function to retrieve messages from the last 2 weeks for a given channel.
-
-    This function queries the database for messages from the specified channel and filters them to include only those
-    that were posted within the last 2 weeks.
-
-    Args:
-        channel_id (str): The ID of the channel to retrieve messages from.
-
-    Returns:
-        list[str]: A list of messages posted within the last 2 weeks.
-    """
-    return list(filter(lambda x: get_period_in_seconds(x[1]) / 3600 / 24 <= 14, get_messages(channel_id)))
-
-
-def get_messages_last_month(channel_id: str) -> list[str]:
-    """
-    Function to retrieve messages from the last month for a given channel.
-
-    This function queries the database for messages from the specified channel and filters them to include only those
-    that were posted within the last month.
-
-    Args:
-        channel_id (str): The ID of the channel to retrieve messages from.
-
-    Returns:
-        list[str]: A list of messages posted within the last month.
-    """
-    return list(filter(lambda x: get_period_in_seconds(x[1]) / 3600 / 24 <= 30, get_messages(channel_id)))
-
-
 # Define a function to retrieve messages within a specified number of days for a given channel
 def get_messages_in_days(channel_id: str, period: str) -> list[str]:
     """

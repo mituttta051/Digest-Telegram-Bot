@@ -5,6 +5,7 @@ from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
+from content.keyboards.digest_keyboards import supported_period_inline_keyboard
 
 # Import project files
 from content.FSMs.digest_FSMs import DigestFSM
@@ -89,6 +90,54 @@ async def digest_back_to_choose_channel(callback: CallbackQuery, state: FSMConte
 
     # return bot to the choose channel
     await bot_digest(callback.message, state)
+
+
+@digest_router.callback_query(F.data == "custom_period", DigestFSM.choose_period)
+async def ask_for_custom_period(callback_query: CallbackQuery, state: FSMContext) -> None:
+    await callback_query.answer()
+    await state.set_state(DigestFSM.choose_custom_period)
+    await callback_query.message.answer("Please write your own custom period in days:",
+                                        reply_markup=dk.return_back_button_keyboard)
+
+
+# Handler for custom period input
+@digest_router.message(DigestFSM.choose_custom_period)
+async def set_custom_period(message: Message, state: FSMContext) -> None:
+    try:
+        custom_period = int(message.text)
+        await message.answer(f"Custom period set to {custom_period} days.")
+        await state.update_data(period=message.text)
+
+        # Set the state to generate the digest
+        await state.set_state(DigestFSM.digest)
+        data = await state.get_data()
+
+        # Notify user that the digest is being prepared
+        await message.answer(text="Digest is preparing...")
+
+        # Get messages within the specified period
+        messages = get_messages_in_days(data['channel'], data['period'])
+        if len(messages) == 0:
+            digest = "No posts have been posted since the bot was added"
+        else:
+            digest = await generate_summary(messages)
+
+        # Send the digest with an inline keyboard for further actions
+        await message.answer(text=digest, reply_markup=dk.digest_inline_keyboard)
+    except:
+        await message.answer("You write incorrect number")
+        await state.set_state(DigestFSM.choose_period)
+
+        await message.answer(text="Choose a digest period", reply_markup=dk.supported_period_inline_keyboard)
+
+
+# Handler for return back button
+@digest_router.callback_query(F.data == "back", DigestFSM.choose_custom_period)
+async def return_back(callback: CallbackQuery, state: FSMContext):
+    await callback.answer(f'You return back')
+    await state.set_state(DigestFSM.choose_period)
+
+    await callback.message.answer(text="Choose a digest period", reply_markup=dk.supported_period_inline_keyboard)
 
 
 @digest_router.callback_query(DigestFSM.choose_period)
