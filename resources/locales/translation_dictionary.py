@@ -32,10 +32,11 @@ translations = {
         'You chose "✅Approve"': 'Вы выбрали "✅Подтвердить"',
         'You chose "❌Cancel"': 'Вы выбрали "❌Отмена"',
         "You chose ": "Вы выбрали ",
-        "You chose the option language": "Вы выбрали дополнительный язык",
-        "You chose the main language": "Вы выбрали основной язык",
-        "Choose one of the options": "Выбирете один из вариантов",
-        "Choose the addition language for digest": "Выберите язык дайджеста",
+        "You chose the option language": "Выберите дополнительный язык",
+        "You chose the main language": "Выберите основной язык дайджеста",
+        "Choose one of the options": "Выберите один из вариантов",
+        "Choose the main language for digest": "Выберите основной язык дайджеста",
+        "Choose the addition language for digest": "Выберите дополнительный язык дайджеста",
         "🥳Digest posted successfully!": "🥳Дайджест успешно опубликован!",
         'You chose "Edit"': 'Вы выбрали "✏️Edit"',
         "Welcome":
@@ -58,6 +59,7 @@ translations = {
         "✅Approve": "✅Подтвердить",
         "Write your own version and send it here": "Напишите и отправьте Вашу версию",
         'You return back': 'Вы возвращаетесь назад',
+        "Current option": " — Текущий выбор"
     },
     'en': {
         "Choose a channel": "Choose a channel",
@@ -87,7 +89,6 @@ translations = {
         "❓Help": "❓Help",
         'You return back': 'You return back',
         'You chose channel': 'You chose channel',
-        'You chose channel': 'You chose channel',
         "You chose period": "You chose period",
         'You chose "✅Approve"': 'You chose "✅Approve"',
         "You chose ": "You chose ",
@@ -112,12 +113,13 @@ translations = {
 
     📝 <b>Create Digest</b>
       -  The bot will automatically create and send a summary of posts for the selected period. You can change or confirm the generated text before publishing.""",
-        "✅Approve": "✅Approve",
         "🥳Digest posted successfully!": "🥳Digest posted successfully!",
         "Write your own version": "Write your own version",
         'You chose "❌Cancel"': 'You chose "❌Cancel"',
+        "Choose the main language for digest": "Choose the main language for digest",
         "Choose the addition language for digest": "Choose the addition language for digest",
         "Write your own version and send it here": "Write your own version and send it here",
+        "Current option": " — Current option"
     },
 }
 

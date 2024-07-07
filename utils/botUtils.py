@@ -141,7 +141,6 @@ async def get_bot_language(state: FSMContext):
     temp = await state.get_state()
     await state.set_state(SettingsFSM.selected_bot_language)
     data = await state.get_data()
-    await state.set_state(temp)
     selected = data.get('selected_bot_language', "empty")
     if selected == "empty":
         if False:  # todo: database
@@ -149,6 +148,8 @@ async def get_bot_language(state: FSMContext):
         elif False:  # todo: user local
             pass
         else:
-            return "en"
+            selected = "en"
+        await state.update_data(selected_bot_language=selected)
+    await state.set_state(temp)
     return selected
 

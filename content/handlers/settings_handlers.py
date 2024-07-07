@@ -13,7 +13,7 @@ import content.keyboards.settings_keyboards as sk
 import content.keyboards.general_keyboards as gk
 from resources.locales.buttons import buttons
 from resources.locales.translation_dictionary import localise
-from utils.botUtils import get_channels_with_permissions
+from utils.botUtils import get_channels_with_permissions, get_bot_language
 
 # Create a router instance for settings-related message and callback handlers
 settings_router = Router()
@@ -36,7 +36,8 @@ async def bot_settings(message: Message, state: FSMContext):
 
     await state.set_state(SettingsFSM.settings)
 
-    await message.answer(await localise("Welcome to the settings!", state), reply_markup=await sk.settings_reply_keyboard(state))
+    await message.answer(await localise("Welcome to the settings!", state),
+                         reply_markup=await sk.settings_reply_keyboard(state))
 
 
 @settings_router.message(F.text.in_(buttons["back_button"]), SettingsFSM.settings)
@@ -63,7 +64,8 @@ async def settings_back(message: Message, state: FSMContext):
 async def choose_bot_language(message: Message, state: FSMContext):
     await state.set_state(SettingsFSM.change_language)
 
-    await message.answer(await localise("Choose language", state), reply_markup=await sk.settings_inline_keyboard(state))
+    await message.answer(await localise("Choose language", state),
+                         reply_markup=await sk.settings_inline_keyboard(state))
 
 
 @settings_router.callback_query(F.data == "back", SettingsFSM.change_language)
@@ -79,11 +81,17 @@ async def settings_back_to_settings(callback: CallbackQuery, state: FSMContext):
 async def chose_bot_language(callback: CallbackQuery, state: FSMContext):
     selected_language = callback.data
 
+    last = await get_bot_language(state)
+
     await state.set_state(SettingsFSM.selected_bot_language)
 
     await state.update_data(selected_bot_language=selected_language)
 
     await state.set_state(SettingsFSM.settings)
+
+    if last != selected_language:
+        await callback.message.edit_text(await localise("Choose language", state),
+                                         reply_markup=await sk.settings_inline_keyboard(state))
 
     await callback.answer(await localise("You chose ", state) + callback.data)
 
@@ -96,7 +104,8 @@ async def choose_channel(message: Message, state: FSMContext):
 
     channels = await get_channels_with_permissions(message.chat.id)
 
-    await message.answer(await localise("Choose a channel", state), reply_markup=await gk.channels_keyboard(channels, state))
+    await message.answer(await localise("Choose a channel", state),
+                         reply_markup=await gk.channels_keyboard(channels, state))
 
 
 @settings_router.callback_query(F.data == "back", SettingsFSM.choose_channel)
@@ -114,7 +123,8 @@ async def channel_settings(callback: CallbackQuery, state: FSMContext):
 
     await callback.answer(await localise("You chose channel", state))  # todo: channel name
 
-    await callback.message.answer(await localise("Choose one of the options", state), reply_markup=await sk.channel_settings_inline_keyboard(state))
+    await callback.message.answer(await localise("Choose one of the options", state),
+                                  reply_markup=await sk.channel_settings_inline_keyboard(state))
 
 
 @settings_router.callback_query(F.data == "back", SettingsFSM.channel_settings)
@@ -130,10 +140,9 @@ async def channel_settings_back_to_settings(callback: CallbackQuery, state: FSMC
 async def choose_main_language(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.main_language)
 
-    await callback.answer(await callback.answer(await localise("You chose the option language", state))
-)
+    await callback.answer(await localise("Choose one of the options", state))
 
-    await callback.message.answer(await callback.answer(await localise("You chose the main language", state)),
+    await callback.message.answer(await localise("Choose the main language for digest", state),
                                   reply_markup=await sk.digest_bot_languages_keyboard(state))
 
 
@@ -143,7 +152,8 @@ async def choose_main_language_back_to_channel_settings(callback: CallbackQuery,
 
     await callback.answer(await localise("You return back", state))
 
-    await callback.message.answer(await localise("Choose one of the options", state), reply_markup=await sk.channel_settings_inline_keyboard(state))
+    await callback.message.answer(await localise("Choose one of the options", state),
+                                  reply_markup=await sk.channel_settings_inline_keyboard(state))
 
 
 @settings_router.callback_query(SettingsFSM.main_language)
@@ -152,7 +162,8 @@ async def chose_main_language(callback: CallbackQuery, state: FSMContext):
 
     await callback.answer(await localise("You chose ", state) + callback.data)
 
-    await callback.message.answer(await localise("Choose one of the options", state), reply_markup=await sk.channel_settings_inline_keyboard(state))
+    await callback.message.answer(await localise("Choose one of the options", state),
+                                  reply_markup=await sk.channel_settings_inline_keyboard(state))
 
 
 @settings_router.callback_query(F.data == "addition_language", SettingsFSM.channel_settings)
@@ -171,4 +182,5 @@ async def chose_addition_language(callback: CallbackQuery, state: FSMContext):
 
     await callback.answer(await localise("You chose ", state) + callback.data)
 
-    await callback.message.answer(await localise("Choose one of the options", state), reply_markup=await sk.channel_settings_inline_keyboard(state))
+    await callback.message.answer(await localise("Choose one of the options", state),
+                                  reply_markup=await sk.channel_settings_inline_keyboard(state))
