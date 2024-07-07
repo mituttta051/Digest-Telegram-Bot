@@ -4,8 +4,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from resources.locales.translation_dictionary import localise
 
-return_back_button = InlineKeyboardButton(text="⬅️Back", callback_data="back")
-custom_period_inline_button = InlineKeyboardButton(text="Custom period", callback_data="custom_period")
 
 # Create an inline keyboard for digest actions
 async def digest_inline_keyboard(state):
@@ -20,12 +18,15 @@ async def digest_inline_keyboard(state):
 # Create an inline keyboard for supported period selection
 async def supported_period_inline_keyboard(state):
     return InlineKeyboardMarkup(inline_keyboard=[
-    [InlineKeyboardButton(text=await localise("Week (7 days)", state), callback_data="7")],
-    [InlineKeyboardButton(text=await localise("2 weeks (14 days)", state), callback_data="14")],
-    [InlineKeyboardButton(text=await localise("1 Month (30 days)", state), callback_data="30")],
-    [InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")],
-])
+        [InlineKeyboardButton(text=await localise("Week (7 days)", state), callback_data="7")],
+        [InlineKeyboardButton(text=await localise("2 weeks (14 days)", state), callback_data="14")],
+        [InlineKeyboardButton(text=await localise("1 Month (30 days)", state), callback_data="30")],
+        [InlineKeyboardButton(text=await localise("Custom period", state), callback_data="custom_period")],
+        [InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")]
+    ])
 
-return_back_button_keyboard = InlineKeyboardMarkup(inline_keyboard=[
-    [return_back_button]
-])
+
+async def return_back_button_keyboard(state):
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")]
+    ])

@@ -43,7 +43,8 @@ async def bot_digest(message: Message, state: FSMContext) -> None:
     channels = await get_channels_with_permissions(message.chat.id)
 
     # Send a message with a keyboard to choose a channel
-    await message.answer(await localise("Choose a channel", state), reply_markup=await gk.channels_keyboard(channels, state))
+    await message.answer(await localise("Choose a channel", state),
+                         reply_markup=await gk.channels_keyboard(channels, state))
 
 
 @digest_router.callback_query(F.data == "back", DigestFSM.choose_channel)
@@ -79,7 +80,8 @@ async def choose_period(callback: CallbackQuery, state: FSMContext) -> None:
     await state.set_state(DigestFSM.choose_period)
 
     # Send a message with an inline keyboard to choose a digest period
-    await callback.message.answer(text=await localise("Choose a digest period", state), reply_markup=await dk.supported_period_inline_keyboard(state))
+    await callback.message.answer(text=await localise("Choose a digest period", state),
+                                  reply_markup=await dk.supported_period_inline_keyboard(state))
 
 
 @digest_router.callback_query(F.data == "back", DigestFSM.choose_period)
@@ -96,8 +98,8 @@ async def digest_back_to_choose_channel(callback: CallbackQuery, state: FSMConte
 async def ask_for_custom_period(callback_query: CallbackQuery, state: FSMContext) -> None:
     await callback_query.answer()
     await state.set_state(DigestFSM.choose_custom_period)
-    await callback_query.message.answer("Please write your own custom period in days:",
-                                        reply_markup=dk.return_back_button_keyboard)
+    await callback_query.message.answer(await localise("Please write your own custom period in days:", state),
+                                        reply_markup=await dk.return_back_button_keyboard(state))
 
 
 # Handler for custom period input
@@ -105,7 +107,7 @@ async def ask_for_custom_period(callback_query: CallbackQuery, state: FSMContext
 async def set_custom_period(message: Message, state: FSMContext) -> None:
     try:
         custom_period = int(message.text)
-        await message.answer(f"Custom period set to {custom_period} days.")
+        await message.answer(await localise("Custom period set to", state) + message.text + await localise("days", state))
         await state.update_data(period=message.text)
 
         # Set the state to generate the digest
@@ -113,31 +115,33 @@ async def set_custom_period(message: Message, state: FSMContext) -> None:
         data = await state.get_data()
 
         # Notify user that the digest is being prepared
-        await message.answer(text="Digest is preparing...")
+        await message.answer(text=await localise("Digest is preparing...", state))
 
         # Get messages within the specified period
         messages = get_messages_in_days(data['channel'], data['period'])
         if len(messages) == 0:
-            digest = "No posts have been posted since the bot was added"
+            digest = await localise("Nothing has been posted since the bot was added", state)
         else:
-            digest = await generate_summary(messages)
+            digest = await generate_summary(messages, data['channel'])
 
         # Send the digest with an inline keyboard for further actions
-        await message.answer(text=digest, reply_markup=dk.digest_inline_keyboard)
+        await message.answer(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
     except:
-        await message.answer("You write incorrect number")
+        await message.answer(await localise("You write incorrect number", state))
         await state.set_state(DigestFSM.choose_period)
 
-        await message.answer(text="Choose a digest period", reply_markup=dk.supported_period_inline_keyboard)
+        await message.answer(text=await localise("Choose a digest period", state),
+                             reply_markup=await dk.supported_period_inline_keyboard(state))
 
 
 # Handler for return back button
 @digest_router.callback_query(F.data == "back", DigestFSM.choose_custom_period)
 async def return_back(callback: CallbackQuery, state: FSMContext):
-    await callback.answer(f'You return back')
+    await callback.answer(await localise("You return back", state))
     await state.set_state(DigestFSM.choose_period)
 
-    await callback.message.answer(text="Choose a digest period", reply_markup=dk.supported_period_inline_keyboard)
+    await callback.message.answer(text=await localise("Choose a digest period", state),
+                                  reply_markup=await dk.supported_period_inline_keyboard(state))
 
 
 @digest_router.callback_query(DigestFSM.choose_period)
@@ -170,7 +174,7 @@ async def digest_generate(callback: CallbackQuery, state: FSMContext) -> None:
     data = await state.get_data()
 
     # Notify user that the digest is being prepared
-    await callback.message.answer(text= await localise("Digest is preparing...", state))
+    await callback.message.answer(text=await localise("Digest is preparing...", state))
 
     # Get messages within the specified period
     messages = get_messages_in_days(data['channel'], data['period'])
@@ -256,7 +260,9 @@ async def digest_edit(callback: CallbackQuery, state: FSMContext) -> None:
 
     # Prompt user to write their own version and provide a cancel button
     await callback.message.answer(await localise("Write your own version and send it here", state),
-                                  reply_markup=gk.make_inline_keyboard(dk.InlineKeyboardButton(text=await localise("❌Cancel editing", state), callback_data="cancel_editing")))
+                                  reply_markup=gk.make_inline_keyboard(
+                                      dk.InlineKeyboardButton(text=await localise("❌Cancel editing", state),
+                                                              callback_data="cancel_editing")))
 
     # Set the state to edit the text of the digest
     await state.set_state(DigestFSM.edit_text)
@@ -283,7 +289,8 @@ async def cancel_editing(callback: CallbackQuery, state: FSMContext) -> None:
 
     # Restore the initial text and remove the editing prompt
     await callback.message.edit_text(text=callback.message.html_text,
-                                     reply_markup=gk.one_button_keyboard("inline", await localise("❌Cancel editing", state))
+                                     reply_markup=gk.one_button_keyboard("inline",
+                                                                         await localise("❌Cancel editing", state))
 
                                      )
     # Retrieve the initial text from the state data

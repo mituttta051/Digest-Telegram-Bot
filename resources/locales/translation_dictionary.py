@@ -8,7 +8,7 @@ translations = {
         "Create digest": "Создать дайджест",
         "Choose a digest period": "Выберите период дайджеста",
         "Digest is preparing...": "Готовлю дайджест...",
-        "Nothing has been posted since the bot was added": "Ничего не было опубликовано с добавления бота в канал",
+        "Nothing has been posted since the bot was added": "В течение этого периода, либо с момента добавления бота не было добавлено сообщений",
         "Choose main language for digest": "Выберите главный язык для дайджеста",
         "Choose addition language for digest": "Выберите дополнительный язык дайджеста",
         "Welcome to the settings!": "Добро пожаловать в настройки!",
@@ -60,7 +60,12 @@ translations = {
         "Write your own version and send it here": "Напишите и отправьте Вашу версию",
         'You return back': 'Вы возвращаетесь назад',
         "Current option": " — Текущий выбор",
-        "❌Without language": "❌Без языка"
+        "❌Without language": "❌Без языка",
+        "Custom period": "Кастомный период",
+        "You write incorrect number": "Вы ввели неправильное число",
+        "Custom period set to": "Кастомный период выставлен на ",
+        "days": " дней.",
+        "Please write your own custom period in days:": "Пожалуйста напишите ваш кастомный период в днях"
     },
     'en': {
         "Choose a channel": "Choose a channel",
@@ -68,7 +73,7 @@ translations = {
         "Create digest": "Create digest",
         "Choose a digest period": "Choose a digest period",
         "Digest is preparing...": "Digest is preparing...",
-        "Nothing has been posted since the bot was added": "Nothing has been posted since the bot was added",
+        "sNothing ha been posted since the bot was added": "No messages have been added during this period or since the bot was added",
         "Choose main language for digest": "Choose main language for digest",
         "Choose addition language for digest": "Choose addition language for digest",
         "Welcome to the settings!": "Welcome to the settings!",
@@ -121,7 +126,12 @@ translations = {
         "Choose the addition language for digest": "Choose the addition language for digest",
         "Write your own version and send it here": "Write your own version and send it here",
         "Current option": " — Current option",
-        "❌Without language": "❌Without language"
+        "❌Without language": "❌Without language",
+        "Custom period": "Custom period",
+        "You write incorrect number": "You write incorrect number",
+        "Custom period set to": "Custom period set to ",
+        "days": " days.",
+        "Please write your own custom period in days:": "Please write your own custom period in days:"
     },
 }
 

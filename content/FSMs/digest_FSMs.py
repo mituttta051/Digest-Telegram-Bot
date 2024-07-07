@@ -21,6 +21,8 @@ class DigestFSM(StatesGroup):
     # State for choosing the period for the digest
     choose_period = State()
 
+    choose_custom_period = State()
+
     # State for the digest itself
     digest = State()
 
