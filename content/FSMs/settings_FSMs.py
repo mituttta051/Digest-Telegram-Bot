@@ -8,4 +8,4 @@ class SettingsFSM(StatesGroup):
     channel_settings = State()
     main_language = State()
     addition_language = State()
-    selected_bot_language = State()
+    data = State()

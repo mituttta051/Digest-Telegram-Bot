@@ -105,3 +105,24 @@ def update_main_language(channel_id, new_language):
 def update_addition_language(channel_id, new_language):
     cur.execute("UPDATE channels SET additional_language = ? WHERE channel_id = ?", (new_language, channel_id))
     conn.commit()
+
+
+def put_user(user_id):
+    cur.execute(
+        f"""INSERT OR IGNORE INTO users (user_id, language) VALUES (?, 'en')""",
+        (user_id,))
+    conn.commit()
+
+
+def get_bot_language_db(user_id):
+    if user_id is None:
+        return "en"
+    cur.execute("SELECT language FROM users WHERE user_id = ?", (user_id,))
+    return cur.fetchone()[0]
+
+
+def update_bot_language(user_id, new_language):
+    if user_id is None:
+        return
+    cur.execute("UPDATE users SET language = ? WHERE user_id = ?", (new_language, user_id))
+    conn.commit()

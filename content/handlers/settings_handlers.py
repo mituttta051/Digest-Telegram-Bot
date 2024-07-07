@@ -15,7 +15,8 @@ from create_bot import cur, conn
 from resources.locales.buttons import buttons
 from resources.locales.translation_dictionary import localise
 from utils.botUtils import get_channels_with_permissions, get_bot_language
-from utils.databaseUtils import get_addition_language, get_main_language, update_main_language, update_addition_language
+from utils.databaseUtils import get_addition_language, get_main_language, update_main_language, \
+    update_addition_language, update_bot_language
 
 # Create a router instance for settings-related message and callback handlers
 settings_router = Router()
@@ -85,9 +86,13 @@ async def chose_bot_language(callback: CallbackQuery, state: FSMContext):
 
     last = await get_bot_language(state)
 
-    await state.set_state(SettingsFSM.selected_bot_language)
+    await state.set_state(SettingsFSM.data)
 
     await state.update_data(selected_bot_language=selected_language)
+
+    data = await state.get_data()
+
+    update_bot_language(data.get("user_id", None), selected_language)
 
     await state.set_state(SettingsFSM.settings)
 

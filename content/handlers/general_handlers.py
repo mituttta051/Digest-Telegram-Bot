@@ -8,9 +8,10 @@ from aiogram.types import Message, ChatMemberUpdated
 
 # Import project files
 import content.keyboards.general_keyboards as gk
+from content.FSMs.settings_FSMs import SettingsFSM
 from resources.locales.buttons import buttons
 from resources.locales.translation_dictionary import localise
-from utils.databaseUtils import put_message, put_channel
+from utils.databaseUtils import put_message, put_channel, put_user
 
 # Create a router instance for general message, command, and callback handlers
 general_router = Router()
@@ -28,6 +29,13 @@ async def bot_start(message: Message, state: FSMContext):
     Args:
         message (Message): The incoming message object containing the /start command.
     """
+
+    await state.set_state(SettingsFSM.data)
+
+    await state.update_data(user_id=message.from_user.id)
+
+    put_user(message.from_user.id)
+
     message_start = await localise("Welcome", state)
 
     await message.answer(message_start, reply_markup=await gk.start_reply_keyboard(state))

@@ -6,7 +6,7 @@ from datetime import datetime
 # Import project files
 from content.FSMs.settings_FSMs import SettingsFSM
 from create_bot import bot, logger
-from utils.databaseUtils import get_messages, get_channels
+from utils.databaseUtils import get_messages, get_channels, get_bot_language_db
 from aiogram.fsm.context import FSMContext
 
 
@@ -42,6 +42,8 @@ def get_messages_last_week(channel_id: str) -> list[str]:
         list[str]: A list of messages posted within the last week.
     """
     return list(filter(lambda x: get_period_in_seconds(x[1]) / 3600 / 24 <= 7, get_messages(channel_id)))
+
+
 def get_messages_last_2weeks(channel_id: str) -> list[str]:
     """
     Function to retrieve messages from the last 2 weeks for a given channel.
@@ -56,6 +58,8 @@ def get_messages_last_2weeks(channel_id: str) -> list[str]:
         list[str]: A list of messages posted within the last 2 weeks.
     """
     return list(filter(lambda x: get_period_in_seconds(x[1]) / 3600 / 24 <= 14, get_messages(channel_id)))
+
+
 def get_messages_last_month(channel_id: str) -> list[str]:
     """
     Function to retrieve messages from the last month for a given channel.
@@ -137,20 +141,13 @@ def attach_link_to_message(message: str, link: str):
     return message
 
 
-
 async def get_bot_language(state: FSMContext):
     temp = await state.get_state()
-    await state.set_state(SettingsFSM.selected_bot_language)
+    await state.set_state(SettingsFSM.data)
     data = await state.get_data()
     selected = data.get('selected_bot_language', "empty")
     if selected == "empty":
-        if False:  # todo: database
-            pass
-        elif False:  # todo: user local
-            pass
-        else:
-            selected = "en"
+        selected = get_bot_language_db(data.get("user_id", None))
         await state.update_data(selected_bot_language=selected)
     await state.set_state(temp)
     return selected
-
