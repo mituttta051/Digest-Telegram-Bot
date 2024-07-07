@@ -4,7 +4,9 @@ stages:
   - deploy
 
 default:
-  image: docker
+  image:
+    name: docker
+    pull_policy: if-not-present
   before_script:
     - apt-get update
     - apt-get install openssh-server -y
