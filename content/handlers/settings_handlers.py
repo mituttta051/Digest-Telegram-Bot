@@ -144,22 +144,18 @@ async def choose_main_language(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     channel = data.get('channel_id')
     await state.set_state(SettingsFSM.main_language)
-    language = get_main_language(channel)
-    languages = {"en": "English", "ru": "Russia"}
-    # str(languages[language[0]])
 
     await callback.answer(await localise("Choose one of the options", state))
 
     await callback.message.answer(await localise("Choose the main language for digest", state),
                                   reply_markup=await sk.digest_bot_languages_keyboard(channel, state))
 
+
 @settings_router.callback_query(F.data == "addition_language", SettingsFSM.channel_settings)
 async def choose_addition_language(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     channel = data.get('channel_id')
     await state.set_state(SettingsFSM.addition_language)
-    language = get_addition_language(channel)
-    languages = {"en": "English", "ru": "Russia", "no": "not selected"}
     await callback.answer(await localise("Choose one of the options", state))
     await callback.message.answer(await localise("Choose the addition language for digest", state),
                                   reply_markup=await sk.digest_bot_addition_languages_keyboard(channel, state))
@@ -180,6 +176,8 @@ async def chose_main_language(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.channel_settings)
     data = await state.get_data()
     channel_id = data.get('channel_id')
+    last = get_main_language(channel_id)
+
     await callback.answer(await localise("You chose ", state) + callback.data)
     new_language = "?"
     if callback.data == "en":
@@ -189,6 +187,11 @@ async def chose_main_language(callback: CallbackQuery, state: FSMContext):
 
     if new_language != "?":
         update_main_language(channel_id, new_language)
+
+    if last != new_language and new_language != "?":
+        await callback.message.edit_text(await localise("Choose the main language for digest", state),
+                                      reply_markup=await sk.digest_bot_languages_keyboard(channel_id, state))
+
     await callback.message.answer(await localise("Choose one of the options", state),
                                   reply_markup=await sk.channel_settings_inline_keyboard(state))
 
@@ -198,6 +201,8 @@ async def chose_addition_language(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.channel_settings)
     data = await state.get_data()
     channel_id = data.get('channel_id')
+    last = get_addition_language(channel_id)
+
     await callback.answer(await localise("You chose ", state) + callback.data)
     new_language = "?"
     if callback.data == "en":
@@ -209,5 +214,11 @@ async def chose_addition_language(callback: CallbackQuery, state: FSMContext):
 
     if new_language != "?":
         update_addition_language(channel_id, new_language)
+
+    if last != new_language and new_language != "?":
+        await callback.message.edit_text(await localise("Choose the addition language for digest", state),
+                                         reply_markup=await sk.digest_bot_addition_languages_keyboard(channel_id,
+                                                                                                      state))
+
     await callback.message.answer(await localise("Choose one of the options", state),
                                   reply_markup=await sk.channel_settings_inline_keyboard(state))
