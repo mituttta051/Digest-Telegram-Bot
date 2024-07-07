@@ -45,7 +45,8 @@ def put_message(message: Message, channel_id: str) -> None:
     message_id = message.message_id
     table = "messages" + str(channel_id).replace("-", "_")
     message_url = f"{base_url}c/{str(chat_id)[4:]}/{message_id}"
-    cur.execute(f"""INSERT INTO {table} (date, text, link) VALUES (?, ?, ?)""", (datetime.now(), message.html_text, message_url))
+    cur.execute(f"""INSERT INTO {table} (date, text, link) VALUES (?, ?, ?)""",
+                (datetime.now(), message.html_text, message_url))
     conn.commit()
 
 
@@ -66,7 +67,8 @@ def put_channel(channel_id: str, name: str) -> None:
     cur.execute(
         f"""INSERT INTO channels (channel_id, name) VALUES (?, ?) ON CONFLICT(channel_id) DO UPDATE SET name = ?""",
         (channel_id, name, name))
-    cur.execute(f"""CREATE TABLE IF NOT EXISTS {table} (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, text TEXT, link TEXT)""")
+    cur.execute(
+        f"""CREATE TABLE IF NOT EXISTS {table} (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, text TEXT, link TEXT)""")
     conn.commit()
 
 
@@ -83,3 +85,23 @@ def get_channels() -> list:
     """
     cur.execute(f"""SELECT * FROM channels""")
     return cur.fetchall()
+
+
+def get_main_language(channel_id):
+    cur.execute("SELECT main_language FROM channels WHERE channel_id = ?", (channel_id,))
+    return cur.fetchone()[0]
+
+
+def get_addition_language(channel_id):
+    cur.execute("SELECT additional_language FROM channels WHERE channel_id = ?", (channel_id,))
+    return cur.fetchone()[0]
+
+
+def update_main_language(channel_id, new_language):
+    cur.execute("UPDATE channels SET main_language = ? WHERE channel_id = ?", (new_language, channel_id))
+    conn.commit()
+
+
+def update_addition_language(channel_id, new_language):
+    cur.execute("UPDATE channels SET additional_language = ? WHERE channel_id = ?", (new_language, channel_id))
+    conn.commit()

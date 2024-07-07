@@ -207,8 +207,7 @@ async def digest_edit(callback: CallbackQuery, state: FSMContext) -> None:
 
     # Prompt user to write their own version and provide a cancel button
     await callback.message.answer(await localise("Write your own version and send it here", state),
-                                  reply_markup=gk.make_inline_keyboard(dk.InlineKeyboardButton(text=await localise("❌Cancel", state), callback_data="cancel_editing")))
-    print("a")
+                                  reply_markup=gk.make_inline_keyboard(dk.InlineKeyboardButton(text=await localise("❌Cancel editing", state), callback_data="cancel_editing")))
 
     # Set the state to edit the text of the digest
     await state.set_state(DigestFSM.edit_text)

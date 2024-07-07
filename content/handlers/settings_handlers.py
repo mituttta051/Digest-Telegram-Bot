@@ -15,6 +15,7 @@ from create_bot import cur, conn
 from resources.locales.buttons import buttons
 from resources.locales.translation_dictionary import localise
 from utils.botUtils import get_channels_with_permissions, get_bot_language
+from utils.databaseUtils import get_addition_language, get_main_language, update_main_language, update_addition_language
 
 # Create a router instance for settings-related message and callback handlers
 settings_router = Router()
@@ -143,27 +144,25 @@ async def choose_main_language(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     channel = data.get('channel_id')
     await state.set_state(SettingsFSM.main_language)
-    cur.execute("SELECT main_language FROM channels WHERE channel_id = ?", (channel,))
-    language = cur.fetchone()
+    language = get_main_language(channel)
     languages = {"en": "English", "ru": "Russia"}
     # str(languages[language[0]])
 
     await callback.answer(await localise("Choose one of the options", state))
 
     await callback.message.answer(await localise("Choose the main language for digest", state),
-                                  reply_markup=await sk.digest_bot_languages_keyboard(state))
+                                  reply_markup=await sk.digest_bot_languages_keyboard(channel, state))
 
 @settings_router.callback_query(F.data == "addition_language", SettingsFSM.channel_settings)
 async def choose_addition_language(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     channel = data.get('channel_id')
     await state.set_state(SettingsFSM.addition_language)
-    cur.execute("SELECT additional_language FROM channels WHERE channel_id = ?", (channel,))
-    language = cur.fetchone()
+    language = get_addition_language(channel)
     languages = {"en": "English", "ru": "Russia", "no": "not selected"}
     await callback.answer(await localise("Choose one of the options", state))
     await callback.message.answer(await localise("Choose the addition language for digest", state),
-                                  reply_markup=await sk.digest_bot_addition_languages_keyboard(state))
+                                  reply_markup=await sk.digest_bot_addition_languages_keyboard(channel, state))
 
 
 @settings_router.callback_query(F.data == "back", SettingsFSM.main_language or SettingsFSM.addition_language)
@@ -183,14 +182,13 @@ async def chose_main_language(callback: CallbackQuery, state: FSMContext):
     channel_id = data.get('channel_id')
     await callback.answer(await localise("You chose ", state) + callback.data)
     new_language = "?"
-    if callback.data == "🇬🇧English":
+    if callback.data == "en":
         new_language = "en"
-    elif callback.data == "🇷🇺Russian":
+    elif callback.data == "ru":
         new_language = "ru"
 
     if new_language != "?":
-        cur.execute("UPDATE channels SET main_language = ? WHERE channel_id = ?", (new_language, channel_id))
-    conn.commit()
+        update_main_language(channel_id, new_language)
     await callback.message.answer(await localise("Choose one of the options", state),
                                   reply_markup=await sk.channel_settings_inline_keyboard(state))
 
@@ -202,15 +200,14 @@ async def chose_addition_language(callback: CallbackQuery, state: FSMContext):
     channel_id = data.get('channel_id')
     await callback.answer(await localise("You chose ", state) + callback.data)
     new_language = "?"
-    if callback.data == "🇬🇧English":
+    if callback.data == "en":
         new_language = "en"
     elif callback.data == "without_language":
         new_language = "no"
-    elif callback.data == "🇷🇺Russian":
+    elif callback.data == "ru":
         new_language = "ru"
 
     if new_language != "?":
-        cur.execute("UPDATE channels SET additional_language = ? WHERE channel_id = ?", (new_language, channel_id))
-    conn.commit()
+        update_addition_language(channel_id, new_language)
     await callback.message.answer(await localise("Choose one of the options", state),
                                   reply_markup=await sk.channel_settings_inline_keyboard(state))

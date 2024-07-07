@@ -59,7 +59,8 @@ translations = {
         "✅Approve": "✅Подтвердить",
         "Write your own version and send it here": "Напишите и отправьте Вашу версию",
         'You return back': 'Вы возвращаетесь назад',
-        "Current option": " — Текущий выбор"
+        "Current option": " — Текущий выбор",
+        "❌Without language": "❌Без языка"
     },
     'en': {
         "Choose a channel": "Choose a channel",
@@ -119,7 +120,8 @@ translations = {
         "Choose the main language for digest": "Choose the main language for digest",
         "Choose the addition language for digest": "Choose the addition language for digest",
         "Write your own version and send it here": "Write your own version and send it here",
-        "Current option": " — Current option"
+        "Current option": " — Current option",
+        "❌Without language": "❌Without language"
     },
 }
 
