@@ -7,6 +7,7 @@ default:
   before_script:
     - apt-get update
     - apt-get install openssh-server -y
+    - eval "$(ssh-agent)"
     - ssh-add - <<< '$SSH_KEY'
 
 build_docker_image:
