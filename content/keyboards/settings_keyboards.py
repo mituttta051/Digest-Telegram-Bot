@@ -31,7 +31,7 @@ async def settings_reply_keyboard(state):
 
 async def channel_settings_inline_keyboard(state):
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=await localise("🛠API", state), callback_data="api")],
+        # [InlineKeyboardButton(text=await localise("🛠API", state), callback_data="api")],
         [InlineKeyboardButton(text=await localise("🌍Main language", state), callback_data="main_language")],
         [InlineKeyboardButton(text=await localise("🌎Addition language", state),
                               callback_data="addition_language")],
