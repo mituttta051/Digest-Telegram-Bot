@@ -4,6 +4,7 @@ stages:
   - deploy
 
 default:
+  image: ubuntu
   before_script:
     - ssh-add - <<< '$SSH_KEY'
 
