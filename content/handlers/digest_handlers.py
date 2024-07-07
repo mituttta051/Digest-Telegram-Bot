@@ -7,43 +7,19 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 
 # Import project files
+from content.FSMs.digest_FSMs import DigestFSM
 from content.handlers.general_handlers import bot_start
 import content.keyboards.general_keyboards as gk
 import content.keyboards.digest_keyboards as dk
+from resources.locales.buttons import buttons
 from utils.LLMUtils import generate_summary
 from utils.botUtils import get_messages_in_days, get_channels_with_permissions
+from resources.locales.translation_dictionary import localise
 
 digest_router = Router()
 
 
-# Define a StatesGroup for the DigestFSM finite state machine
-class DigestFSM(StatesGroup):
-    """
-    A class representing the finite state machine for managing the digest functionality.
-
-    This class defines the states that the finite state machine can be in, which are used to track the user's progress
-    through the digest creation process.
-
-    States:
-        choose_channel (aiogram.fsm.state.State): The state where the user is prompted to choose a channel for the digest.
-        choose_period (aiogram.fsm.state.StateState): The state where the user is prompted to choose the period for the digest.
-        digest (aiogram.fsm.state.StateState): The state where the digest is being generated or displayed.
-        edit_text (aiogram.fsm.state.StateState): The state where the user is prompted to edit the text of the digest.
-    """
-    # State for choosing a channel for the digest
-    choose_channel = State()
-
-    # State for choosing the period for the digest
-    choose_period = State()
-
-    # State for the digest itself
-    digest = State()
-
-    # State for editing the text of the digest
-    edit_text = State()
-
-
-@digest_router.message(F.text == "✍🏼Create digest")
+@digest_router.message(F.text.in_(buttons["digest_create"]))
 async def bot_digest(message: Message, state: FSMContext) -> None:
     """
         Asynchronous function to handle the "Create digest" message and initiate the digest creation process.
@@ -66,17 +42,17 @@ async def bot_digest(message: Message, state: FSMContext) -> None:
     channels = await get_channels_with_permissions(message.chat.id)
 
     # Send a message with a keyboard to choose a channel
-    await message.answer("Choose a channel", reply_markup=gk.channels_keyboard(channels))
+    await message.answer(await localise("Choose a channel", state), reply_markup=await gk.channels_keyboard(channels, state))
 
 
 @digest_router.callback_query(F.data == "back", DigestFSM.choose_channel)
 async def digest_back_to_main(callback: CallbackQuery, state: FSMContext) -> None:
-    await callback.answer(f'You return back')
+    await callback.answer(await localise("You return back", state))
     # Clear the state to reset the FSM
-    await state.clear()
+    # await state.clear()
 
     # Start the bot from the main menu
-    await bot_start(callback.message)
+    await bot_start(callback.message, state)
 
 
 @digest_router.callback_query(DigestFSM.choose_channel)
@@ -93,7 +69,7 @@ async def choose_period(callback: CallbackQuery, state: FSMContext) -> None:
             state (aiogram.fsm.context.FSMContext): The state context object used to manage the finite state machine.
         """
     # Acknowledge the channel selection (Todo: Replace placeholder text with actual channel title)
-    await callback.answer(f'You chose channel')
+    await callback.answer(await localise('You chose channel', state))
 
     # Update the state data with the selected channel
     await state.update_data(channel=callback.data)
@@ -102,14 +78,14 @@ async def choose_period(callback: CallbackQuery, state: FSMContext) -> None:
     await state.set_state(DigestFSM.choose_period)
 
     # Send a message with an inline keyboard to choose a digest period
-    await callback.message.answer(text="Choose a digest period", reply_markup=dk.supported_period_inline_keyboard)
+    await callback.message.answer(text=await localise("Choose a digest period", state), reply_markup=await dk.supported_period_inline_keyboard(state))
 
 
 @digest_router.callback_query(F.data == "back", DigestFSM.choose_period)
 async def digest_back_to_choose_channel(callback: CallbackQuery, state: FSMContext) -> None:
-    await callback.answer(f'You return back')
+    await callback.answer(await localise("You return back", state))
     # Clear the state to reset the FSM
-    await state.clear()
+    # await state.clear()
 
     # return bot to the choose channel
     await bot_digest(callback.message, state)
@@ -135,7 +111,7 @@ async def digest_generate(callback: CallbackQuery, state: FSMContext) -> None:
             `utils.LLMUtils.generate_summary`: function that creates a digest from the messages.
         """
     # Acknowledge period selection
-    await callback.answer("You chose period")
+    await callback.answer(await localise("You chose period", state))
 
     # Store selected period in state data
     await state.update_data(period=callback.data)
@@ -145,17 +121,17 @@ async def digest_generate(callback: CallbackQuery, state: FSMContext) -> None:
     data = await state.get_data()
 
     # Notify user that the digest is being prepared
-    await callback.message.answer(text="Digest is preparing...")
+    await callback.message.answer(text= await localise("Digest is preparing...", state))
 
     # Get messages within the specified period
     messages = get_messages_in_days(data['channel'], data['period'])
     if len(messages) == 0:
-        digest = "No posts have been posted since the bot was added"
+        digest = await localise("Nothing has been posted since the bot was added", state)
     else:
         digest = await generate_summary(messages)
 
     # Send the digest with an inline keyboard for further actions
-    await callback.message.answer(text=digest, reply_markup=dk.digest_inline_keyboard)
+    await callback.message.answer(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
 
 
 @digest_router.callback_query(F.data == "digest_approve", DigestFSM.digest)
@@ -174,11 +150,11 @@ async def digest_approve(callback: CallbackQuery, state: FSMContext) -> None:
             None
         """
     # Acknowledge the callback with a message
-    await callback.answer('You chose "Approve"')
+    await callback.answer(await localise('You chose "✅Approve"', state))
 
     # Edit the current message text and display an "Approve" button
     await callback.message.edit_text(text=callback.message.html_text,
-                                     reply_markup=gk.one_button_keyboard("inline", "✅Approve"))
+                                     reply_markup=gk.one_button_keyboard("inline", await localise("✅Approve", state)))
 
     # Retrieve the stored state data
     data = await state.get_data()
@@ -188,16 +164,16 @@ async def digest_approve(callback: CallbackQuery, state: FSMContext) -> None:
     try:
         # Post the digest to the selected channel
         await callback.bot.send_message(chat_id=channel_id, text=digest_text)
-        await callback.message.answer("🥳Digest posted successfully!")
+        await callback.message.answer(await localise("🥳Digest posted successfully!", state))
     except Exception as e:
         # Handle any exceptions that occur during the message posting
         await callback.message.answer(f"Failed to post digest: {e}")
 
     # Clear the state to reset the FSM
-    await state.clear()
+    # await state.clear()
 
     # Start the bot from the main menu
-    await bot_start(callback.message)
+    await bot_start(callback.message, state)
 
 
 @digest_router.callback_query(F.data == "digest_edit")
@@ -220,18 +196,19 @@ async def digest_edit(callback: CallbackQuery, state: FSMContext) -> None:
             `content.keyboards.general_keyboards.make_inline_keyboard`: function that accepts inline buttons and forms a keyboard from them
         """
     # Acknowledge the edit selection
-    await callback.answer('You chose "Edit"')
+    await callback.answer(await localise('You chose "Edit"', state))
 
     # Store the initial text of the digest
     await state.update_data(initial_text=callback.message.html_text)
 
     # Edit the message to remove inline buttons
     await callback.message.edit_text(text=callback.message.html_text,
-                                     reply_markup=gk.one_button_keyboard("inline", "✏️Edit"))
+                                     reply_markup=gk.one_button_keyboard("inline", await localise("✏️Edit", state)))
 
     # Prompt user to write their own version and provide a cancel button
-    await callback.message.answer("Write your own version",
-                                  reply_markup=gk.make_inline_keyboard(dk.cancel_editing_inline_button))
+    await callback.message.answer(await localise("Write your own version and send it here", state),
+                                  reply_markup=gk.make_inline_keyboard(dk.InlineKeyboardButton(text=await localise("❌Cancel", state), callback_data="cancel_editing")))
+    print("a")
 
     # Set the state to edit the text of the digest
     await state.set_state(DigestFSM.edit_text)
@@ -258,8 +235,9 @@ async def cancel_editing(callback: CallbackQuery, state: FSMContext) -> None:
 
     # Restore the initial text and remove the editing prompt
     await callback.message.edit_text(text=callback.message.html_text,
-                                     reply_markup=gk.one_button_keyboard("inline", "❌Cancel editing"))
+                                     reply_markup=gk.one_button_keyboard("inline", await localise("❌Cancel editing", state))
 
+                                     )
     # Retrieve the initial text from the state data
     data = await state.get_data()
     initial_text = data['initial_text']
@@ -268,7 +246,7 @@ async def cancel_editing(callback: CallbackQuery, state: FSMContext) -> None:
     await state.set_state(DigestFSM.digest)
 
     # Send the initial text with the digest inline keyboard
-    await callback.message.answer(text=initial_text, reply_markup=dk.digest_inline_keyboard)
+    await callback.message.answer(text=initial_text, reply_markup=await dk.digest_inline_keyboard(state))
 
 
 @digest_router.message(DigestFSM.edit_text)
@@ -288,7 +266,7 @@ async def edit_digest(message: Message, state: FSMContext) -> None:
     await state.set_state(DigestFSM.digest)
 
     # Send the edited text with the digest inline keyboard
-    await message.answer(text=message.html_text, reply_markup=dk.digest_inline_keyboard)
+    await message.answer(text=message.html_text, reply_markup=await dk.digest_inline_keyboard(state))
 
 
 @digest_router.callback_query(F.data == "digest_cancel", DigestFSM.digest)
@@ -310,17 +288,17 @@ async def digest_cancel(callback: CallbackQuery, state: FSMContext) -> None:
             `content.handlers.general_handlers.bot_start`: function that prints greeting message and calls the main menu keyboard
         """
     # Acknowledge the cancellation selection
-    await callback.answer('You chose "Cancel"')
+    await callback.answer(await localise('You chose "❌Cancel"', state))
 
     # Edit the message to remove inline buttons
     await callback.message.edit_text(text=callback.message.html_text,
-                                     reply_markup=gk.one_button_keyboard("inline", "❌Cancel"))
+                                     reply_markup=gk.one_button_keyboard("inline", await localise("❌Cancel", state)))
 
     # Clear the state to reset the FSM
-    await state.clear()
+    # await state.clear()
 
     # Start the bot from the main menu
-    await bot_start(callback.message)
+    await bot_start(callback.message, state)
 
 
 @digest_router.callback_query(F.data == "digest_regenerate", DigestFSM.digest)
@@ -358,7 +336,7 @@ async def digest_regenerate(callback: CallbackQuery, state: FSMContext) -> None:
         digest = await generate_summary(messages)
 
     # Edit the message to display the new digest with the digest inline keyboard
-    await callback.message.edit_text(text=digest, reply_markup=dk.digest_inline_keyboard)
+    await callback.message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
 
 
 @digest_router.callback_query(F.data == "empty-data")

@@ -3,52 +3,49 @@
 # Import downloaded packages
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 
-return_back_inline_button = InlineKeyboardButton(text="⬅️Back", callback_data="back")
+from resources.locales.translation_dictionary import localise
+from utils.botUtils import get_bot_language
 
-# Define reply keyboard buttons for settings actions
-return_back_reply_button = KeyboardButton(text="⬅️Back")
-change_bot_language_reply_button = KeyboardButton(text="🌍Bot language")
-channel_settings_key_reply_button = KeyboardButton(text="⚙️Channel settings")
-
-# Define inline keyboard buttons for settings actions
-ru_language_button = InlineKeyboardButton(text="🇷🇺Russian", callback_data="ru")
-en_language_button = InlineKeyboardButton(text="🇬🇧English", callback_data="en")
-
-# Define inline keyboard buttons for channel settings actions
-api_button = InlineKeyboardButton(text="🛠API", callback_data="api")
-main_language_button = InlineKeyboardButton(text="🌍Main language", callback_data="main_language")
-addition_language_button = InlineKeyboardButton(text="🌎Addition language", callback_data="addition_language")
 
 # Create a reply keyboard for settings actions
-settings_reply_keyboard = ReplyKeyboardMarkup(keyboard=[
-    [change_bot_language_reply_button, channel_settings_key_reply_button],
-    [return_back_reply_button]
-],
-    resize_keyboard=True,
-    input_field_placeholder="Select a menu button",
-    one_time_keyboard=True
-)
+async def settings_reply_keyboard(state):
+    return ReplyKeyboardMarkup(keyboard=[
+        [KeyboardButton(text=await localise("🌍Bot language", state)),
+         KeyboardButton(text=await localise("⚙️Channel settings", state))],
+        [KeyboardButton(text=await localise("⬅️Back", state))]
+    ],
+        resize_keyboard=True,
+        input_field_placeholder=await localise("Select a menu button", state),
+        one_time_keyboard=True
+    )
+
+
+async def channel_settings_inline_keyboard(state):
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=await localise("🛠API", state), callback_data="api")],
+        [InlineKeyboardButton(text=await localise("🌍Main language", state), callback_data="main_language")],
+        [InlineKeyboardButton(text=await localise("🌎Addition language", state),
+                              callback_data="addition_language")],
+        [InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")]
+    ])
+
+
+digest_languages = [("🇷🇺Russian", "ru"), ("🇬🇧English", "en")]
+
+
+async def digest_bot_languages_keyboard(state):
+    channels_kb_list = [
+        [InlineKeyboardButton(text=language[0], callback_data=language[1])] for language in digest_languages
+    ]
+    channels_kb_list.append([InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")])
+    return InlineKeyboardMarkup(inline_keyboard=channels_kb_list)
+
 
 # Create an inline keyboard for choosing language
-settings_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
-    [ru_language_button],
-    [en_language_button],
-    [return_back_inline_button]
-])
-
-channel_settings_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
-    [api_button],
-    [main_language_button],
-    [addition_language_button],
-    [return_back_inline_button]
-])
-
-digest_languages = ["🇷🇺Russian", "🇬🇧English"]
-
-
-def digest_bot_languages_keyboard():
+async def settings_inline_keyboard(state):
+    cur_language = await get_bot_language(state)
     channels_kb_list = [
-        [InlineKeyboardButton(text=language, callback_data=language)] for language in digest_languages
+        [InlineKeyboardButton(text=language[0] if language[1] != cur_language else language[0] + await localise("Current option", state), callback_data=language[1])] for language in digest_languages
     ]
-    channels_kb_list.append([return_back_inline_button])
+    channels_kb_list.append([InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")])
     return InlineKeyboardMarkup(inline_keyboard=channels_kb_list)

@@ -4,8 +4,10 @@ import logging
 from datetime import datetime
 
 # Import project files
+from content.FSMs.settings_FSMs import SettingsFSM
 from create_bot import bot, logger
 from utils.databaseUtils import get_messages, get_channels
+from aiogram.fsm.context import FSMContext
 
 
 # Define a function to calculate the period in seconds between the current time and a given date
@@ -133,3 +135,21 @@ def attach_link_to_message(message: str, link: str):
                 continue
             message += " " + word
     return message
+
+
+async def get_bot_language(state: FSMContext):
+    temp = await state.get_state()
+    await state.set_state(SettingsFSM.selected_bot_language)
+    data = await state.get_data()
+    selected = data.get('selected_bot_language', "empty")
+    if selected == "empty":
+        if False:  # todo: database
+            pass
+        elif False:  # todo: user local
+            pass
+        else:
+            selected = "en"
+        await state.update_data(selected_bot_language=selected)
+    await state.set_state(temp)
+    return selected
+

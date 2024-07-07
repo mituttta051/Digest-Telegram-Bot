@@ -2,35 +2,25 @@
 
 # Import downloaded packages
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from resources.locales.translation_dictionary import localise
 
-# Return back button
 
-return_back_button = InlineKeyboardButton(text="⬅️Back", callback_data="back")
-
-# Buttons to choose digest period
-week_period_inline_button = InlineKeyboardButton(text="Week (7 days)", callback_data="7")
-two_weeks_period_inline_button = InlineKeyboardButton(text="2 weeks (14 days)", callback_data="14")
-month_period_inline_button = InlineKeyboardButton(text="1 Month (30 days)", callback_data="30")
-
-# Buttons connected with digest activity
-approve_inline_button = InlineKeyboardButton(text="✅Approve", callback_data="digest_approve")
-edit_inline_button = InlineKeyboardButton(text="✏️Edit", callback_data="digest_edit")
-cancel_inline_button = InlineKeyboardButton(text="❌Cancel", callback_data="digest_cancel")
-regenerate_inline_button = InlineKeyboardButton(text="🔄Regenerate", callback_data="digest_regenerate")
-cancel_editing_inline_button = InlineKeyboardButton(text="❌Cancel editing", callback_data="cancel_editing")
 
 # Create an inline keyboard for digest actions
-digest_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
-    [approve_inline_button],
-    [edit_inline_button],
-    [cancel_inline_button],
-    [regenerate_inline_button]
-])
+async def digest_inline_keyboard(state):
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=await localise("✅Approve", state), callback_data="digest_approve")],
+        [InlineKeyboardButton(text=await localise("✏️Edit", state), callback_data="digest_edit")],
+        [InlineKeyboardButton(text=await localise("❌Cancel", state), callback_data="digest_cancel")],
+        [InlineKeyboardButton(text=await localise("🔄Regenerate", state), callback_data="digest_regenerate")]
+    ])
+
 
 # Create an inline keyboard for supported period selection
-supported_period_inline_keyboard = InlineKeyboardMarkup(inline_keyboard=[
-    [week_period_inline_button],
-    [two_weeks_period_inline_button],
-    [month_period_inline_button],
-    [return_back_button]
+async def supported_period_inline_keyboard(state):
+    return InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text=await localise("Week (7 days)", state), callback_data="7")],
+    [InlineKeyboardButton(text=await localise("2 weeks (14 days)", state), callback_data="14")],
+    [InlineKeyboardButton(text=await localise("1 Month (30 days)", state), callback_data="30")],
+    [InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")],
 ])

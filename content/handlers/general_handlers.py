@@ -3,10 +3,13 @@
 # Import downloaded packages
 from aiogram import Router, F, Bot
 from aiogram.filters import CommandStart, ChatMemberUpdatedFilter, IS_NOT_MEMBER, ADMINISTRATOR
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, ChatMemberUpdated
 
 # Import project files
 import content.keyboards.general_keyboards as gk
+from resources.locales.buttons import buttons
+from resources.locales.translation_dictionary import localise
 from utils.databaseUtils import put_message, put_channel
 
 # Create a router instance for general message, command, and callback handlers
@@ -15,7 +18,7 @@ general_router = Router()
 
 # Define a handler for the /start command, which is the main menu command
 @general_router.message(CommandStart())
-async def bot_start(message: Message):
+async def bot_start(message: Message, state: FSMContext):
     """
     Asynchronous function to handle the /start command, which is the main menu command.
 
@@ -25,16 +28,14 @@ async def bot_start(message: Message):
     Args:
         message (Message): The incoming message object containing the /start command.
     """
-    message_start = """🤖 <b>Welcome to Digest Bot!</b> I will help you make up a summary of posts.\n
-    To get started click <b>Create digest</b> button.\n
-    For more detailed information, click <b>Help</b> button."""
+    message_start = await localise("Welcome", state)
 
-    await message.answer(message_start, reply_markup=gk.start_reply_keyboard)
+    await message.answer(message_start, reply_markup=await gk.start_reply_keyboard(state))
 
 
 # Define a handler for the "Help" command
-@general_router.message(F.text == "❓Help")
-async def bot_help(message: Message):
+@general_router.message(F.text.in_(buttons["help"]))
+async def bot_help(message: Message, state: FSMContext):
     """
     Asynchronous function to handle the "Help" command.
 
@@ -43,16 +44,8 @@ async def bot_help(message: Message):
     Args:
         message (Message): The incoming message object containing the "Help" text.
     """
-    message_help = """<b>Here's how you can use our Digest Bot:</b>
-
-    ⚙️ <b>Settings</b>
-      -  Change bot language: Select the bot interface language for ease of use.
-      -  Change LLM API key: List of language models that the bot can use for generating responses.
-
-    📝 <b>Create Digest</b>
-      -  The bot will automatically create and send a summary of posts for the selected period. You can change or confirm the generated text before publishing."""
-
-    await message.answer(message_help, reply_markup=gk.start_reply_keyboard)
+    message_help = await localise("Settings", state)
+    await message.answer(message_help, reply_markup=await gk.start_reply_keyboard(state))
 
 
 # Define a handler for when the bot is added as an administrator in a chat
