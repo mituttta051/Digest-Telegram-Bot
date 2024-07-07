@@ -7,8 +7,8 @@ default:
   image:
     name: docker
   before_script:
-    - apt-get update
-    - apt-get install openssh-server -y
+#    - apt-get update
+#    - apt-get install openssh-server -y
 #    #docker
 #    - apt-get install ca-certificates curl -y
 #    - install -m 0755 -d /etc/apt/keyrings
