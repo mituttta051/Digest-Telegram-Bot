@@ -37,12 +37,12 @@ async def generate_summary(messages: list[tuple[int, str, str, str]], channel: s
     else:
         res += [await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, main_language[0])]
 
-    if additional_language[0] != "no" and main_language[0]  != additional_language[0]:
+    if additional_language[0] != "no":
         res += ["\n"+str(texts[additional_language[0]])+"\n"]
-    if additional_language[0] != "no" and by_one_message and main_language[0]  != additional_language[0]:
+    if additional_language[0] != "no" and by_one_message:
         # Create a list of responses by asynchronously calling create_response for each message
         res += [await create_response([(message[2], message[3])], by_one_message, additional_language[0]) for message in messages]
-    elif additional_language[0] != "no" and main_language[0]  != additional_language[0]:
+    elif additional_language[0] != "no":
         res += [await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, additional_language[0])]
     # Join the responses into a single string with newline characters
     return "\n".join(res) + "\n\n#digest"
