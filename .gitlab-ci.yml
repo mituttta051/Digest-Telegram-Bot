@@ -1,0 +1,30 @@
+stages:
+  - build
+#  - test
+  - deploy
+
+default:
+  before_script:
+    - ssh-add - <<< '$SSH_KEY'
+
+build_docker_image:
+  stage: build
+  script:
+    - docker build -t mituta/digest:latest --platform linux/amd64 .
+
+save_docker_image:
+  stage: build
+  script:
+    - docker save mituta/digest > digest.tar
+
+copy_to_vm:
+  stage: deploy
+  script:
+    - scp digest.tar root@10.90.138.104:~/
+#  environment: production
+
+start_service:
+  stage: deploy
+  script:
+    - ssh root@10.90.138.104 docker compose up -d
+#  environment: production
