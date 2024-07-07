@@ -8,7 +8,7 @@ default:
     - apt-get update
     - apt-get install openssh-server -y
     - eval "$(ssh-agent)"
-    - ssh-add - <<< '$SSH_KEY'
+    - echo "${SSH_KEY}" | ssh-add -
 
 build_docker_image:
   stage: build
