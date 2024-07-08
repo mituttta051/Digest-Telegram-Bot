@@ -238,7 +238,7 @@ Use this space to list resources you find helpful and would like to give credit 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: hhttps://img.shields.io/badge/Contributors-lightblue?style=for-the-badge&color=41BAD5&link=https%3A%2F%2Fgitlab.pg.innopolis.university%2Fi.ershov%2FdigestBot%2F-%2Fgraphs%2Fmain%3Fref_type%3Dheads
+[contributors-shield]: https://img.shields.io/badge/Contributors-lightblue?style=for-the-badge&color=41BAD5&link=https%3A%2F%2Fgitlab.pg.innopolis.university%2Fi.ershov%2FdigestBot%2F-%2Fgraphs%2Fmain%3Fref_type%3Dheads
 [contributors-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/graphs/main?ref_type=heads
 [forks-shield]: https://img.shields.io/badge/Forks-white?style=for-the-badge&color=F8F5F5&link=https%3A%2F%2Fgitlab.pg.innopolis.university%2Fi.ershov%2FdigestBot%2F-%2Fforks
 [forks-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/forks
