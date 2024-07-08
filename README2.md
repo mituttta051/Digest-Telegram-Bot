@@ -19,7 +19,7 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 [![Contributors][contributors-shield]][contributors-url]
-[![Branches][branches-shield]][branches-url]
+[![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
@@ -239,15 +239,15 @@ Use this space to list resources you find helpful and would like to give credit 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/graphs/main?ref_type%253Dheads
+[contributors-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/graphs/main?ref_type=heads
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[branches-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/branches)
+[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
 [stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
 [stars-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/starrers
 [issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues)
+[issues-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/LICENSE?ref_type%253Dheads)
+[license-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/LICENSE?ref_type=heads
 [product-screenshot]: images/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
