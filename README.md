@@ -43,9 +43,9 @@
     <br />
     <a href="https://www.youtube.com/watch?v=WjtujibU20U">View Demo</a>
     ·
-    <a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues/new---.md">Report Bug</a>
+    <a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues/new">Report Bug</a>
     ·
-    <a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues/new---.md">Request Feature</a>
+    <a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues/new">Request Feature</a>
   </p>
 </div>
 
@@ -295,7 +295,7 @@ Here are several credits by Team 49.
 * [Innopolis University](https://innopolis.university)
 * [Product Hunt Daily tg channel @ph_daily](https://web.telegram.org/k/#@ph_daily)
 * [GitLab documentation](https://docs.gitlab.com)
- [Iogram full course on Russian](https://www.youtube.com/playlist?list=PLV0FNhq3XMOJ31X9eBWLIZJ4OVjBwb-KM)
+* [Iogram full course on Russian](https://www.youtube.com/playlist?list=PLV0FNhq3XMOJ31X9eBWLIZJ4OVjBwb-KM)
 * [Iogram documentation](https://docs.aiogram.dev/en/latest/)
 * [SQLite documentation](https://www.sqlite.org/docs.html)
 
