@@ -7,5 +7,5 @@ class SettingsFSM(StatesGroup):
     choose_channel = State()
     channel_settings = State()
     main_language = State()
-    addition_language = State()
+    additional_language = State()
     data = State()

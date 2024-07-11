@@ -11,7 +11,7 @@ from aiogram.types import CallbackQuery, Message
 from config import YGPT_FOLDER_ID, YGPT_TOKEN, HUGGING_FACE_TOKEN
 from utils.botUtils import attach_link_to_message
 from create_bot import cur, conn
-from utils.databaseUtils import get_main_language, get_addition_language
+from utils.databaseUtils import get_main_language, get_additional_language
 
 asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
@@ -32,7 +32,7 @@ async def generate_summary(messages: list[tuple[int, str, str, str]], channel: s
     messages: :param by_one_message:
     """
     main_language = get_main_language(channel)
-    additional_language = get_addition_language(channel)
+    additional_language = get_additional_language(channel)
     texts = {"en": "Digest", "ru": "Дайджест"}
     langs = {"en": "английском", "ru": "русском"}
     res = ["🦄 " + str(texts[main_language]) + "\n"]
