@@ -48,16 +48,24 @@ translations = {
     Для подробной информации нажмите кнопку <b>❓Помощь</b>.
         """,
 
-        "Settings": """<b>Вы можете использовать Digest Bot следующим образом:</b>
+        "Settings": """<b>Вот как вы можете использовать нашего Бота Дайджеста:</b>
+    📝 <b>Создать Дайджест</b>
+       -  Бот автоматически создаст и отправит сводку постов за выбранный период. Вы можете изменить или подтвердить сгенерированный текст перед публикацией. Кнопки:
+       - ✅Подтвердить - пост будет опубликован в вашем канале
+       - ✏️Редактировать - скопируйте текст от бота, отредактируйте что-то и отправьте боту,
+         или напишите свою версию дайджеста с нуля и отправьте боту
+       - ❌Отмена редактирование - вы отклоняете дайджест
+       - 🔄Регенерировать - Бот сгенерирует для вас новый дайджест
+       
 
     ⚙️ <b>Настройки</b>
-      -  Изменить язык бота: Выберите язык бота для легкости использования.
-      -  Настройки канала: Выберите нужный канал из списока своих каналов.
+      -  Изменить язык бота: Выберите язык интерфейса бота для удобства использования.
+      -  Настройки каналов: Список ваших каналов, которые вы можете использовать для дайджестов (Только каналы, где вы и бот являетесь администраторами).
+      -  Вы можете выбрать 2 языка дайджеста. Основной - первый язык для создания дайджеста, а дополнительный - второй язык для создания дайджеста. Также вы можете оставить дополнительный язык пустым и создавать дайджест только на одном языке.
 
-    📝 <b>Создать дайджест</b>
-      -  Бот автоматически создаст подборку постов выбранного периода. Вы можете изменить сгенерированный текст до публикации.""",
+    """,
         "✅Approve": "✅Подтвердить",
-        "Write your own version and send it here": "Скопируйте текст, отправленный ботом, измените что-то и отправьте. Либо напишите свою версию с нуля",
+        "Write your own version and send it here": "Скопируйте текст, отправленный ботом, измените что-то и отправьте боту. Либо напишите свою версию с нуля и отправьте боту",
         'You return back': 'Вы возвращаетесь назад',
         "Current option": " — Текущий выбор",
         "❌Without language": "❌Без языка",
@@ -112,19 +120,26 @@ translations = {
         """,
 
         "Settings": """<b>Here's how you can use our Digest Bot:</b>
+    📝 <b>Create Digest</b>
+       -  The bot will automatically create and send a summary of posts for the selected period. You can change or confirm the generated text before publishing. Buttons:
+       - ✅Approve - post will be published to your channel
+       - ✏️Edit - copy text from bot, edit something and send to bot,
+         or write your version of digest from scratch and send to bot
+       - ❌Cancel editing - you discard digest
+       - 🔄Regenerate - LLM will generate a new digest for you
 
     ⚙️ <b>Settings</b>
       -  Change bot language: Select the bot interface language for ease of use.
-      -  Channel settings: List of your channels that you can use for digests.
+      -  Channel settings: List of your channels that you can use for digests (Only channels where you and bot are admins).
+      -  You can choose 2 languages of digest. Main - the first language to create digest, and additional - second language to create digest. Also you can leave additional laguage empty and create digest only on 1 language.
 
-    📝 <b>Create Digest</b>
-      -  The bot will automatically create and send a summary of posts for the selected period. You can change or confirm the generated text before publishing.""",
+    """,
         "🥳Digest posted successfully!": "🥳Digest posted to your channel successfully!",
         "Write your own version": "Copy the text sent by the bot, change something and send. Or write your own version from scratch",
         'You chose "❌Cancel"': 'You chose "❌Cancel"',
         "Choose the main language for digest": "Choose the main language for digest (the first language of digest)",
         "Choose the additional language for digest": "Choose the additional language for digest (the second language for digest)",
-        "Write your own version and send it here": "Copy the text sent by the bot, change something and send. Or write your own version from scratch",
+        "Write your own version and send it here": "Copy text from bot, edit something and send to bot. Or write your version of digest from scratch and send to bot",
         "Current option": " — Current option",
         "❌Without language": "❌Without language",
         "Custom period": "Custom period",

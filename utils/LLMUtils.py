@@ -4,7 +4,6 @@ import json
 
 # Import downloaded packages
 import aiohttp
-import g4f
 from aiogram.types import CallbackQuery, Message
 
 # Import project files
