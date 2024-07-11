@@ -41,7 +41,7 @@
     <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
     <br /> -->
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://www.youtube.com/watch?v=WjtujibU20U">View Demo</a>
     ·
     <a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues/new---.md">Report Bug</a>
     ·
@@ -73,6 +73,8 @@
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="#team-49">Team 49</a>
+      <ul></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
@@ -82,18 +84,27 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/assets/IMG_1855.jpg">
+    <img src="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/raw/main/assets/IMG_1855.jpg" alt="Project Logo" width="180" height="">
+</a>
+<a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/assets/IMG_1867.jpg">
+    <img src="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/raw/main/assets/IMG_1867.jpg" alt="Project Logo" width="180" height="">
+</a>
+<a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/assets/IMG_1866.jpg">
+    <img src="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/raw/main/assets/IMG_1866.jpg" alt="Project Logo" width="180" height="">
+</a>
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
+During the Software Project course in Innopolis University [Team 49](#team-49) has collaborated with customer Gleb Shamilov to create a Digest Telegram Bot that generates digests of channel posts using LLM. 
 
-Use the `BLANK_README.md` to get started.
+Key features 🌟:
+* Digest period (week, 2 weeks, month, custom) 
+* Channel selection 
+* Main digest language (Ru/Eng) 
+* Second digest language (Ru/Eng/none) 
+* Bot language (Ru/Eng)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -101,17 +112,12 @@ Use the `BLANK_README.md` to get started.
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+The DigestTelegramBot was built using:
 
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
-
+* [![Python][Python.js]][Python-url]
+* [![Aiogram][Aiogram.js]][Aiogram-url]
+* [![SQLite][SQLite.js]][SQLite-url]
+* [![YaGPT][YaGPT.js]][YaGPT-url]
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -119,35 +125,49 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+
+Follow these simple steps to get a local copy up and run it on your machine! 📦
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+* Python 3.10 or higher;
+* Telegram account;
+* git installed;
+* pip (Python package installer) installed.
+* Bot created in @BotFather.
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+Copy and paste it to your terminal.
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo.
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://gitlab.pg.innopolis.university/i.ershov/digestBot.git
    ```
-3. Install NPM packages
+2. Create a virtual inviroment.
    ```sh
-   npm install
+   python3 -m venv venv
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+3. Activate the virtual environment.
+* For Windows:
+   ```txt
+   venv\Scripts\activate
    ```
+* For macOS and Linux:
+   ```sh
+   source venv/bin/activate
+   ```   
+4. Install the required packages.
+```sh
+   pip install -r requirements.txt
+   ```
+5. Configure environment variables
 
+Create a .env file in the project root directory and add your Telegram bot token (is given in a message after creation by @BotFather):
+```sh
+   BOT_TOKEN=your_telegram_bot_token
+
+   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -155,10 +175,11 @@ _Below is an example of how you can instruct your audience on installing and set
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+To run the bot, use the following command:
 
-_For more examples, please refer to the [Documentation](https://example.com)_
-
+```sh
+   python run_bot.py
+   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -166,37 +187,85 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
+- [x] Set up a bot
+- [x] Create the landing message for the bot
+- [x] Make the bot read messages
+- [x] Integrate LLM
+- [x] Make the bot send summaries to the channel
+- [x] Configure and deploy the server for the bot operations
+- [x] Implement Button Instructions for Enhanced Telegram Bot UX
+- [x] Implement Databases for Telegram channels
+- [x] Create Telegram channels and start Testing
+- [x] Implement Databases for Telegram channels
+- [x] Implement secure bot admin verification
+- [x] Set up inviroment variables
+- [x] Design database for channel posts
+- [x] Implement customisable settings
+- [x] Customise interface language
+  - [x] Russian
+  - [x] English
+  - [ ] Others
+- [x] Enable option to add personal LLM API Key
+- [x] Configure language of posts in the channel
+- [x] Add variety of digests periods
+- [x] Add second language in digest
+- [x] Add preview text for the digest
+- [x] Deploy the new version
+- [ ] Add automatic digest publishing
+- [ ] Switch to free LLM
+- [ ] Add ability of user to change prompt
+- [ ] Implement monetization
+- [ ] Create donate button
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+
+
+See the [open issues](https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
-<!-- CONTRIBUTING -->
+<!-- HOW TO CONTRIBUTE -->
 ## Contributing
+1. Fork the repository (click the "Fork" button in the upper-right corner of the repository page.)
+2. Create a new branch.
+```sh
+   git checkout -b feature/your-feature-name
+   ```
+3. Stash files with changes.
+  * Some files:
+   ```sh
+   git add path/to/your/file1.py path/to/your/file2.py
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+   ```
+  * All files:
+  ```sh
+   git add .
+   ```
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+3. Commit staged files.
+```sh
+   git commit -m 'Add some feature'
+   ```
+4. Push to the branch.
+```sh
+   git push origin feature/your-feature-name
+   ```
+5. Open a pull request (In repository page: Merge Requests -> New merge request, select Source branch with changes, select Target branch to apply changes on, review changes, provide title and detailed description.)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+
+<!-- TEAM MEMBERS -->
+## Team 49
+* Ivan Ershov - bot architect, project administrator, software engineer, techical support, contributor;
+* Timur Salakhov - bot architect, database engineer, quality assurance engineer, contributor;
+* Lana Ermolaeva - technical writer, prototype designer, contributor;
+* Anastasia Mitiutneva - team coordinator, technical writer, prompt engineer, contributor;
+* Ivan Makarov - videographer, tester, contributor;
+* Anastasia Surikova - architectural documenter, tester, contributor.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- LICENSE -->
 ## License
@@ -210,9 +279,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Ivan Ershov - [tg: @spiritonchic](https://web.telegram.org/k/#@spiritonchic) - i.ershov@innopolis.university
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://gitlab.pg.innopolis.university/i.ershov/digestBot](https://gitlab.pg.innopolis.university/i.ershov/digestBot)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -221,16 +290,14 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
+Here are several credits by Team 49.
 
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+* [Innopolis University](https://innopolis.university)
+* [Product Hunt Daily tg channel @ph_daily](https://web.telegram.org/k/#@ph_daily)
+* [GitLab documentation](https://docs.gitlab.com)
+ [Iogram full course on Russian](https://www.youtube.com/playlist?list=PLV0FNhq3XMOJ31X9eBWLIZJ4OVjBwb-KM)
+* [Iogram documentation](https://docs.aiogram.dev/en/latest/)
+* [SQLite documentation](https://www.sqlite.org/docs.html)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -248,20 +315,12 @@ Use this space to list resources you find helpful and would like to give credit 
 [issues-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues
 [license-shield]: https://img.shields.io/badge/License-white?style=for-the-badge&color=41BAD5&link=https%3A%2F%2Fgitlab.pg.innopolis.university%2Fi.ershov%2FdigestBot%2F-%2Fblob%2Fmain%2FLICENSE%3Fref_type%3Dheads
 [license-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/LICENSE?ref_type=heads
-[product-screenshot]: images/screenshot.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
+[product-screenshot]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/assets/IMG_1855.jpg
+[Python.js]: https://img.shields.io/badge/Python-blue?style=for-the-badge&logo=python&logoColor=white&link=https%3A%2F%2Fwww.python.org
+[Python-url]: https://www.python.org
+[Aiogram.js]: https://img.shields.io/badge/Aiogram-lightblue?style=for-the-badge&link=https%3A%2F%2Faiogram.dev
+[Aiogram-url]: https://aiogram.dev
+[SQLite.js]: https://img.shields.io/badge/SQLite-%23044a64?style=for-the-badge&link=https%3A%2F%2Fwww.sqlite.org
+[SQLite-url]: https://www.sqlite.org
+[YaGPT.js]: https://img.shields.io/badge/YaGPT-red?style=for-the-badge&logo=yandex&link=https%3A%2F%2Fya.ru%2Fai%2Fgpt-3
+[YaGPT-url]: https://ya.ru/ai/gpt-3
