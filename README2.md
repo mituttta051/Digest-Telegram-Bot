@@ -29,23 +29,23 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/assets/photo_2024-07-08_21.41.28.jpeg">
+    <img src="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/raw/main/assets/photo_2024-07-08_21.41.28.jpeg" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">Digest Telegram Bot</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
-    <br />
+    Generate digests for your Tg-channel in several seconds!
+    <!-- <br />
     <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
-    <br />
+    <br /> -->
     <br />
     <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues/new---.md">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues/new---.md">Request Feature</a>
   </p>
 </div>
 
