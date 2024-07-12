@@ -279,7 +279,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Ivan Ershov - [tg: @spiritonchic](https://web.telegram.org/k/#@spiritonchic) - i.ershov@innopolis.university
+Ivan Ershov - [tg: @spiritonchic](https://t.me/spiritonchic) - i.ershov@innopolis.university
 
 Project Link: [https://gitlab.pg.innopolis.university/i.ershov/digestBot](https://gitlab.pg.innopolis.university/i.ershov/digestBot)
 
@@ -290,10 +290,10 @@ Project Link: [https://gitlab.pg.innopolis.university/i.ershov/digestBot](https:
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-Here are several credits by Team 49.
+Here are several credits by [Team 49](#team-49).
 
 * [Innopolis University](https://innopolis.university)
-* [Product Hunt Daily tg channel @ph_daily](https://web.telegram.org/k/#@ph_daily)
+* [Product Hunt Daily tg channel @ph_daily](https://t.me/ph_daily)
 * [GitLab documentation](https://docs.gitlab.com)
 * [Iogram full course on Russian](https://www.youtube.com/playlist?list=PLV0FNhq3XMOJ31X9eBWLIZJ4OVjBwb-KM)
 * [Iogram documentation](https://docs.aiogram.dev/en/latest/)
