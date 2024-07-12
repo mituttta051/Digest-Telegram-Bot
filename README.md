@@ -103,6 +103,7 @@ Key features 🌟:
 * Channel selection 
 * Main digest language (Ru/Eng) 
 * Second digest language (Ru/Eng/none) 
+* Publish to the channel
 * Bot language (Ru/Eng)
 
 
