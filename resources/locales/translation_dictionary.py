@@ -65,7 +65,8 @@ translations = {
         "You write incorrect number": "Вы ввели неправильное число",
         "Custom period set to": "Кастомный период выставлен на ",
         "days": " дней.",
-        "Please write your own custom period in days:": "Пожалуйста напишите ваш кастомный период в днях"
+        "Please write your own custom period in days:": "Пожалуйста напишите ваш кастомный период в днях",
+        "⬅️Add the bot to your channel first": "⬅️Сначала добавьте бота в свой канал"
     },
     'en': {
         "Choose a channel": "Choose a channel",
@@ -131,7 +132,8 @@ translations = {
         "You write incorrect number": "You write incorrect number",
         "Custom period set to": "Custom period set to ",
         "days": " days.",
-        "Please write your own custom period in days:": "Please write your own custom period in days:"
+        "Please write your own custom period in days:": "Please write your own custom period in days:",
+        "⬅️Add the bot to your channel first": "⬅️Add the bot to your channel first"
     },
 }
 
