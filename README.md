@@ -29,8 +29,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/assets/photo_2024-07-08_21.41.28.jpeg">
-    <img src="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/raw/main/assets/photo_2024-07-08_21.41.28.jpeg" alt="Logo" width="80" height="80">
+  <a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/raw/main/resources/assets/photo_2024-07-08_21.41.28.jpeg">
+    <img src="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/raw/main/resources/assets/photo_2024-07-08_21.41.28.jpeg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Digest Telegram Bot</h3>
@@ -84,15 +84,16 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/assets/IMG_1855.jpg">
-    <img src="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/raw/main/assets/IMG_1855.jpg" alt="Project Logo" width="180" height="">
+<a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/resources/assets/IMG_1855.jpg">
+    <img src="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/raw/main/resources/assets/IMG_1855.jpg" alt="Launching Screen" width="180" height="">
 </a>
-<a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/assets/IMG_1867.jpg">
-    <img src="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/raw/main/assets/IMG_1867.jpg" alt="Project Logo" width="180" height="">
+<a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/resources/assets/IMG_1867.jpg">
+    <img src="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/raw/main/resources/assets/IMG_1867.jpg" alt="Generate Screen" width="180" height="">
 </a>
-<a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/assets/IMG_1866.jpg">
-    <img src="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/raw/main/assets/IMG_1866.jpg" alt="Project Logo" width="180" height="">
+<a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/resources/assets/IMG_1866.jpg">
+    <img src="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/raw/main/resources/assets/IMG_1866.jpg" alt="Digest Screen" width="180" height="">
 </a>
+
 
 
 
