@@ -106,8 +106,7 @@ Key features 🌟:
 * Bot language (Ru/Eng)
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+[⬆️ Back to Top](#readme-top)
 
 
 ### Built With
@@ -118,7 +117,8 @@ The DigestTelegramBot was built using:
 * [![Aiogram][Aiogram.js]][Aiogram-url]
 * [![SQLite][SQLite.js]][SQLite-url]
 * [![YaGPT][YaGPT.js]][YaGPT-url]
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+[⬆️ Back to Top](#readme-top)
 
 
 
@@ -180,7 +180,7 @@ To run the bot, use the following command:
 ```sh
    python run_bot.py
    ```
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+[⬆️ Back to Top](#readme-top)
 
 
 
@@ -221,7 +221,7 @@ To run the bot, use the following command:
 
 See the [open issues](https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues) for a full list of proposed features (and known issues).
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+[⬆️ Back to Top](#readme-top)
 
 
 
@@ -253,7 +253,7 @@ See the [open issues](https://gitlab.pg.innopolis.university/i.ershov/digestBot/
    ```
 5. Open a pull request (In repository page: Merge Requests -> New merge request, select Source branch with changes, select Target branch to apply changes on, review changes, provide title and detailed description.)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+[⬆️ Back to Top](#readme-top)
 
 
 
@@ -265,14 +265,15 @@ See the [open issues](https://gitlab.pg.innopolis.university/i.ershov/digestBot/
 * Anastasia Mitiutneva - team coordinator, technical writer, prompt engineer, contributor;
 * Ivan Makarov - videographer, tester, contributor;
 * Anastasia Surikova - architectural documenter, tester, contributor.
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+[⬆️ Back to Top](#readme-top)
 
 <!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+[⬆️ Back to Top](#readme-top)
 
 
 
@@ -283,7 +284,7 @@ Ivan Ershov - [tg: @spiritonchic](https://t.me/spiritonchic) - i.ershov@innopoli
 
 Project Link: [https://gitlab.pg.innopolis.university/i.ershov/digestBot](https://gitlab.pg.innopolis.university/i.ershov/digestBot)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+[⬆️ Back to Top](#readme-top)
 
 
 
@@ -299,8 +300,7 @@ Here are several credits by [Team 49](#team-49).
 * [Iogram documentation](https://docs.aiogram.dev/en/latest/)
 * [SQLite documentation](https://www.sqlite.org/docs.html)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+[⬆️ Back to Top](#readme-top)
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
