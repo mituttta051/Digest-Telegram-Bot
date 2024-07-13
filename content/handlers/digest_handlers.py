@@ -396,7 +396,7 @@ async def digest_regenerate(callback: CallbackQuery, state: FSMContext) -> None:
 
     # Generate the digest summary
     if len(messages) == 0:
-        digest = "No posts have been posted since the bot was added"
+        digest = await localise("Nothing has been posted since the bot was added", state)
     else:
         digest = await generate_summary(messages, data['channel'], user_message)
 
