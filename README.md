@@ -273,7 +273,7 @@ See the [open issues](https://gitlab.pg.innopolis.university/i.ershov/digestBot/
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See [LICENCE](https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/LICENSE) for more information.
 
 [Back to Top](#readme-top)
 
