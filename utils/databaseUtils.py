@@ -4,6 +4,7 @@ from datetime import datetime
 # Import downloaded packages
 from aiogram.types import Message
 
+from content.FSMs.settings_FSMs import SettingsFSM
 # Import project files
 from create_bot import cur, conn
 
@@ -126,3 +127,38 @@ def update_bot_language(user_id, new_language):
         return
     cur.execute("UPDATE users SET language = ? WHERE user_id = ?", (new_language, user_id))
     conn.commit()
+
+
+async def change_auto_digest(state):
+    temp = await state.get_state()
+    await state.set_state(SettingsFSM.data)
+    data = await state.get_data()
+    await state.set_state(temp)
+    channel_id = data.get("channel_id", "0")
+    switch = get_auto_digest_data(channel_id)
+    if switch == "no":
+        switch = "yes"
+    else:
+        switch = "no"
+    change_auto_digest_(channel_id, switch)
+
+
+def change_auto_digest_(channel_id, option):
+    if channel_id is None:
+        return
+    cur.execute("UPDATE channels SET auto_digest = ? WHERE channel_id = ?", (option, channel_id))
+    conn.commit()
+
+
+def change_auto_digest_date(channel_id, date):
+    if channel_id is None:
+        return
+    cur.execute("UPDATE channels SET auto_digest_date = ? WHERE channel_id = ?", (date, channel_id))
+    conn.commit()
+
+
+def get_auto_digest_data(channel_id):
+    if channel_id is None:
+        return "no"
+    cur.execute("SELECT auto_digest, auto_digest_date FROM channels WHERE channel_id = ?", (channel_id,))
+    return cur.fetchone()[0]

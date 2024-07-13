@@ -3,6 +3,8 @@ import logging
 # Import downloaded packages
 from datetime import datetime
 
+from aiogram.exceptions import TelegramBadRequest
+
 # Import project files
 from content.FSMs.settings_FSMs import SettingsFSM
 from create_bot import bot, logger
@@ -79,12 +81,18 @@ async def get_channels_with_permissions(user_id: int) -> list[(str, str, str, st
         user has administrator permissions.
     """
     result = []
-    for _, channel_id, name, main_l, additional_l in get_channels():
+    for _, channel_id, name, main_l, additional_l, __, ___ in get_channels():
         try:
-            if user_id in list(map(lambda x: x.user.id, await bot.get_chat_administrators(channel_id))):
+            administrators = await bot.get_chat_administrators(channel_id)
+            if user_id in list(map(lambda x: x.user.id, administrators)):
                 result.append((channel_id, name, main_l, additional_l))
-        except:
-            logger.exception(f"Bot not in the channel: {channel_id}")
+        except TelegramBadRequest as e:
+            if "chat not found" in str(e) or "user not found" in str(e):
+                logger.info(f"Bot not in the channel or user not found: {channel_id}")
+            else:
+                logger.error(f"Failed to get administrators for channel {channel_id}: {e}")
+        except Exception as e:
+            logger.error(f"An unexpected error occurred for channel {channel_id}: {e}")
     return result
 
 
@@ -107,6 +115,14 @@ def attach_link_to_message(message: str, link: str):
                 continue
             message += " " + word
     return message
+
+
+async def get_data(state: FSMContext):
+    temp = await state.get_state()
+    await state.set_state(SettingsFSM.data)
+    data = await state.get_data()
+    await state.set_state(temp)
+    return data
 
 
 async def get_bot_language(state: FSMContext):

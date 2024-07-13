@@ -73,7 +73,10 @@ translations = {
         "You write incorrect number": "Вы ввели неправильное число",
         "Custom period set to": "Кастомный период выставлен на ",
         "days": " дней.",
-        "Please write your own custom period in days:": "Пожалуйста напишите ваш кастомный период в днях"
+        "Please write your own custom period in days:": "Пожалуйста напишите ваш кастомный период в днях",
+        "🤖Auto digest": "🤖Автоматический дайджест",
+        "🟩Turn on auto digest": "🟩Включить автоматический дайджест",
+        "🟥Turn off auto digest": "🟥Выключить автоматический дайджест",
     },
     'en': {
         "Choose a channel": "Choose a channel to create a digest (you and bot must be administrators)",
@@ -146,7 +149,10 @@ translations = {
         "You write incorrect number": "You wrote incorrect number",
         "Custom period set to": "Custom period set to ",
         "days": " days.",
-        "Please write your own custom period in days:": "Please write your own custom period in days:"
+        "Please write your own custom period in days:": "Please write your own custom period in days:",
+        "🤖Auto digest": "🤖Auto digest",
+        "🟩Turn on auto digest": "🟩Turn on auto digest",
+        "🟥Turn off auto digest": "🟥Turn off auto digest",
     },
 }
 

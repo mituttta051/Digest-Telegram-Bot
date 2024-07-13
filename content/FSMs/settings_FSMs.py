@@ -8,4 +8,5 @@ class SettingsFSM(StatesGroup):
     channel_settings = State()
     main_language = State()
     additional_language = State()
+    auto_digest = State()
     data = State()
