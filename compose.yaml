@@ -1,0 +1,19 @@
+services:
+  digest-bot-service:
+    image: "digest:latest"
+    environment:
+      - BOT_TOKEN=7275254228:AAEMgOMqN2aQjVbvoQl9sPJogMSuwP4cbro
+      - YGPT_FOLDER_ID=b1g86qb0i4gsslnfrtob
+      - YGPT_TOKEN=AQVN01jq7e0zSbQnssjlJF4tWSRbJOnqDpQF8C_C
+    volumes:
+      - "./resources:/app/resources"
+  digest-db:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=digest-db'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=admin'
+    ports:
+      - '5432:5432'
+    volumes:
+      - "./postgres-data:/var/lib/postgresql/data"

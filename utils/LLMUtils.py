@@ -4,15 +4,12 @@ import json
 
 # Import downloaded packages
 import aiohttp
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import Message
 
 # Import project files
 from config import YGPT_FOLDER_ID, YGPT_TOKEN, HUGGING_FACE_TOKEN
 from utils.botUtils import attach_link_to_message
-from create_bot import cur, conn
 from utils.databaseUtils import get_main_language, get_additional_language
-
-asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 
 async def generate_summary(messages: list[tuple[int, str, str, str]], channel: str, user_message: Message,

@@ -11,7 +11,6 @@ from content.FSMs.settings_FSMs import SettingsFSM
 from content.handlers.general_handlers import bot_start
 import content.keyboards.settings_keyboards as sk
 import content.keyboards.general_keyboards as gk
-from create_bot import cur, conn
 from resources.locales.buttons import buttons
 from resources.locales.translation_dictionary import localise
 from utils.botUtils import get_channels_with_permissions, get_bot_language
