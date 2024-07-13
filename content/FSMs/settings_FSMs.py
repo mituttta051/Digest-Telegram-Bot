@@ -8,4 +8,8 @@ class SettingsFSM(StatesGroup):
     channel_settings = State()
     main_language = State()
     addition_language = State()
+    llms = State()
+    llm_ygpt = State()
+    ygpt_api = State()
+    ygpt_id = State()
     data = State()

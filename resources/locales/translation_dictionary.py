@@ -65,6 +65,11 @@ translations = {
         "You write incorrect number": "Вы ввели неправильное число",
         "Custom period set to": "Кастомный период выставлен на ",
         "days": " дней.",
+        "Choose the llm for your chanel": "Выберите llm для своего канала",
+        "Enter api key": "Введите API ключ",
+        "Enter folder id": "Введите folder id",
+        "Current LLM changed": "Текущий LLM изменена",
+        "Default(free) model": "Модель по умолчанию(бесплатная)",
         "Please write your own custom period in days:": "Пожалуйста напишите ваш кастомный период в днях"
     },
     'en': {
@@ -131,6 +136,11 @@ translations = {
         "You write incorrect number": "You write incorrect number",
         "Custom period set to": "Custom period set to ",
         "days": " days.",
+        "Choose the llm for your chanel": "Choose the llm for your chanel",
+        "Enter api key": "Enter api key",
+        "Enter folder id": "Enter folder id",
+        "Current LLM changed": "Current LLM changed",
+        "Default(free) model": "Default(free) model",
         "Please write your own custom period in days:": "Please write your own custom period in days:"
     },
 }
