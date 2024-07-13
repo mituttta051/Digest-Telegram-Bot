@@ -92,7 +92,7 @@ def get_main_language(channel_id):
     return cur.fetchone()[0]
 
 
-def get_addition_language(channel_id):
+def get_additional_language(channel_id):
     cur.execute("SELECT additional_language FROM channels WHERE channel_id = ?", (channel_id,))
     return cur.fetchone()[0]
 
@@ -102,7 +102,7 @@ def update_main_language(channel_id, new_language):
     conn.commit()
 
 
-def update_addition_language(channel_id, new_language):
+def update_additional_language(channel_id, new_language):
     cur.execute("UPDATE channels SET additional_language = ? WHERE channel_id = ?", (new_language, channel_id))
     conn.commit()
 

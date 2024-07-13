@@ -15,8 +15,8 @@ from create_bot import cur, conn
 from resources.locales.buttons import buttons
 from resources.locales.translation_dictionary import localise
 from utils.botUtils import get_channels_with_permissions, get_bot_language
-from utils.databaseUtils import get_addition_language, get_main_language, update_main_language, \
-    update_addition_language, update_bot_language
+from utils.databaseUtils import get_additional_language, get_main_language, update_main_language, \
+    update_additional_language, update_bot_language
 
 # Create a router instance for settings-related message and callback handlers
 settings_router = Router()
@@ -156,17 +156,17 @@ async def choose_main_language(callback: CallbackQuery, state: FSMContext):
                                   reply_markup=await sk.digest_bot_languages_keyboard(channel, state))
 
 
-@settings_router.callback_query(F.data == "addition_language", SettingsFSM.channel_settings)
-async def choose_addition_language(callback: CallbackQuery, state: FSMContext):
+@settings_router.callback_query(F.data == "additional_language", SettingsFSM.channel_settings)
+async def choose_additional_language(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     channel = data.get('channel_id')
-    await state.set_state(SettingsFSM.addition_language)
+    await state.set_state(SettingsFSM.additional_language)
     await callback.answer(await localise("Choose one of the options", state))
-    await callback.message.answer(await localise("Choose the addition language for digest", state),
-                                  reply_markup=await sk.digest_bot_addition_languages_keyboard(channel, state))
+    await callback.message.answer(await localise("Choose the additional language for digest", state),
+                                  reply_markup=await sk.digest_bot_additional_languages_keyboard(channel, state))
 
 
-@settings_router.callback_query(F.data == "back", SettingsFSM.main_language or SettingsFSM.addition_language)
+@settings_router.callback_query(F.data == "back", SettingsFSM.main_language or SettingsFSM.additional_language)
 async def choose_main_language_back_to_channel_settings(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.channel_settings)
 
@@ -201,12 +201,12 @@ async def chose_main_language(callback: CallbackQuery, state: FSMContext):
                                   reply_markup=await sk.channel_settings_inline_keyboard(state))
 
 
-@settings_router.callback_query(SettingsFSM.addition_language)
-async def chose_addition_language(callback: CallbackQuery, state: FSMContext):
+@settings_router.callback_query(SettingsFSM.additional_language)
+async def chose_additional_language(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.channel_settings)
     data = await state.get_data()
     channel_id = data.get('channel_id')
-    last = get_addition_language(channel_id)
+    last = get_additional_language(channel_id)
 
     await callback.answer(await localise("You chose ", state) + callback.data)
     new_language = "?"
@@ -218,11 +218,11 @@ async def chose_addition_language(callback: CallbackQuery, state: FSMContext):
         new_language = "ru"
 
     if new_language != "?":
-        update_addition_language(channel_id, new_language)
+        update_additional_language(channel_id, new_language)
 
     if last != new_language and new_language != "?":
-        await callback.message.edit_text(await localise("Choose the addition language for digest", state),
-                                         reply_markup=await sk.digest_bot_addition_languages_keyboard(channel_id,
+        await callback.message.edit_text(await localise("Choose the additional language for digest", state),
+                                         reply_markup=await sk.digest_bot_additional_languages_keyboard(channel_id,
                                                                                                       state))
 
     await callback.message.answer(await localise("Choose one of the options", state),
