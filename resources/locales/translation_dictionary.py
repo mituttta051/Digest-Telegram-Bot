@@ -73,7 +73,16 @@ translations = {
         "You write incorrect number": "Вы ввели неправильное число",
         "Custom period set to": "Кастомный период выставлен на ",
         "days": " дней.",
-        "Please write your own custom period in days:": "Пожалуйста напишите ваш кастомный период в днях"
+        "Please write your own custom period in days:": "Пожалуйста напишите ваш кастомный период в днях",
+        "🤖Auto digest": "🤖Автоматический дайджест",
+        "🟩Turn on auto digest": "🟩Включить автоматический дайджест",
+        "🟥Turn off auto digest": "🟥Выключить автоматический дайджест",
+        "🕒Auto digest time": "🕒Время автоматического дайджеста",
+        "auto digest time": "Напишите время автоматического дайджеста в формате HH:MM (номер дня недели от 1 до 7). Например: 15:30 7",
+        "Incorrect format. Try again": "Неверный формат. Попробуйте ещё раз",
+        "Write valid numbers. Try again": "Введите корректные числа. Попробуйте ещё раз",
+        "auto digest interval error": "Часы должны быть в интервале от 0 до 23, минуты должны быть в интервале от 0 до 59, день недели должен быть в интервале от 1 до 7. Попробуйте ещё раз",
+        "You successfully changed the auto digest time": "Вы успешно изменили время автоматического дайджеста",
     },
     'en': {
         "Choose a channel": "Choose a channel to create a digest (you and bot must be administrators)",
@@ -146,7 +155,16 @@ translations = {
         "You write incorrect number": "You wrote incorrect number",
         "Custom period set to": "Custom period set to ",
         "days": " days.",
-        "Please write your own custom period in days:": "Please write your own custom period in days:"
+        "Please write your own custom period in days:": "Please write your own custom period in days:",
+        "🤖Auto digest": "🤖Auto digest",
+        "🟩Turn on auto digest": "🟩Turn on auto digest",
+        "🟥Turn off auto digest": "🟥Turn off auto digest",
+        "🕒Auto digest time": "🕒Auto digest time",
+        "auto digest time": "Write auto digest time in format HH:MM (number of day from 1 to 7). For example 15:30 7",
+        "Incorrect format. Try again": "Incorrect format. Try again",
+        "Write valid numbers. Try again": "Write valid numbers. Try again",
+        "auto digest interval error": "Hours must be in 0-23 interval, minuts mist be in 0-59 interval, day must be in 1-7 interval. Try again",
+        "You successfully changed the auto digest time": "You successfully changed the auto digest time",
     },
 }
 
