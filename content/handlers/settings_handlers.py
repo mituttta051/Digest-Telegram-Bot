@@ -196,8 +196,6 @@ async def choose_api_back(callback: CallbackQuery, state: FSMContext):
                                   reply_markup=await sk.channel_settings_inline_keyboard(state))
 
 
-
-
 @settings_router.callback_query(SettingsFSM.main_language)
 async def chose_main_language(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.channel_settings)
@@ -217,7 +215,7 @@ async def chose_main_language(callback: CallbackQuery, state: FSMContext):
 
     if last != new_language and new_language != "?":
         await callback.message.edit_text(await localise("Choose the main language for digest", state),
-                                      reply_markup=await sk.digest_bot_languages_keyboard(channel_id, state))
+                                         reply_markup=await sk.digest_bot_languages_keyboard(channel_id, state))
 
     await callback.message.answer(await localise("Choose one of the options", state),
                                   reply_markup=await sk.channel_settings_inline_keyboard(state))
@@ -251,17 +249,17 @@ async def chose_addition_language(callback: CallbackQuery, state: FSMContext):
                                   reply_markup=await sk.channel_settings_inline_keyboard(state))
 
 
-
-
 @settings_router.callback_query(F.data == "ygpt", SettingsFSM.llms)
 async def choose_llm(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.ygpt_api)
+    await callback.answer()
     await callback.message.answer(await localise("Enter api key", state))
 
 
 @settings_router.callback_query(F.data == "free_model", SettingsFSM.llms)
 async def free_model_llm(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
+    await callback.answer()
     channel_id = data.get('channel_id')
     update_api_key(channel_id, None)
     update_folder_id(channel_id, None)
@@ -269,6 +267,7 @@ async def free_model_llm(callback: CallbackQuery, state: FSMContext):
     await callback.message.answer(await localise("Current LLM changed", state))
     await callback.message.answer(await localise("Choose one of the options", state),
                                   reply_markup=await sk.channel_settings_inline_keyboard(state))
+
 
 @settings_router.message(SettingsFSM.ygpt_api)
 async def input_first_text(message: Message, state: FSMContext):
@@ -279,7 +278,6 @@ async def input_first_text(message: Message, state: FSMContext):
     await message.answer(await localise("Enter folder id", state))
 
 
-
 @settings_router.message(SettingsFSM.ygpt_id)
 async def input_second_text(message: Message, state: FSMContext):
     data = await state.get_data()
@@ -287,5 +285,5 @@ async def input_second_text(message: Message, state: FSMContext):
     update_folder_id(channel_id, message.text)
     await message.answer(await localise("Current LLM changed", state))
     await state.set_state(SettingsFSM.channel_settings)
-    await message.answer(await localise("Choose one of the options", state), reply_markup=await sk.channel_settings_inline_keyboard(state))
-
+    await message.answer(await localise("Choose one of the options", state),
+                         reply_markup=await sk.channel_settings_inline_keyboard(state))

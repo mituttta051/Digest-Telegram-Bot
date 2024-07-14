@@ -42,10 +42,12 @@ async def generate_summary(messages: list[tuple[int, str, str, str]], channel: s
         tasks = []
         completed = [False for _ in range(len(messages))]
         for num, message in enumerate(messages):
-            tasks.append(update_message(num, completed, user_message, res, [(message[2], message[3])], by_one_message, main_language, channel))
+            tasks.append(update_message(num, completed, user_message, res, [(message[2], message[3])], by_one_message,
+                                        main_language, channel))
         await asyncio.gather(*tasks)
     else:
-        res += [await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, main_language, channel)]
+        res += [
+            await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, main_language, channel)]
 
     if additional_language != "no":
         res += ["\n🌐 " + str(texts[additional_language]) + "\n"]
@@ -60,13 +62,15 @@ async def generate_summary(messages: list[tuple[int, str, str, str]], channel: s
         await asyncio.gather(*tasks)
     elif additional_language != "no":
         res += [
-            await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, additional_language, channel)]
+            await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, additional_language,
+                                  channel)]
     # Join the responses into a single string with newline characters
     return "\n".join(res) + "\n\n#digest"
 
 
 # Define an asynchronous function to create a response using the Yandex GPT API
-async def create_response(messages: list[tuple[str, str]],  by_one_message: bool, digest_lang: str, channel: str, free=True) -> str:
+async def create_response(messages: list[tuple[str, str]], by_one_message: bool, digest_lang: str, channel: str,
+                          free=True) -> str:
     """
     Asynchronous function to create a response using the Yandex GPT API.
 
@@ -83,8 +87,8 @@ async def create_response(messages: list[tuple[str, str]],  by_one_message: bool
         :param by_one_message:
         :param messages:
     """
-    YGPT_FOLDER_ID = get_api_key(channel)
-    YGPT_TOKEN = get_folder_id(channel)
+    YGPT_FOLDER_ID = get_folder_id(channel)
+    YGPT_TOKEN = get_api_key(channel)
     langs = {"en": "английском", "ru": "русском"}
 
     if YGPT_FOLDER_ID != None and YGPT_TOKEN != None:
