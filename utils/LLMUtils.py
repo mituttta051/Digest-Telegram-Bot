@@ -176,7 +176,7 @@ async def create_response(messages: list[tuple[str, str]], by_one_message: bool,
             else:
                 res = res["result"]["alternatives"][0]["message"][text]
             res = attach_link_to_message(res, message[1])
-            res = "* " + res
+            res = "• " + res
         except Exception as e:
             if response.status == 429:
                 res = "Too many requests"
