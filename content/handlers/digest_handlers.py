@@ -94,17 +94,11 @@ async def digest_back_to_choose_channel(callback: CallbackQuery, state: FSMConte
     await bot_digest(callback.message, state)
 
 
-@digest_router.message(DigestFSM.choose_period)
+@digest_router.message(F.text.regexp(r'^\d+$'))
 async def handle_custom_period(message: Message, state: FSMContext) -> None:
-    print(state.get_state())
-    try:
+    if await state.get_state() == DigestFSM.choose_period.state:
         period = int(message.text)
-    except ValueError:
-        await message.answer(await localise("You write incorrect number", state))
-        await message.answer(text=await localise("Choose a digest period", state),
-                             reply_markup=await dk.supported_period_inline_keyboard(state))
-        return
-    await set_custom_period(message, state)
+        await set_custom_period(message, state)
 
 
 # Handler for custom period input
