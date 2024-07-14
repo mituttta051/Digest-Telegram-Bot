@@ -81,11 +81,11 @@ async def get_channels_with_permissions(user_id: int) -> list[(str, str, str, st
         user has administrator permissions.
     """
     result = []
-    for _, channel_id, name, main_l, additional_l, __, ___ in get_channels():
+    for _, channel_id, name, main_l, additional_l, __, ___, api_key, folder_id in get_channels():
         try:
             administrators = await bot.get_chat_administrators(channel_id)
             if user_id in list(map(lambda x: x.user.id, administrators)):
-                result.append((channel_id, name, main_l, additional_l))
+                result.append((channel_id, name, main_l, additional_l, api_key, folder_id))
         except TelegramBadRequest as e:
             if "chat not found" in str(e) or "user not found" in str(e):
                 logger.info(f"Bot not in the channel or user not found: {channel_id}")

@@ -10,4 +10,8 @@ class SettingsFSM(StatesGroup):
     additional_language = State()
     auto_digest = State()
     auto_digest_date = State()
+    llms = State()
+    llm_ygpt = State()
+    ygpt_api = State()
+    ygpt_id = State()
     data = State()

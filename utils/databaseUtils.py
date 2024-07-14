@@ -162,3 +162,23 @@ def get_auto_digest_data(channel_id):
         return "no"
     cur.execute("SELECT auto_digest, auto_digest_date FROM channels WHERE channel_id = ?", (channel_id,))
     return cur.fetchone()
+
+
+def get_api_key(channel_id):
+    cur.execute("SELECT api_key FROM channels WHERE channel_id = ?", (channel_id,))
+    return cur.fetchone()[0]
+
+
+def get_folder_id(channel_id):
+    cur.execute("SELECT folder_id FROM channels WHERE channel_id = ?", (channel_id,))
+    return cur.fetchone()[0]
+
+
+def update_api_key(channel_id, api_key):
+    cur.execute("UPDATE channels SET api_key = ? WHERE channel_id = ?", (api_key, channel_id))
+    conn.commit()
+
+
+def update_folder_id(channel_id, folder_id):
+    cur.execute("UPDATE channels SET folder_id = ? WHERE channel_id = ?", (folder_id, channel_id))
+    conn.commit()

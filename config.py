@@ -8,6 +8,5 @@ load_dotenv()
 
 # Load variables from environment (.env)
 BOT_TOKEN = os.getenv('BOT_TOKEN')
-YGPT_FOLDER_ID = os.getenv('YGPT_FOLDER_ID')
-YGPT_TOKEN = os.getenv('YGPT_TOKEN')
+
 HUGGING_FACE_TOKEN = os.getenv('HUGGING_FACE_TOKEN')

@@ -17,7 +17,7 @@ from resources.locales.buttons import buttons
 from resources.locales.translation_dictionary import localise
 from utils.botUtils import get_channels_with_permissions, get_bot_language, get_data
 from utils.databaseUtils import get_additional_language, get_main_language, update_main_language, \
-    update_additional_language, update_bot_language, change_auto_digest, change_auto_digest_date
+    update_additional_language, update_bot_language, change_auto_digest, change_auto_digest_date, update_api_key, update_folder_id
 
 # Create a router instance for settings-related message and callback handlers
 settings_router = Router()
@@ -169,9 +169,28 @@ async def choose_additional_language(callback: CallbackQuery, state: FSMContext)
                                   reply_markup=await sk.digest_bot_additional_languages_keyboard(channel, state))
 
 
+@settings_router.callback_query(F.data == "api", SettingsFSM.channel_settings)
+async def choose_llm(callback: CallbackQuery, state: FSMContext):
+    data = await state.get_data()
+    channel = data.get('channel_id')
+    await state.set_state(SettingsFSM.llms)
+    await callback.answer(await localise("Choose one of the options", state))
+    await callback.message.answer(await localise("Choose the llm for your chanel", state),
+                                  reply_markup=await sk.digest_bot_llm_keyboard(channel, state))
+
 @settings_router.callback_query(F.data == "back",
                                 SettingsFSM.main_language or SettingsFSM.additional_language)
 async def choose_main_language_back_to_channel_settings(callback: CallbackQuery, state: FSMContext):
+    await state.set_state(SettingsFSM.channel_settings)
+
+    await callback.answer(await localise("You return back", state))
+
+    await callback.message.answer(await localise("Choose one of the options", state),
+                                  reply_markup=await sk.channel_settings_inline_keyboard(state))
+
+
+@settings_router.callback_query(F.data == "back", SettingsFSM.llms)
+async def choose_api_back(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.channel_settings)
 
     await callback.answer(await localise("You return back", state))
@@ -313,3 +332,43 @@ async def auto_digest_switch(message: Message, state: FSMContext):
                          reply_markup=await sk.auto_digest_settings_keyboard(data.get("channel_id", "0"),
                                                                              state))
     await state.set_state(SettingsFSM.auto_digest)
+
+
+@settings_router.callback_query(F.data == "ygpt", SettingsFSM.llms)
+async def choose_llm(callback: CallbackQuery, state: FSMContext):
+    await state.set_state(SettingsFSM.ygpt_api)
+    await callback.answer()
+    await callback.message.answer(await localise("Enter api key", state))
+
+
+@settings_router.callback_query(F.data == "free_model", SettingsFSM.llms)
+async def free_model_llm(callback: CallbackQuery, state: FSMContext):
+    data = await state.get_data()
+    await callback.answer()
+    channel_id = data.get('channel_id')
+    update_api_key(channel_id, None)
+    update_folder_id(channel_id, None)
+    await state.set_state(SettingsFSM.channel_settings)
+    await callback.message.answer(await localise("Current LLM changed", state))
+    await callback.message.answer(await localise("Choose one of the options", state),
+                                  reply_markup=await sk.channel_settings_inline_keyboard(state))
+
+
+@settings_router.message(SettingsFSM.ygpt_api)
+async def input_first_text(message: Message, state: FSMContext):
+    data = await state.get_data()
+    channel_id = data.get('channel_id')
+    update_api_key(channel_id, message.text)
+    await state.set_state(SettingsFSM.ygpt_id)
+    await message.answer(await localise("Enter folder id", state))
+
+
+@settings_router.message(SettingsFSM.ygpt_id)
+async def input_second_text(message: Message, state: FSMContext):
+    data = await state.get_data()
+    channel_id = data.get('channel_id')
+    update_folder_id(channel_id, message.text)
+    await message.answer(await localise("Current LLM changed", state))
+    await state.set_state(SettingsFSM.channel_settings)
+    await message.answer(await localise("Choose one of the options", state),
+                         reply_markup=await sk.channel_settings_inline_keyboard(state))
