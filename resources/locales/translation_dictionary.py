@@ -83,6 +83,7 @@ translations = {
         "Write valid numbers. Try again": "Введите корректные числа. Попробуйте ещё раз",
         "auto digest interval error": "Часы должны быть в интервале от 0 до 23, минуты должны быть в интервале от 0 до 59, день недели должен быть в интервале от 1 до 7. Попробуйте ещё раз",
         "You successfully changed the auto digest time": "Вы успешно изменили время автоматического дайджеста",
+        "⬅️Add the bot to your channel first": "⬅️Сначала добавьте бота в свой канал"
     },
     'en': {
         "Choose a channel": "Choose a channel to create a digest (you and bot must be administrators)",
@@ -165,6 +166,7 @@ translations = {
         "Write valid numbers. Try again": "Write valid numbers. Try again",
         "auto digest interval error": "Hours must be in 0-23 interval, minuts mist be in 0-59 interval, day must be in 1-7 interval. Try again",
         "You successfully changed the auto digest time": "You successfully changed the auto digest time",
+        "⬅️Add the bot to your channel first": "⬅️Add the bot to your channel first"
     },
 }
 
