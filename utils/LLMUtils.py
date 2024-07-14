@@ -92,6 +92,7 @@ async def create_response(messages: list[tuple[str, str]], by_one_message: bool,
     langs = {"en": "английском", "ru": "русском"}
 
     if YGPT_FOLDER_ID != None and YGPT_TOKEN != None:
+        free = False
         text = "text"
         url = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
         headers = {
@@ -110,6 +111,7 @@ async def create_response(messages: list[tuple[str, str]], by_one_message: bool,
             ]
         }
     else:
+        free = True
         text = "content"
         url = "https://api-inference.huggingface.co/models/01-ai/Yi-1.5-34B-Chat/v1/chat/completions"
         headers = {
