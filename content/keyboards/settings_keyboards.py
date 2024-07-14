@@ -7,14 +7,6 @@ from resources.locales.translation_dictionary import localise
 from utils.botUtils import get_bot_language
 from utils.databaseUtils import get_additional_language, get_main_language, get_auto_digest_data
 
-# Define inline keyboard buttons for settings actions
-ru_language_button = InlineKeyboardButton(text="🇷🇺Russian", callback_data="ru")
-en_language_button = InlineKeyboardButton(text="🇬🇧English", callback_data="en")
-# Define inline keyboard buttons for channel settings actions
-api_button = InlineKeyboardButton(text="🛠API", callback_data="api")
-main_language_button = InlineKeyboardButton(text="🌍Main language", callback_data="main_language")
-addition_language_button = InlineKeyboardButton(text="🌎Addition language", callback_data="addition_language")
-
 
 # Create a reply keyboard for settings actions
 async def settings_reply_keyboard(state):
@@ -43,7 +35,14 @@ async def channel_settings_inline_keyboard(state):
 async def auto_digest_settings_keyboard(channel_id, state):
     data = get_auto_digest_data(channel_id)
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=await localise("🟩Turn on auto digest" if data == "no" else "🟥Turn off auto digest", state), callback_data="auto_digest_switch")],
+        [InlineKeyboardButton(text=await localise("🕒Auto digest time", state), callback_data="auto_digest_time")],
+        [InlineKeyboardButton(text=await localise("🟩Turn on auto digest" if data[0] == "no" else "🟥Turn off auto digest", state), callback_data="auto_digest_switch")],
+        [InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")]
+    ])
+
+
+async def settings_back_button_keyboard(state):
+    return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")]
     ])
 

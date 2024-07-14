@@ -9,4 +9,5 @@ class SettingsFSM(StatesGroup):
     main_language = State()
     additional_language = State()
     auto_digest = State()
+    auto_digest_date = State()
     data = State()

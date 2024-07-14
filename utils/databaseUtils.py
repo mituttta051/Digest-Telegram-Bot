@@ -135,7 +135,7 @@ async def change_auto_digest(state):
     data = await state.get_data()
     await state.set_state(temp)
     channel_id = data.get("channel_id", "0")
-    switch = get_auto_digest_data(channel_id)
+    switch = get_auto_digest_data(channel_id)[0]
     if switch == "no":
         switch = "yes"
     else:
@@ -161,4 +161,4 @@ def get_auto_digest_data(channel_id):
     if channel_id is None:
         return "no"
     cur.execute("SELECT auto_digest, auto_digest_date FROM channels WHERE channel_id = ?", (channel_id,))
-    return cur.fetchone()[0]
+    return cur.fetchone()

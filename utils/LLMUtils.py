@@ -1,6 +1,7 @@
 # Import built-in packages
 import asyncio
 import json
+import requests
 
 # Import downloaded packages
 import aiohttp
@@ -35,20 +36,23 @@ async def generate_summary(messages: list[tuple[int, str, str, str]], channel: s
     texts = {"en": "Digest", "ru": "Дайджест"}
     langs = {"en": "английском", "ru": "русском"}
     res = ["🦄 " + str(texts[main_language]) + "\n"]
-    await user_message.edit_text("\n".join(res) + "\n...")
+    if user_message is not None:
+        await user_message.edit_text("\n".join(res) + "\n...")
     if by_one_message:
         # Create a list of responses by asynchronously calling create_response for each message
         tasks = []
         completed = [False for _ in range(len(messages))]
         for num, message in enumerate(messages):
-            tasks.append(update_message(num, completed, user_message, res, [(message[2], message[3])], by_one_message, main_language))
+            tasks.append(update_message(num, completed, user_message, res, [(message[2], message[3])], by_one_message,
+                                        main_language))
         await asyncio.gather(*tasks)
     else:
         res += [await create_response(list(map(lambda x: (x[2], x[3]), messages)), by_one_message, main_language)]
 
     if additional_language != "no":
         res += ["\n🌐 " + str(texts[additional_language]) + "\n"]
-        await user_message.edit_text("\n".join(res) + "\n...")
+        if user_message is not None:
+            await user_message.edit_text("\n".join(res) + "\n...")
     if additional_language != "no" and by_one_message:
         # Create a list of responses by asynchronously calling create_response for each message
         tasks = []
@@ -152,8 +156,9 @@ async def create_response(messages: list[tuple[str, str]], by_one_message: bool,
 
     async with aiohttp.ClientSession(headers=headers, trust_env=True) as session:
         response = await session.post(url, json=prompt, ssl=False)
+        # response = requests.post(url, headers=headers, json=prompt)
         tries = 500
-        while response.status == 429 and tries > 0:
+        while (response.status == 429) and tries > 0:
             await asyncio.sleep(0.1)
             response = await session.post(url, json=prompt, ssl=False)
             tries -= 1
@@ -178,8 +183,10 @@ async def create_response(messages: list[tuple[str, str]], by_one_message: bool,
 async def update_message(num, completed, user_message, res, messages, by_one_message, language):
     ans = await create_response(messages, by_one_message, language)
     while num != 0 and not completed[num - 1]:
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
+    ans = ans.replace("<|im_start|>assistant", "")
     res.append(ans)
-    await user_message.edit_text("\n".join(res) + "\n...")
+    if user_message is not None:
+        await user_message.edit_text("\n".join(res) + "\n...")
     completed[num] = True
     await asyncio.sleep(0.3)
