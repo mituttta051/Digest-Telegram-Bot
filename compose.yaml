@@ -2,9 +2,10 @@ services:
   digest-bot-service:
     image: "digest:latest"
     environment:
-      - BOT_TOKEN=7275254228:AAEMgOMqN2aQjVbvoQl9sPJogMSuwP4cbro
-      - YGPT_FOLDER_ID=b1g86qb0i4gsslnfrtob
-      - YGPT_TOKEN=AQVN01jq7e0zSbQnssjlJF4tWSRbJOnqDpQF8C_C
+      - BOT_TOKEN=${BOT_TOKEN}
+      - YGPT_FOLDER_ID=${YGPT_FOLDER_ID}
+      - YGPT_TOKEN=${YGPT_TOKEN}
+      - HUGGING_FACE_TOKEN=${HUGGING_FACE_TOKEN}
     volumes:
       - "./resources:/app/resources"
   digest-db:

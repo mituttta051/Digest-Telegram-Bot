@@ -10,7 +10,7 @@ from aiogram.types import Message
 # Import project files
 from config import HUGGING_FACE_TOKEN
 from utils.botUtils import attach_link_to_message
-from utils.databaseUtils import get_main_language, get_additional_language
+from utils.databaseUtils import get_main_language, get_additional_language, get_folder_id, get_api_key
 
 
 async def generate_summary(messages: list[tuple[int, str, str, str]], channel: str, user_message: Message,

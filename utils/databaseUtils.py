@@ -27,8 +27,8 @@ def create_tables() -> None:
         f"""CREATE TABLE IF NOT EXISTS channels (
     channel_id TEXT PRIMARY KEY, 
     name TEXT, 
-    main_language TEXT, 
-    additional_language TEXT,
+    main_language TEXT DEFAULT 'en', 
+    additional_language TEXT DEFAULT 'no',
     auto_digest TEXT DEFAULT 'no',
     auto_digest_date TEXT DEFAULT '0 15 * * 6',
     api_key TEXT,
@@ -53,7 +53,7 @@ def put_message(message: Message, channel_id: str) -> None:
     table = "messages" + str(channel_id).replace("-", "_")
     message_url = f"{base_url}c/{str(chat_id)[4:]}/{message_id}"
     cur.execute(f"""INSERT INTO {table} (date, text, link) VALUES (%s, %s, %s)""",
-                (datetime.now(), message.html_text, message_url))
+                (str(datetime.now()), message.html_text, message_url))
     conn.commit()
 
 
@@ -61,19 +61,10 @@ def put_message(message: Message, channel_id: str) -> None:
 def put_channel(channel_id: str, name: str) -> None:
     table = "messages" + str(channel_id).replace("-", "_")
     cur.execute(
-        f"""INSERT INTO channels (channel_id, name, main_language, additional_language) VALUES (%s, %s, 'en', 'no') ON CONFLICT(channel_id) DO UPDATE SET name = EXCLUDED.name""",
+        "INSERT INTO channels (channel_id, name, main_language, additional_language, auto_digest,auto_digest_date) VALUES (%s, %s, 'en', 'no', 'no', '0 15 * * 6') ON CONFLICT(channel_id) DO UPDATE SET name = EXCLUDED.name",
         (str(channel_id), name))
     cur.execute(
-        f"""CREATE TABLE IF NOT EXISTS {table} (
-    channel_id TEXT PRIMARY KEY, 
-    name TEXT, 
-    main_language TEXT, 
-    additional_language TEXT,
-    auto_digest TEXT DEFAULT 'no',
-    auto_digest_date TEXT DEFAULT '0 15 * * 6',
-    api_key TEXT,
-    folder_id TEXT
-)""")
+        f"""CREATE TABLE IF NOT EXISTS {table} (id SERIAL PRIMARY KEY, date TEXT, text TEXT, link TEXT)""")
     conn.commit()
 
 
@@ -124,7 +115,7 @@ async def change_auto_digest(state):
     data = await state.get_data()
     await state.set_state(temp)
     channel_id = data.get("channel_id", "0")
-    switch = get_auto_digest_data(channel_id)[0]
+    switch = get_auto_digest_data(channel_id).get("auto_digest", "yes")
     if switch == "no":
         switch = "yes"
     else:

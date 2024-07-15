@@ -16,6 +16,7 @@ from resources.locales.translation_dictionary import localise
 from utils.botUtils import get_channels_with_permissions, get_bot_language, get_data
 from utils.databaseUtils import get_additional_language, get_main_language, update_main_language, \
     update_additional_language, update_bot_language, change_auto_digest, change_auto_digest_date, update_api_key, update_folder_id
+from content.schedulers.auto_digest_scheduler import update_scheduler
 
 # Create a router instance for settings-related message and callback handlers
 settings_router = Router()

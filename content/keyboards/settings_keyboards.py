@@ -36,7 +36,7 @@ async def auto_digest_settings_keyboard(channel_id, state):
     data = get_auto_digest_data(channel_id)
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=await localise("🕒Auto digest time", state), callback_data="auto_digest_time")],
-        [InlineKeyboardButton(text=await localise("🟩Turn on auto digest" if data[0] == "no" else "🟥Turn off auto digest", state), callback_data="auto_digest_switch")],
+        [InlineKeyboardButton(text=await localise("🟩Turn on auto digest" if data.get("auto_digest", "no") == "no" else "🟥Turn off auto digest", state), callback_data="auto_digest_switch")],
         [InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")]
     ])
 

@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+import pytz
 from apscheduler.triggers.date import DateTrigger
 from croniter import croniter
 from pytz import timezone, utc
@@ -30,8 +31,8 @@ def schedule(channel_id, auto_digest_date):
             "channel_id": channel_id,
             "auto_digest_date": auto_digest_date
         },
-        trigger=DateTrigger(run_date=croniter(auto_digest_date, datetime.now()).get_next(datetime)),
-        timezone=utc,
+        trigger=DateTrigger(run_date=croniter(auto_digest_date, datetime.now(tz=pytz.timezone('Europe/Moscow'))).get_next(datetime)),
+        timezone=pytz.timezone('Europe/Moscow'),
         misfire_grace_time=42,
     )
 
@@ -51,5 +52,6 @@ async def schedule_function(channel_id, auto_digest_date):
             "channel_id": channel_id,
             "auto_digest_date": auto_digest_date
         },
-        trigger=DateTrigger(run_date=croniter(auto_digest_date, datetime.now()).get_next(datetime))
+        trigger=DateTrigger(run_date=croniter(auto_digest_date, datetime.now()).get_next(datetime)),
+        timezone=pytz.timezone('Europe/Moscow')
     )
