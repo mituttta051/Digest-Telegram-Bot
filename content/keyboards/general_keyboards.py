@@ -81,7 +81,7 @@ async def channels_keyboard(channels: list[(str, str)], state) -> InlineKeyboard
         InlineKeyboardMarkup: An inline keyboard with buttons for each channel.
     """
     channels_kb_list = [
-        [InlineKeyboardButton(text=name, callback_data=str(channel_id))] for (channel_id, name, main_l, additional_l, api_key, folder_id) in channels
+        [InlineKeyboardButton(text=name, callback_data=str(channel_id))] for (channel_id, name, main_l, additional_l, auto_digest, auto_digest_date, api_key, folder_id) in channels
     ]
     if len(channels_kb_list) == 0:
         channels_kb_list.append([InlineKeyboardButton(text=await localise("⬅️Add the bot to your channel first", state), callback_data="back")])

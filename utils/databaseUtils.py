@@ -24,7 +24,16 @@ def create_tables() -> None:
         f"""CREATE TABLE IF NOT EXISTS users (user_id TEXT PRIMARY KEY, language TEXT)"""
     )
     cur.execute(
-        f"""CREATE TABLE IF NOT EXISTS channels (channel_id TEXT PRIMARY KEY, name TEXT, main_language TEXT, additional_language TEXT)"""
+        f"""CREATE TABLE IF NOT EXISTS channels (
+    channel_id TEXT PRIMARY KEY, 
+    name TEXT, 
+    main_language TEXT, 
+    additional_language TEXT,
+    auto_digest TEXT DEFAULT 'no',
+    auto_digest_date TEXT DEFAULT '0 15 * * 6',
+    api_key TEXT,
+    folder_id TEXT
+)"""
     )
     conn.commit()
 
@@ -55,7 +64,16 @@ def put_channel(channel_id: str, name: str) -> None:
         f"""INSERT INTO channels (channel_id, name, main_language, additional_language) VALUES (%s, %s, 'en', 'no') ON CONFLICT(channel_id) DO UPDATE SET name = EXCLUDED.name""",
         (str(channel_id), name))
     cur.execute(
-        f"""CREATE TABLE IF NOT EXISTS {table} (id SERIAL PRIMARY KEY, date TEXT, text TEXT, link TEXT)""")
+        f"""CREATE TABLE IF NOT EXISTS {table} (
+    channel_id TEXT PRIMARY KEY, 
+    name TEXT, 
+    main_language TEXT, 
+    additional_language TEXT,
+    auto_digest TEXT DEFAULT 'no',
+    auto_digest_date TEXT DEFAULT '0 15 * * 6',
+    api_key TEXT,
+    folder_id TEXT
+)""")
     conn.commit()
 
 

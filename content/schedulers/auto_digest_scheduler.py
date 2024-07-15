@@ -12,7 +12,7 @@ from utils.databaseUtils import get_channels
 
 def update_scheduler():
     channels = get_channels()
-    for _, channel_id, name, main_l, additional_l, auto_digest, auto_digest_date, __, ___ in channels:
+    for channel_id, name, main_l, additional_l, auto_digest, auto_digest_date, __, ___ in channels:
         channel_id = str(channel_id)
         if auto_digest == "yes":
             schedule(channel_id, auto_digest_date)
