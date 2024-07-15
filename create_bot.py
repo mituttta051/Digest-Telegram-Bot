@@ -1,6 +1,5 @@
 # Import built-in packages
 import logging
-import sqlite3
 
 # Import downloaded packages
 from aiogram import Bot, Dispatcher
@@ -14,6 +13,8 @@ from pytz import utc, timezone
 # Import project files
 from config import BOT_TOKEN
 
+from utils.databaseUtils import init_db
+
 # Configure logging and logger instance
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 # logging.getLogger('apscheduler').setLevel(logging.DEBUG)
@@ -25,9 +26,7 @@ scheduler = AsyncIOScheduler()
 bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher(storage=MemoryStorage())
 
-# Initialize database connection
-conn = sqlite3.connect('resources/dbs/data.db')
-cur = conn.cursor()
-
-if not cur:  # In case of connection error (not exist, wrong path, ...)
-    logger.error("Doesn't connect to database")
+try:
+    init_db()
+except:
+    print('Can`t establish connection to database')

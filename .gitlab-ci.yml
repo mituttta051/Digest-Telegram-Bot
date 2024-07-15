@@ -1,24 +1,15 @@
 stages:
   - build
-#  - test
+  - test
   - deploy
 
 default:
   image:
     name: docker
   before_script:
-#    - apt-get update
-#    - apt-get install openssh-server -y
-#    #docker
-#    - apt-get install ca-certificates curl -y
-#    - install -m 0755 -d /etc/apt/keyrings
-#    - curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-#    - chmod a+r /etc/apt/keyrings/docker.asc
-#    - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-#    - apt-get update
-#    - apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
     - eval "$(ssh-agent)"
     - echo "${SSH_KEY}" | ssh-add -
+    - apk add --no-cache python3 py3-pip
 
 build_docker_image:
   stage: build
@@ -30,11 +21,27 @@ save_docker_image:
   script:
     - docker save mituta/digest > digest.tar
 
+run_unit_tests:
+  stage: test
+  script:
+    - pip install -r requirements.txt
+    - python -m unittest tests/test_bot_help.py
+    - python -m unittest tests/test_bot_settings.py
+    - python -m unittest tests/test_bot_start.py
+    - python -m unittest tests/test_chose_bot_language.py
+    - python -m unittest tests/test_digest_edit.py
+    - python -m unittest tests/test_settings_back.py
+
 copy_to_vm:
   stage: deploy
   script:
     - scp digest.tar root@10.90.138.104:~/
 #  environment: production
+
+load_on_vm:
+  stage: deploy
+  script:
+  - ssh root@10.90.138.104 docker load < digest.tar
 
 start_service:
   stage: deploy
