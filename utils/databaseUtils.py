@@ -1,9 +1,11 @@
 # Import built-in packages
 from datetime import datetime
 
+import psycopg2
 # Import downloaded packages
 from aiogram.types import Message
-import psycopg2
+
+from content.FSMs.settings_FSMs import SettingsFSM
 
 conn = None
 cur = None
@@ -96,4 +98,55 @@ def update_bot_language(user_id, new_language):
     if user_id is None:
         return
     cur.execute("UPDATE users SET language = %s WHERE user_id = %s", (new_language, str(user_id)))
+    conn.commit()
+
+async def change_auto_digest(state):
+    temp = await state.get_state()
+    await state.set_state(SettingsFSM.data)
+    data = await state.get_data()
+    await state.set_state(temp)
+    channel_id = data.get("channel_id", "0")
+    switch = get_auto_digest_data(channel_id)[0]
+    if switch == "no":
+        switch = "yes"
+    else:
+        switch = "no"
+    change_auto_digest_(channel_id, switch)
+
+
+def change_auto_digest_(channel_id, option):
+    if channel_id is None:
+        return
+    cur.execute("UPDATE channels SET auto_digest = %s WHERE channel_id = %s", (option, channel_id))
+    conn.commit()
+
+def change_auto_digest_date(channel_id, date):
+    if channel_id is None:
+        return
+    cur.execute("UPDATE channels SET auto_digest_date = %s WHERE channel_id = %s", (date, channel_id))
+    conn.commit()
+
+def get_auto_digest_data(channel_id):
+    if channel_id is None:
+        return {"auto_digest": "no"}
+    cur.execute("SELECT auto_digest, auto_digest_date FROM channels WHERE channel_id = %s", (channel_id,))
+    result = cur.fetchone()
+    return {"auto_digest": result[0], "auto_digest_date": result[1]} if result else {"auto_digest": "no"}
+
+def get_api_key(channel_id):
+    cur.execute("SELECT api_key FROM channels WHERE channel_id = %s", (channel_id,))
+    result = cur.fetchone()
+    return result[0] if result else None
+
+def get_folder_id(channel_id):
+    cur.execute("SELECT folder_id FROM channels WHERE channel_id = %s", (channel_id,))
+    result = cur.fetchone()
+    return result[0] if result else None
+
+def update_api_key(channel_id, api_key):
+    cur.execute("UPDATE channels SET api_key = %s WHERE channel_id = %s", (api_key, channel_id))
+    conn.commit()
+
+def update_folder_id(channel_id, folder_id):
+    cur.execute("UPDATE channels SET folder_id = %s WHERE channel_id = %s", (folder_id, channel_id))
     conn.commit()
