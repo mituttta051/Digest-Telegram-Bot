@@ -1,9 +1,6 @@
-# A file that will contain general message, command and callback handlers from settings branch
-
 # Import downloaded packages
 from aiogram import Router, F
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message, CallbackQuery
 
 # Import project files
@@ -86,7 +83,7 @@ async def chose_bot_language(callback: CallbackQuery, state: FSMContext):
 
     last = await get_bot_language(state)
 
-    await state.set_state(SettingsFSM.data)
+    await state.set_state(SettingsFSM.data)  # Todo: Remove redundant part of code
 
     await state.update_data(selected_bot_language=selected_language)
 
@@ -126,7 +123,7 @@ async def choose_channel_back_to_settings(callback: CallbackQuery, state: FSMCon
 
 @settings_router.callback_query(SettingsFSM.choose_channel)
 async def channel_settings(callback: CallbackQuery, state: FSMContext):
-    await state.set_state(SettingsFSM.data)
+    await state.set_state(SettingsFSM.data)  # Todo: Remove redundant part of code due to irrelevancy
     await state.update_data(channel_id=callback.data)
     await state.set_state(SettingsFSM.channel_settings)
     await state.update_data(channel_id=callback.data)
