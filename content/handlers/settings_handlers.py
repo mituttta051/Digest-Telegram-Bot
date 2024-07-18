@@ -253,7 +253,7 @@ async def chose_additional_language(callback: CallbackQuery, state: FSMContext):
 @settings_router.callback_query(SettingsFSM.channel_settings)
 async def auto_digest_settings(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-    data = await get_data(state)
+    data = await get_data(state)  # Todo: Replace with a state.get_data()
     await callback.message.answer(await localise("Choose one of the options", state),
                                   reply_markup=await sk.auto_digest_settings_keyboard(data.get("channel_id", "0"),
                                                                                       state))
@@ -264,7 +264,7 @@ async def auto_digest_settings(callback: CallbackQuery, state: FSMContext):
 async def auto_digest_switch(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     await change_auto_digest(state)
-    data = await get_data(state)
+    data = await get_data(state)  # Todo: Replace with a state.get_data()
     update_scheduler()
     await callback.message.edit_text(await localise("Choose one of the options", state),
                                      reply_markup=await sk.auto_digest_settings_keyboard(data.get("channel_id", "0"),
@@ -293,7 +293,7 @@ async def auto_digest_switch(callback: CallbackQuery, state: FSMContext):
 @settings_router.callback_query(F.data == "back", SettingsFSM.auto_digest_date)
 async def auto_digest_switch(callback: CallbackQuery, state: FSMContext):
     await callback.answer(await localise("You return back", state))
-    data = await get_data(state)
+    data = await get_data(state)  # Todo: Replace with a state.get_data()
     await callback.message.answer(await localise("Choose one of the options", state),
                                   reply_markup=await sk.auto_digest_settings_keyboard(data.get("channel_id", "0"),
                                                                                       state))
@@ -323,7 +323,7 @@ async def auto_digest_switch(message: Message, state: FSMContext):
             "auto digest interval error",
             state))
         return
-    data = await get_data(state)
+    data = await get_data(state)  # Todo: Replace with a state.get_data()
     change_auto_digest_date(data.get("channel_id", "0"), f"{minutes} {hours} * * {day}")
     update_scheduler()
     await message.answer(await localise("You successfully changed the auto digest time", state))
