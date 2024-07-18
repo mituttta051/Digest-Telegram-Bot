@@ -100,6 +100,23 @@ async def handle_custom_period(message: Message, state: FSMContext) -> None:
         period = int(message.text)
         await set_custom_period(message, state)
 
+@digest_router.message(F.text.in_(buttons["choose_custom_period"]))
+async def custom_period_handler(message: Message, state: FSMContext) -> None:
+    """
+    Asynchronous function to handle the "Choose Custom Period" message button press.
+
+    This function is triggered when a user selects the "Choose Custom Period" button. It sets the state to
+    `DigestFSM.choose_custom_period` to prompt the user to input a custom period for the digest.
+
+    Args:
+        message (aiogram.types.Message): The incoming message object containing the "Choose Custom Period" button press.
+        state (aiogram.fsm.context.FSMContext): The state context object used to manage the finite state machine.
+    """
+    # Set the state to choose a custom period for the digest
+    await state.set_state(DigestFSM.choose_custom_period)
+
+    # Prompt the user to input a custom period for the digest
+    await message.answer(await localise("Please enter a custom period", state))
 
 # Handler for custom period input
 @digest_router.message(DigestFSM.choose_custom_period)
