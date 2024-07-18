@@ -21,6 +21,7 @@ async def supported_period_inline_keyboard(state):
         [InlineKeyboardButton(text=await localise("Week (7 days)", state), callback_data="7")],
         [InlineKeyboardButton(text=await localise("2 weeks (14 days)", state), callback_data="14")],
         [InlineKeyboardButton(text=await localise("1 Month (30 days)", state), callback_data="30")],
+        [InlineKeyboardButton(text=await localise("Custom period", state), callback_data="custom_period")],
         [InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")]
     ])
 
