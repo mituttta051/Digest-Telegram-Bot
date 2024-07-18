@@ -72,7 +72,7 @@
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#team-49">Team 49</a></li>
-    <li><a href="#admin">Detailed user guide</a></li>
+    <li><a href="#detailed-user-guide">Detailed User Guide</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
