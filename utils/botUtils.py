@@ -1,15 +1,15 @@
-# A file that will contain various technical functions
-import logging
-# Import downloaded packages
+# Import built-in packages
 from datetime import datetime
+import logging  # Todo: Remove unused import
 
+# Import downloaded packages
 from aiogram.exceptions import TelegramBadRequest
+from aiogram.fsm.context import FSMContext
 
 # Import project files
 from content.FSMs.settings_FSMs import SettingsFSM
 from create_bot import bot, logger
 from utils.databaseUtils import get_messages, get_channels, get_bot_language_db
-from aiogram.fsm.context import FSMContext
 
 
 # Define a function to calculate the period in seconds between the current time and a given date
@@ -96,7 +96,7 @@ async def get_channels_with_permissions(user_id: int) -> list[(str, str, str, st
     return result
 
 
-def attach_link_to_message(message: str, link: str):
+def attach_link_to_message(message: str, link: str) -> str:
     if message.find("—") != -1 and message.find("-") != -1:
         index = min(message.find("—"), message.find("-"))
     else:
@@ -117,6 +117,7 @@ def attach_link_to_message(message: str, link: str):
     return message
 
 
+# Todo: Remove due to irrelevancy
 async def get_data(state: FSMContext):
     temp = await state.get_state()
     await state.set_state(SettingsFSM.data)
@@ -125,9 +126,9 @@ async def get_data(state: FSMContext):
     return data
 
 
-async def get_bot_language(state: FSMContext):
-    temp = await state.get_state()
-    await state.set_state(SettingsFSM.data)
+async def get_bot_language(state: FSMContext) -> str:
+    temp = await state.get_state()  # Todo: Remove due to irrelevancy
+    await state.set_state(SettingsFSM.data)  # Todo: Remove due to irrelevancy
     data = await state.get_data()
     selected = data.get('selected_bot_language', "empty")
     if selected == "empty":
