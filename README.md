@@ -72,6 +72,7 @@
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#team-49">Team 49</a>
+    <li><a href="#admin">Detailed user guide</a></li>
       <ul></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -128,7 +129,7 @@ The DigestTelegramBot was built using:
 ## Getting Started
 
 
-Follow these simple steps to get a local copy up and run it on your machine! 📦
+Follow these simple steps to get a local copy and run it on your machine! 📦
 
 ### Prerequisites
 
@@ -269,6 +270,65 @@ See the [open issues](https://gitlab.pg.innopolis.university/i.ershov/digestBot/
 * Anastasia Surikova - architectural documenter, tester, contributor.
 
 [Back to Top](#readme-top)
+
+<!-- DETAILED USER GUIDE -->
+## Detailed user guide
+
+Step-by-step instruction of how to use the DigestTelegramBot 👇:
+  1. **Add bot as an admin to your channel:**
+  * Go to your Telegram channel Info;
+  * Click on "Administrators";
+  * Click on "Add Admin";
+  * Select DigestBot (@DigestTelegrambot);
+  * Allow the bot to "Manage Messages";
+  * Click "Done".
+  2. **Publish posts**;
+  3. **Go to DigestBot (@DigestTelegrambot)**;
+  4. **Set up the languages in digest:**:
+      1. Click on "⚙️Settings"
+      2. Select channel for digest;
+      3. Select "🌍Main language" to view or change the first language in digest (Ru/Eng);
+      4. Click "⬅️Back" after selection is done to return to language preferences;
+      5. Select "🌎Additional language" to view or change the second language in digest (Ru/Eng/without);
+      6. Click "⬅️Back" after selection is done to return to language preferences;
+      7. Click "⬅️Back" to return to the main keyboard.
+  5. **Create digest:** 
+      1. Click "✍🏼Create digest";
+      2. Click on one name of your channeles available _(if none are displayed, you need to go throught guide steps 1 and 2)_;
+      3. Click on one of the digest periods available or click on "Custom period" and send the number of days.
+  6.  **Work with generated digest:**
+        * Click "✅Approve" to sent the digest to your channel;
+        * Click "✏️Edit" to edit and pubslish the final version:
+          1. Copy the digest;
+          2. Rewrite parts;
+          3. Send the final version as a message in the bot chat;
+          4. Click "✅Approve" to sent the digest to your channel.
+        * Click "🔄Regenerate" to get the alternative digest; 
+        * Click "❌Cancel" to return to the main keyboard.
+
+⚠️ **How to deal with bugs and errors?**
+  * The bot is stuck/digest is not generating:
+    1. Check the internet connection; 
+    2. Check the Telegram problems;
+
+    If there are no problems with that, write and send `/start` to restart the bot.
+  * No channels are available for selection:
+    1. Check the internet connection; 
+    2. Check the Telegram problems;
+    3. Check that the bot is an admin of the channel and is allowed to read messages.
+
+
+🤝 **Help DigestTelegramBot to become better:** Follow the [Link](https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues/new). Name and describe the problem you faced, attach the screenshots and/or screen recordings.
+
+💡 **Have interesting ideas?** Follow the [Link](https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues/new). In the Title section, write "New Feature: " and its name. Dindescribe your vision, add links and/or attach references.
+
+
+
+
+
+
+
+
 
 <!-- LICENSE -->
 ## License
