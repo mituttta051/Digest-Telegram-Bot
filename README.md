@@ -178,8 +178,8 @@ Create a .env file in the project root directory and add your Telegram bot token
 ## Usage
 
 To run the bot:
-1. Download the [Docker Desktop](https://www.docker.com/products/docker-desktop/)'
-2. Write to colsole:
+1. Download the [Docker Desktop](https://www.docker.com/products/docker-desktop/);
+2. Write to console:
 
 ```sh
    docker build -t digest:latest --platform linux/amd64 .
