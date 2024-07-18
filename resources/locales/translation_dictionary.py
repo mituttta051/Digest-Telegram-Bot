@@ -1,6 +1,11 @@
-from content.FSMs.settings_FSMs import SettingsFSM
+# Import downloaded packages
+from aiogram.fsm.context import FSMContext
+
+# Import project files
+from content.FSMs.settings_FSMs import SettingsFSM  # Todo: Remove unused import
 from utils.botUtils import get_bot_language
 
+# Todo: Rework keys' names
 translations = {
     'ru': {
         "Choose a channel": "Выберите канал",
@@ -181,9 +186,9 @@ translations = {
 }
 
 
-def localis(text, lang='en'):
+def localis(text: str, lang: str = 'en') -> str:
     return translations.get(lang, translations["en"]).get(text, text)
 
 
-async def localise(text, state):
+async def localise(text: str, state: FSMContext) -> str:
     return localis(text, await get_bot_language(state))
