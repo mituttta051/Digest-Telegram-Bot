@@ -1,17 +1,21 @@
-from datetime import datetime, timedelta
+# Import built-in packages
+from datetime import datetime, timedelta  # Todo: Remove unused import
+from typing import Union
 
+# Import downloaded packages
 import pytz
 from apscheduler.triggers.date import DateTrigger
 from croniter import croniter
-from pytz import timezone, utc
+from pytz import timezone, utc  # Todo: Use importing of individual methods
 
+# Import project files
 from create_bot import scheduler, bot
 from utils.LLMUtils import generate_summary
 from utils.botUtils import get_messages_in_days
 from utils.databaseUtils import get_channels
 
 
-def update_scheduler():
+def update_scheduler() -> None:
     channels = get_channels()
     for channel_id, name, main_l, additional_l, auto_digest, auto_digest_date, __, ___ in channels:
         channel_id = str(channel_id)
@@ -22,7 +26,7 @@ def update_scheduler():
                 scheduler.remove_job(channel_id)
 
 
-def schedule(channel_id, auto_digest_date):
+def schedule(channel_id: Union[str, int], auto_digest_date: str) -> None:
     scheduler.add_job(
         func=schedule_function,
         id=channel_id,
@@ -31,15 +35,16 @@ def schedule(channel_id, auto_digest_date):
             "channel_id": channel_id,
             "auto_digest_date": auto_digest_date
         },
-        trigger=DateTrigger(run_date=croniter(auto_digest_date, datetime.now(tz=pytz.timezone('Europe/Moscow'))).get_next(datetime)),
+        trigger=DateTrigger(
+            run_date=croniter(auto_digest_date, datetime.now(tz=pytz.timezone('Europe/Moscow'))).get_next(datetime)),
         timezone=pytz.timezone('Europe/Moscow'),
         misfire_grace_time=42,
     )
 
 
-async def schedule_function(channel_id, auto_digest_date):
+async def schedule_function(channel_id: Union[str, int], auto_digest_date: str) -> None:
     # Get the latest messages within the specified period
-    messages = get_messages_in_days(channel_id, "7")
+    messages = get_messages_in_days(channel_id, "7")  # Todo: Rework. Does period should be const value?
     if len(messages) != 0:
         digest = await generate_summary(messages, channel_id, None)
 
