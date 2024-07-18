@@ -1,5 +1,8 @@
-from content.handlers.general_handlers import bot_help
+# Import built-in packages
 import unittest
+
+# Import project files
+from content.handlers.general_handlers import bot_help
 
 
 class TestBotHelp(unittest.TestCase):

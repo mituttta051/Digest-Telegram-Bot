@@ -1,6 +1,9 @@
+# Import built-in packages
+import unittest
+
+# Import project files
 from content.FSMs.settings_FSMs import SettingsFSM
 from content.handlers.settings_handlers import bot_settings
-import unittest
 
 
 class TestBotSettings(unittest.TestCase):
