@@ -71,9 +71,8 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#team-49">Team 49</a>
+    <li><a href="#team-49">Team 49</a></li>
     <li><a href="#admin">Detailed user guide</a></li>
-      <ul></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -178,10 +177,15 @@ Create a .env file in the project root directory and add your Telegram bot token
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-To run the bot, use the following command:
+To run the bot:
+1. Download the [Docker Desktop](https://www.docker.com/products/docker-desktop/)'
+2. Write to colsole:
 
 ```sh
-   python run_bot.py
+   docker build -t digest:latest --platform linux/amd64 .
+    docker compose down
+    docker compose up
+  docker logs digestbot-digest-bot-service-1 --follow
    ```
 [Back to Top](#readme-top)
 
@@ -272,7 +276,7 @@ See the [open issues](https://gitlab.pg.innopolis.university/i.ershov/digestBot/
 [Back to Top](#readme-top)
 
 <!-- DETAILED USER GUIDE -->
-## Detailed user guide
+## Detailed User Guide
 
 Step-by-step instruction of how to use the DigestTelegramBot 👇:
   1. **Add bot as an admin to your channel:**
