@@ -42,8 +42,12 @@ async def bot_digest(message: Message, state: FSMContext) -> None:
     # Get a list of channels with permissions for the chat
     channels = await get_channels_with_permissions(message.chat.id)
 
-    # Send a message with a keyboard to choose a channel
-    await message.answer(await localise("Choose a channel", state),
+    if len(channels) == 0:
+        # if there are no channels, need to return automatically
+        await digest_back_to_main_auto(message, state)
+    else:
+        # Send a message with a keyboard to choose a channel
+        await message.answer(await localise("Choose a channel", state),
                          reply_markup=await gk.channels_keyboard(channels, state))
 
 
@@ -55,6 +59,13 @@ async def digest_back_to_main(callback: CallbackQuery, state: FSMContext) -> Non
 
     # Start the bot from the main menu
     await bot_start(callback.message, state)
+
+
+async def digest_back_to_main_auto(message: Message, state: FSMContext) -> None:
+    await message.answer(await localise("Add the bot to your channel first", state))
+
+    # Start the bot from the main menu
+    await bot_start(message, state)
 
 
 @digest_router.callback_query(DigestFSM.choose_channel)
