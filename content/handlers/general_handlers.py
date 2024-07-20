@@ -1,5 +1,3 @@
-# A file that will contain general message, command and callback handlers
-
 # Import downloaded packages
 from aiogram import Router, F, Bot
 from aiogram.filters import CommandStart, ChatMemberUpdatedFilter, IS_NOT_MEMBER, ADMINISTRATOR
@@ -27,10 +25,11 @@ async def bot_start(message: Message, state: FSMContext):
     to the user.
 
     Args:
-        message (Message): The incoming message object containing the /start command.
+        message (aiogram.types.message): The incoming message object containing the /start command.
+        state (aiogram.fsm.context.FSMContext): The state context object used to manage the finite state machine.
     """
 
-    await state.set_state(SettingsFSM.data)
+    await state.set_state(SettingsFSM.data)  # Todo: Remove due to irrelevancy
 
     await state.update_data(user_id=message.from_user.id)
 
@@ -50,7 +49,8 @@ async def bot_help(message: Message, state: FSMContext):
     This function is triggered when a user sends a message with the text "Help". It sends a help message to the user.
 
     Args:
-        message (Message): The incoming message object containing the "Help" text.
+        message (aiogram.types.message): The incoming message object containing the "Help" text.
+        state (aiogram.fsm.context.FSMContext): The state context object used to manage the finite state machine.
     """
     message_help = await localise("Settings", state)
     await message.answer(message_help, reply_markup=await gk.start_reply_keyboard(state))
@@ -96,7 +96,7 @@ async def get_post(message: Message, bot: Bot):
     the channel ID in the database.
 
     Args:
-        message (Message): The incoming channel post message object.
+        message (aiogram.types.message): The incoming channel post message object.
         bot (Bot): The bot instance to get the bot's user ID.
     """
     put_message(message, message.chat.id)

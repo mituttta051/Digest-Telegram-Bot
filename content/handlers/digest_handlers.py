@@ -1,11 +1,7 @@
-# A file that will contain message, command and callback handlers from digest branch
-
 # Import downloaded packages
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
-from content.keyboards.digest_keyboards import supported_period_inline_keyboard
 
 # Import project files
 from content.FSMs.digest_FSMs import DigestFSM
@@ -94,10 +90,10 @@ async def digest_back_to_choose_channel(callback: CallbackQuery, state: FSMConte
     await bot_digest(callback.message, state)
 
 
-@digest_router.message(F.text.regexp(r'^\d+$'))
+@digest_router.message(F.text.regexp(r'^\d+$'))  # Todo: Move state to decorator
 async def handle_custom_period(message: Message, state: FSMContext) -> None:
     if await state.get_state() == DigestFSM.choose_period.state:
-        period = int(message.text)
+        period = int(message.text)  # Todo: Remove redundant part due to regexp accept only one number as input
         await set_custom_period(message, state)
 
 
@@ -106,9 +102,11 @@ async def handle_custom_period(message: Message, state: FSMContext) -> None:
 async def set_custom_period(message: Message, state: FSMContext) -> None:
     try:
         custom_period = int(message.text)
-        await message.answer(await localise("Custom period set to", state) + message.text + await localise("days", state))
+        await message.answer(
+            await localise("Custom period set to", state) + message.text + await localise("days", state))
         await state.update_data(period=message.text)
 
+        # Todo: Use digest_generate method. Possibly split period define and digest creation methods
         # Set the state to generate the digest
         await state.set_state(DigestFSM.digest)
         data = await state.get_data()
@@ -296,8 +294,8 @@ async def cancel_editing(callback: CallbackQuery, state: FSMContext) -> None:
     await callback.message.edit_text(text=callback.message.html_text,
                                      reply_markup=gk.one_button_keyboard("inline",
                                                                          await localise("❌Cancel editing", state))
-
                                      )
+
     # Retrieve the initial text from the state data
     data = await state.get_data()
     initial_text = data['initial_text']
@@ -381,7 +379,7 @@ async def digest_regenerate(callback: CallbackQuery, state: FSMContext) -> None:
             `utils.LLMUtils.generate_summary`: function that create a digest from the messages.
         """
     # Acknowledge the regeneration selection
-    await callback.answer('You chose "Regenerate"')
+    await callback.answer('You chose "Regenerate"')  # Todo: Localise
 
     await callback.message.answer(text=await localise("Digest is preparing...", state))
 

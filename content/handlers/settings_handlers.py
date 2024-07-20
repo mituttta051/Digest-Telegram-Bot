@@ -1,9 +1,6 @@
-# A file that will contain general message, command and callback handlers from settings branch
-
 # Import downloaded packages
 from aiogram import Router, F
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message, CallbackQuery
 
 # Import project files
@@ -15,7 +12,8 @@ from resources.locales.buttons import buttons
 from resources.locales.translation_dictionary import localise
 from utils.botUtils import get_channels_with_permissions, get_bot_language, get_data
 from utils.databaseUtils import get_additional_language, get_main_language, update_main_language, \
-    update_additional_language, update_bot_language, change_auto_digest, change_auto_digest_date, update_api_key, update_folder_id
+    update_additional_language, update_bot_language, change_auto_digest, \
+    change_auto_digest_date, update_api_key, update_folder_id
 from content.schedulers.auto_digest_scheduler import update_scheduler
 
 # Create a router instance for settings-related message and callback handlers
@@ -32,9 +30,8 @@ async def bot_settings(message: Message, state: FSMContext):
     settings menu and provides an inline keyboard for navigating the settings.
 
     Args:
-        message (Message): The incoming message object containing the "Settings" text.
-        :param message:
-        :param state:
+        message (aiogram.types.message): The incoming message object containing the "Settings" text.
+        state (aiogram.fsm.context.FSMContext): The state context object used to manage the finite state machine.
     """
 
     await state.set_state(SettingsFSM.settings)
@@ -52,9 +49,8 @@ async def settings_back(message: Message, state: FSMContext):
     It acknowledges the selection and returns the user to the main menu by calling the `bot_start` function.
 
     Args:
-        callback (CallbackQuery): The callback query object with the "settings_back" data.
-        :param message:
-        :param state:
+        message (aiogram.types.message): The incoming message object containing user id.
+        state (aiogram.fsm.context.FSMContext): The state context object used to manage the finite state machine.
     """
 
     # await state.clear()
@@ -86,7 +82,7 @@ async def chose_bot_language(callback: CallbackQuery, state: FSMContext):
 
     last = await get_bot_language(state)
 
-    await state.set_state(SettingsFSM.data)
+    await state.set_state(SettingsFSM.data)  # Todo: Remove due to irrelevancy
 
     await state.update_data(selected_bot_language=selected_language)
 
@@ -126,7 +122,7 @@ async def choose_channel_back_to_settings(callback: CallbackQuery, state: FSMCon
 
 @settings_router.callback_query(SettingsFSM.choose_channel)
 async def channel_settings(callback: CallbackQuery, state: FSMContext):
-    await state.set_state(SettingsFSM.data)
+    await state.set_state(SettingsFSM.data)  # Todo: Remove due to irrelevancy
     await state.update_data(channel_id=callback.data)
     await state.set_state(SettingsFSM.channel_settings)
     await state.update_data(channel_id=callback.data)
@@ -177,8 +173,8 @@ async def choose_llm(callback: CallbackQuery, state: FSMContext):
     await callback.message.answer(await localise("Choose the llm for your chanel", state),
                                   reply_markup=await sk.digest_bot_llm_keyboard(channel, state))
 
-@settings_router.callback_query(F.data == "back",
-                                SettingsFSM.main_language or SettingsFSM.additional_language)
+
+@settings_router.callback_query(F.data == "back", SettingsFSM.main_language or SettingsFSM.additional_language)
 async def choose_main_language_back_to_channel_settings(callback: CallbackQuery, state: FSMContext):
     await state.set_state(SettingsFSM.channel_settings)
 
@@ -206,6 +202,7 @@ async def chose_main_language(callback: CallbackQuery, state: FSMContext):
     last = get_main_language(channel_id)
 
     await callback.answer(await localise("You chose ", state) + callback.data)
+
     new_language = "?"
     if callback.data == "en":
         new_language = "en"
@@ -231,6 +228,8 @@ async def chose_additional_language(callback: CallbackQuery, state: FSMContext):
     last = get_additional_language(channel_id)
 
     await callback.answer(await localise("You chose ", state) + callback.data)
+
+    # Todo: Refactor code below
     new_language = "?"
     if callback.data == "en":
         new_language = "en"
@@ -254,7 +253,7 @@ async def chose_additional_language(callback: CallbackQuery, state: FSMContext):
 @settings_router.callback_query(SettingsFSM.channel_settings)
 async def auto_digest_settings(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
-    data = await get_data(state)
+    data = await get_data(state)  # Todo: Replace with a state.get_data()
     await callback.message.answer(await localise("Choose one of the options", state),
                                   reply_markup=await sk.auto_digest_settings_keyboard(data.get("channel_id", "0"),
                                                                                       state))
@@ -265,7 +264,7 @@ async def auto_digest_settings(callback: CallbackQuery, state: FSMContext):
 async def auto_digest_switch(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     await change_auto_digest(state)
-    data = await get_data(state)
+    data = await get_data(state)  # Todo: Replace with a state.get_data()
     update_scheduler()
     await callback.message.edit_text(await localise("Choose one of the options", state),
                                      reply_markup=await sk.auto_digest_settings_keyboard(data.get("channel_id", "0"),
@@ -294,7 +293,7 @@ async def auto_digest_switch(callback: CallbackQuery, state: FSMContext):
 @settings_router.callback_query(F.data == "back", SettingsFSM.auto_digest_date)
 async def auto_digest_switch(callback: CallbackQuery, state: FSMContext):
     await callback.answer(await localise("You return back", state))
-    data = await get_data(state)
+    data = await get_data(state)  # Todo: Replace with a state.get_data()
     await callback.message.answer(await localise("Choose one of the options", state),
                                   reply_markup=await sk.auto_digest_settings_keyboard(data.get("channel_id", "0"),
                                                                                       state))
@@ -303,6 +302,7 @@ async def auto_digest_switch(callback: CallbackQuery, state: FSMContext):
 
 @settings_router.message(SettingsFSM.auto_digest_date)
 async def auto_digest_switch(message: Message, state: FSMContext):
+    # Todo: Reformat code below. Maybe use regexp
     args = message.html_text.split(" ")
     if len(args) != 2:
         await message.answer(await localise("Incorrect format. Try again", state))
@@ -323,7 +323,7 @@ async def auto_digest_switch(message: Message, state: FSMContext):
             "auto digest interval error",
             state))
         return
-    data = await get_data(state)
+    data = await get_data(state)  # Todo: Replace with a state.get_data()
     change_auto_digest_date(data.get("channel_id", "0"), f"{minutes} {hours} * * {day}")
     update_scheduler()
     await message.answer(await localise("You successfully changed the auto digest time", state))

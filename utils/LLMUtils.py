@@ -1,7 +1,7 @@
 # Import built-in packages
 import asyncio
 import json
-import requests
+import requests  # Todo: Remove unused import
 
 # Import downloaded packages
 import aiohttp
@@ -15,6 +15,7 @@ from utils.databaseUtils import get_main_language, get_additional_language, get_
 
 async def generate_summary(messages: list[tuple[int, str, str, str]], channel: str, user_message: Message,
                            by_one_message: bool = True) -> str:
+    # Todo: Add documentation for arguments: channel, user_message, by_one_message
     """
     Asynchronously generates a summary by creating a response for each message in the provided list.
 
@@ -30,6 +31,7 @@ async def generate_summary(messages: list[tuple[int, str, str, str]], channel: s
     """
     main_language = get_main_language(channel)
     additional_language = get_additional_language(channel)
+    # Todo: Should be moved to resources/locales ?
     texts = {"en": "Digest", "ru": "Дайджест"}
     langs = {"en": "английском", "ru": "русском"}
     res = ["🦄 " + str(texts[main_language]) + "\n"]
@@ -70,6 +72,7 @@ async def generate_summary(messages: list[tuple[int, str, str, str]], channel: s
 # Define an asynchronous function to create a response using the Yandex GPT API
 async def create_response(messages: list[tuple[str, str]], by_one_message: bool, digest_lang: str, channel: str,
                           free=True) -> str:
+    # Todo: Rewrite documentation. Add documentation for arguments: by_one_message, digest_lang, channel, free
     """
     Asynchronous function to create a response using the Yandex GPT API.
 
@@ -79,15 +82,14 @@ async def create_response(messages: list[tuple[str, str]], by_one_message: bool,
     exception occurs during parsing or if the response status is 429, appropriate error messages are returned.
 
     Args:
-        message (str): The user input message to be processed by the Yandex GPT API.
+        messages (list[str]): The user input messages to be processed by the LLM.
 
     Returns:
         str: The generated response text from the Yandex GPT API.
-        :param by_one_message:
-        :param messages:
     """
     YGPT_FOLDER_ID = get_folder_id(channel)
     YGPT_TOKEN = get_api_key(channel)
+    # Todo: Should be moved to resources/locales ?
     langs = {"en": "английском", "ru": "русском"}
 
     if YGPT_FOLDER_ID != None and YGPT_TOKEN != None:
@@ -183,7 +185,8 @@ async def create_response(messages: list[tuple[str, str]], by_one_message: bool,
     return res
 
 
-async def update_message(num, completed, user_message, res, messages, by_one_message, language, channel):
+async def update_message(num: int, completed: list[bool], user_message: Message, res: list[str],
+                         messages: list[tuple[str, str]], by_one_message: bool, language: str, channel: str) -> None:
     ans = await create_response(messages, by_one_message, language, channel)
     while num != 0 and not completed[num - 1]:
         await asyncio.sleep(0.2)

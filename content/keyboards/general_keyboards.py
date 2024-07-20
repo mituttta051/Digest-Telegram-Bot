@@ -1,17 +1,18 @@
-# A file that will store the general keyboards
-# Or keyboards that doesn't belong to branches
+# Import built-in packages
 from typing import Union
 
 # Import downloaded packages
+from aiogram.fsm.context import FSMContext
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
+# Import project files
 from resources.locales.translation_dictionary import localise
 
 return_back_button = InlineKeyboardButton(text="⬅️Back", callback_data="back")
 
 
 # Define the start menu reply keyboard
-async def start_reply_keyboard(state):
+async def start_reply_keyboard(state: FSMContext) -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(keyboard=[
         [KeyboardButton(text=await localise("✍🏼Create digest", state))],
         [KeyboardButton(text=await localise("❓Help", state)), KeyboardButton(text=await localise("⚙️Settings", state))]
@@ -66,7 +67,7 @@ def one_button_keyboard(button_type: str, text: str) -> Union[ReplyKeyboardMarku
 
 
 # Define a function to create an inline keyboard for channel selection
-async def channels_keyboard(channels: list[(str, str)], state) -> InlineKeyboardMarkup:
+async def channels_keyboard(channels: list[(str, str)], state: FSMContext) -> InlineKeyboardMarkup:
     """
     Function to generate an inline keyboard for selecting channels.
 
@@ -76,15 +77,18 @@ async def channels_keyboard(channels: list[(str, str)], state) -> InlineKeyboard
 
     Args:
         channels (list of tuples): A list of tuples where each tuple contains a channel ID and a channel name.
+        state (aiogram.fsm.context.FSMContext): The state context object used to manage the finite state machine.
 
     Returns:
-        InlineKeyboardMarkup: An inline keyboard with buttons for each channel.
+        InlineKeyboardMarkup (aiogram.types.inline_keyboard_markup): An inline keyboard with buttons for each channel.
     """
     channels_kb_list = [
-        [InlineKeyboardButton(text=name, callback_data=str(channel_id))] for (channel_id, name, main_l, additional_l, auto_digest, auto_digest_date, api_key, folder_id) in channels
+        [InlineKeyboardButton(text=name, callback_data=str(channel_id))] for
+        (channel_id, name, main_l, additional_l, auto_digest, auto_digest_date, api_key, folder_id) in channels
     ]
     if len(channels_kb_list) == 0:
-        channels_kb_list.append([InlineKeyboardButton(text=await localise("⬅️Add the bot to your channel first", state), callback_data="back")])
+        channels_kb_list.append([InlineKeyboardButton(text=await localise("⬅️Add the bot to your channel first", state),
+                                                      callback_data="back")])
     else:
         channels_kb_list.append([InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")])
     return InlineKeyboardMarkup(inline_keyboard=channels_kb_list)
