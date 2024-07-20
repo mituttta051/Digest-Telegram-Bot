@@ -16,12 +16,19 @@ async def digest_inline_keyboard(state: FSMContext) -> InlineKeyboardMarkup:
     ])
 
 
+async def digest_inline_keyboard_cancel(state):
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=await localise("❌Cancel", state), callback_data="digest_cancel")]
+    ])
+
+
 # Create an inline keyboard for supported period selection
 async def supported_period_inline_keyboard(state: FSMContext) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=await localise("Week (7 days)", state), callback_data="7")],
         [InlineKeyboardButton(text=await localise("2 weeks (14 days)", state), callback_data="14")],
         [InlineKeyboardButton(text=await localise("1 Month (30 days)", state), callback_data="30")],
+        [InlineKeyboardButton(text=await localise("Custom period", state), callback_data="custom_period")],
         [InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")]
     ])
 

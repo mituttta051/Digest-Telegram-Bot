@@ -94,6 +94,7 @@ translations = {
         "Enter folder id": "Введите folder id",
         "Current LLM changed": "Текущий LLM изменена",
         "Default(free) model": "Модель по умолчанию(бесплатная)",
+        "Please enter a custom period": "Пожалуйста введите кастомный период"
     },
     'en': {
         "Choose a channel": "Choose a channel to create a digest (you and bot must be administrators)",
@@ -182,6 +183,7 @@ translations = {
         "Enter folder id": "Enter folder id",
         "Current LLM changed": "Current LLM changed",
         "Default(free) model": "Default(free) model",
+        "Please enter a custom period": "Please enter a custom period"
     },
 }
 

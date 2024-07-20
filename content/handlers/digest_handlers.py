@@ -1,3 +1,5 @@
+# A file that will contain message, command and callback handlers from digest branch
+
 # Import downloaded packages
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
@@ -101,11 +103,20 @@ async def digest_back_to_choose_channel(callback: CallbackQuery, state: FSMConte
     await bot_digest(callback.message, state)
 
 
-@digest_router.message(F.text.regexp(r'^\d+$'))  # Todo: Move state to decorator
+@digest_router.message(F.text.regexp(r'^\d+$'), DigestFSM.choose_period)
 async def handle_custom_period(message: Message, state: FSMContext) -> None:
-    if await state.get_state() == DigestFSM.choose_period.state:
-        period = int(message.text)  # Todo: Remove redundant part due to regexp accept only one number as input
-        await set_custom_period(message, state)
+    await set_custom_period(message, state)
+
+
+@digest_router.callback_query(F.data == "custom_period", DigestFSM.choose_period)
+async def custom_period_handler(callback: CallbackQuery, state: FSMContext) -> None:
+    await callback.answer()
+
+    # Set the state to choose a custom period for the digest
+    await state.set_state(DigestFSM.choose_custom_period)
+
+    # Prompt the user to input a custom period for the digest
+    await callback.message.answer(await localise("Please enter a custom period", state))
 
 
 # Handler for custom period input
@@ -130,13 +141,15 @@ async def set_custom_period(message: Message, state: FSMContext) -> None:
 
         user_message = await message.answer(text="...")
 
+        # Generate the digest summary
         if len(messages) == 0:
             digest = await localise("Nothing has been posted since the bot was added", state)
+            await user_message.edit_text(text=digest)
+            # Start the bot from the main menu
+            await bot_start(message, state)
         else:
             digest = await generate_summary(messages, data['channel'], user_message)
-
-        # Send the digest with an inline keyboard for further actions
-        await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
+            await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
     except:
         await message.answer(await localise("You write incorrect number", state))
         await state.set_state(DigestFSM.choose_period)
@@ -192,13 +205,15 @@ async def digest_generate(callback: CallbackQuery, state: FSMContext) -> None:
 
     user_message = await callback.message.answer(text="...")
 
+    # Generate the digest summary
     if len(messages) == 0:
         digest = await localise("Nothing has been posted since the bot was added", state)
+        await user_message.edit_text(text=digest)
+        # Start the bot from the main menu
+        await bot_start(callback.message, state)
     else:
         digest = await generate_summary(messages, data['channel'], user_message)
-
-    # Send the digest with an inline keyboard for further actions
-    await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
+        await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
 
 
 @digest_router.callback_query(F.data == "digest_approve", DigestFSM.digest)
@@ -405,11 +420,12 @@ async def digest_regenerate(callback: CallbackQuery, state: FSMContext) -> None:
     # Generate the digest summary
     if len(messages) == 0:
         digest = await localise("Nothing has been posted since the bot was added", state)
+        await user_message.edit_text(text=digest)
+        # Start the bot from the main menu
+        await bot_start(callback.message, state)
     else:
         digest = await generate_summary(messages, data['channel'], user_message)
-
-    # Edit the message to display the new digest with the digest inline keyboard
-    await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
+        await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
 
 
 @digest_router.callback_query(F.data == "empty-data")
