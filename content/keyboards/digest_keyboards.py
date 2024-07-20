@@ -15,6 +15,12 @@ async def digest_inline_keyboard(state):
     ])
 
 
+async def digest_inline_keyboard_cancel(state):
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=await localise("❌Cancel", state), callback_data="digest_cancel")]
+    ])
+
+
 # Create an inline keyboard for supported period selection
 async def supported_period_inline_keyboard(state):
     return InlineKeyboardMarkup(inline_keyboard=[

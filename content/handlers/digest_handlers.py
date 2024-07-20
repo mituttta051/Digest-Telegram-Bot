@@ -94,36 +94,29 @@ async def digest_back_to_choose_channel(callback: CallbackQuery, state: FSMConte
     await bot_digest(callback.message, state)
 
 
-@digest_router.message(F.text.regexp(r'^\d+$'))
+@digest_router.message(F.text.regexp(r'^\d+$'), DigestFSM.choose_period)
 async def handle_custom_period(message: Message, state: FSMContext) -> None:
-    if await state.get_state() == DigestFSM.choose_period.state:
-        period = int(message.text)
-        await set_custom_period(message, state)
+    await set_custom_period(message, state)
 
-@digest_router.message(F.text.in_(buttons["choose_custom_period"]))
-async def custom_period_handler(message: Message, state: FSMContext) -> None:
-    """
-    Asynchronous function to handle the "Choose Custom Period" message button press.
 
-    This function is triggered when a user selects the "Choose Custom Period" button. It sets the state to
-    `DigestFSM.choose_custom_period` to prompt the user to input a custom period for the digest.
+@digest_router.callback_query(F.data == "custom_period", DigestFSM.choose_period)
+async def custom_period_handler(callback: CallbackQuery, state: FSMContext) -> None:
+    await callback.answer()
 
-    Args:
-        message (aiogram.types.Message): The incoming message object containing the "Choose Custom Period" button press.
-        state (aiogram.fsm.context.FSMContext): The state context object used to manage the finite state machine.
-    """
     # Set the state to choose a custom period for the digest
     await state.set_state(DigestFSM.choose_custom_period)
 
     # Prompt the user to input a custom period for the digest
-    await message.answer(await localise("Please enter a custom period", state))
+    await callback.message.answer(await localise("Please enter a custom period", state))
+
 
 # Handler for custom period input
 @digest_router.message(DigestFSM.choose_custom_period)
 async def set_custom_period(message: Message, state: FSMContext) -> None:
     try:
         custom_period = int(message.text)
-        await message.answer(await localise("Custom period set to", state) + message.text + await localise("days", state))
+        await message.answer(
+            await localise("Custom period set to", state) + message.text + await localise("days", state))
         await state.update_data(period=message.text)
 
         # Set the state to generate the digest
@@ -138,13 +131,15 @@ async def set_custom_period(message: Message, state: FSMContext) -> None:
 
         user_message = await message.answer(text="...")
 
+        # Generate the digest summary
         if len(messages) == 0:
             digest = await localise("Nothing has been posted since the bot was added", state)
+            await user_message.edit_text(text=digest)
+            # Start the bot from the main menu
+            await bot_start(message, state)
         else:
             digest = await generate_summary(messages, data['channel'], user_message)
-
-        # Send the digest with an inline keyboard for further actions
-        await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
+            await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
     except:
         await message.answer(await localise("You write incorrect number", state))
         await state.set_state(DigestFSM.choose_period)
@@ -200,13 +195,15 @@ async def digest_generate(callback: CallbackQuery, state: FSMContext) -> None:
 
     user_message = await callback.message.answer(text="...")
 
+    # Generate the digest summary
     if len(messages) == 0:
         digest = await localise("Nothing has been posted since the bot was added", state)
+        await user_message.edit_text(text=digest)
+        # Start the bot from the main menu
+        await bot_start(callback.message, state)
     else:
         digest = await generate_summary(messages, data['channel'], user_message)
-
-    # Send the digest with an inline keyboard for further actions
-    await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
+        await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
 
 
 @digest_router.callback_query(F.data == "digest_approve", DigestFSM.digest)
@@ -413,11 +410,12 @@ async def digest_regenerate(callback: CallbackQuery, state: FSMContext) -> None:
     # Generate the digest summary
     if len(messages) == 0:
         digest = await localise("Nothing has been posted since the bot was added", state)
+        await user_message.edit_text(text=digest)
+        # Start the bot from the main menu
+        await bot_start(callback.message, state)
     else:
         digest = await generate_summary(messages, data['channel'], user_message)
-
-    # Edit the message to display the new digest with the digest inline keyboard
-    await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
+        await user_message.edit_text(text=digest, reply_markup=await dk.digest_inline_keyboard(state))
 
 
 @digest_router.callback_query(F.data == "empty-data")
