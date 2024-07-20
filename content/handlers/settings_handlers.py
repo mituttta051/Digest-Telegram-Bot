@@ -3,7 +3,6 @@
 # Import downloaded packages
 from aiogram import Router, F
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message, CallbackQuery
 
 # Import project files
@@ -15,7 +14,8 @@ from resources.locales.buttons import buttons
 from resources.locales.translation_dictionary import localise
 from utils.botUtils import get_channels_with_permissions, get_bot_language, get_data
 from utils.databaseUtils import get_additional_language, get_main_language, update_main_language, \
-    update_additional_language, update_bot_language, change_auto_digest, change_auto_digest_date, update_api_key, update_folder_id
+    update_additional_language, update_bot_language, change_auto_digest, change_auto_digest_date, update_api_key, \
+    update_folder_id
 from content.schedulers.auto_digest_scheduler import update_scheduler
 
 # Create a router instance for settings-related message and callback handlers
@@ -111,8 +111,20 @@ async def choose_channel(message: Message, state: FSMContext):
 
     channels = await get_channels_with_permissions(message.chat.id)
 
-    await message.answer(await localise("Choose a channel", state),
-                         reply_markup=await gk.channels_keyboard(channels, state))
+    if len(channels) == 0:
+        # if there are no channels, need to return automatically
+        await back_to_settings_auto(message, state)
+    else:
+        # Send a message with a keyboard to choose a channel
+        await message.answer(await localise("Choose a channel", state),
+                             reply_markup=await gk.channels_keyboard(channels, state))
+
+
+async def back_to_settings_auto(message: Message, state: FSMContext) -> None:
+    await message.answer(await localise("Add the bot to your channel first", state))
+
+    # Start the bot from the settings menu
+    await bot_settings(message, state)
 
 
 @settings_router.callback_query(F.data == "back", SettingsFSM.choose_channel)
@@ -176,6 +188,7 @@ async def choose_llm(callback: CallbackQuery, state: FSMContext):
     await callback.answer(await localise("Choose one of the options", state))
     await callback.message.answer(await localise("Choose the llm for your chanel", state),
                                   reply_markup=await sk.digest_bot_llm_keyboard(channel, state))
+
 
 @settings_router.callback_query(F.data == "back",
                                 SettingsFSM.main_language or SettingsFSM.additional_language)

@@ -3,9 +3,7 @@
 # Import downloaded packages
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
-from content.keyboards.digest_keyboards import supported_period_inline_keyboard
 
 # Import project files
 from content.FSMs.digest_FSMs import DigestFSM
@@ -48,7 +46,7 @@ async def bot_digest(message: Message, state: FSMContext) -> None:
     else:
         # Send a message with a keyboard to choose a channel
         await message.answer(await localise("Choose a channel", state),
-                         reply_markup=await gk.channels_keyboard(channels, state))
+                             reply_markup=await gk.channels_keyboard(channels, state))
 
 
 @digest_router.callback_query(F.data == "back", DigestFSM.choose_channel)
@@ -117,7 +115,8 @@ async def handle_custom_period(message: Message, state: FSMContext) -> None:
 async def set_custom_period(message: Message, state: FSMContext) -> None:
     try:
         custom_period = int(message.text)
-        await message.answer(await localise("Custom period set to", state) + message.text + await localise("days", state))
+        await message.answer(
+            await localise("Custom period set to", state) + message.text + await localise("days", state))
         await state.update_data(period=message.text)
 
         # Set the state to generate the digest
