@@ -84,7 +84,7 @@ async def channels_keyboard(channels: list[(str, str)], state: FSMContext) -> In
     """
     channels_kb_list = [
         [InlineKeyboardButton(text=name, callback_data=str(channel_id))] for
-        (channel_id, name, main_l, additional_l, auto_digest, auto_digest_date, api_key, folder_id) in channels
+        (channel_id, name, main_l, additional_l, auto_digest, auto_digest_date, api_key, folder_id, system_prompt) in channels
     ]
     if len(channels_kb_list) == 0:
         pass

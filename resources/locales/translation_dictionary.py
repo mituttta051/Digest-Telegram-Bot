@@ -94,7 +94,12 @@ translations = {
         "Enter folder id": "Введите folder id",
         "Current LLM changed": "Текущий LLM изменена",
         "Default(free) model": "Модель по умолчанию(бесплатная)",
-        "Please enter a custom period": "Пожалуйста введите кастомный период"
+        "Please enter a custom period": "Пожалуйста введите кастомный период",
+        "✏️Custom system prompt": "✏️Кастомный системный промпт",
+        "Write your system prompt": "Введите ваш системный промпт",
+        "You successfully removed the system prompt": "Вы успешно удалили системный промпт",
+        "❌Remove system prompt": "❌Удалить системный промпт",
+        "You successfully changed the system prompt": "Вы успешно изменили системный промпт"
     },
     'en': {
         "Choose a channel": "Choose a channel to create a digest (you and bot must be administrators)",
@@ -183,7 +188,12 @@ translations = {
         "Enter folder id": "Enter folder id",
         "Current LLM changed": "Current LLM changed",
         "Default(free) model": "Default(free) model",
-        "Please enter a custom period": "Please enter a custom period"
+        "Please enter a custom period": "Please enter a custom period",
+        "✏️Custom system prompt": "✏️Custom system prompt",
+        "Write your system prompt": "Write your system prompt",
+        "You successfully removed the system prompt": "You successfully removed the system prompt",
+        "❌Remove system prompt": "❌Remove system prompt",
+        "You successfully changed the system prompt": "You successfully changed the system prompt"
     },
 }
 

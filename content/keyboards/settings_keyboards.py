@@ -31,7 +31,14 @@ async def channel_settings_inline_keyboard(state: FSMContext) -> InlineKeyboardM
         [InlineKeyboardButton(text=await localise("🌍Main language", state), callback_data="main_language")],
         [InlineKeyboardButton(text=await localise("🌎Additional language", state),
                               callback_data="additional_language")],
+        [InlineKeyboardButton(text=await localise("✏️Custom system prompt", state), callback_data="custom_system_prompt")],
         [InlineKeyboardButton(text=await localise("🤖Auto digest", state), callback_data="auto_digest")],
+        [InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")]
+    ])
+
+async def channel_settings_system_prompt_inline_keyboard(state: FSMContext) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=await localise("❌Remove system prompt", state), callback_data="remove_system_prompt")],
         [InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")]
     ])
 

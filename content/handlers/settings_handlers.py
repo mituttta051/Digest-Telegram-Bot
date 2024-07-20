@@ -13,7 +13,7 @@ from resources.locales.translation_dictionary import localise
 from utils.botUtils import get_channels_with_permissions, get_bot_language, get_data
 from utils.databaseUtils import get_additional_language, get_main_language, update_main_language, \
     update_additional_language, update_bot_language, change_auto_digest, change_auto_digest_date, update_api_key, \
-    update_folder_id
+    update_folder_id, update_system_prompt
 from content.schedulers.auto_digest_scheduler import update_scheduler
 
 # Create a router instance for settings-related message and callback handlers
@@ -263,7 +263,7 @@ async def chose_additional_language(callback: CallbackQuery, state: FSMContext):
                                   reply_markup=await sk.channel_settings_inline_keyboard(state))
 
 
-@settings_router.callback_query(SettingsFSM.channel_settings)
+@settings_router.callback_query(F.data == "auto_digest", SettingsFSM.channel_settings)
 async def auto_digest_settings(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     data = await get_data(state)  # Todo: Replace with a state.get_data()
@@ -382,5 +382,50 @@ async def input_second_text(message: Message, state: FSMContext):
     update_folder_id(channel_id, message.text)
     await message.answer(await localise("Current LLM changed", state))
     await state.set_state(SettingsFSM.channel_settings)
+    await message.answer(await localise("Choose one of the options", state),
+                         reply_markup=await sk.channel_settings_inline_keyboard(state))
+
+
+@settings_router.callback_query(F.data == "custom_system_prompt", SettingsFSM.channel_settings)
+async def custom_system_prompt_handler(callback: CallbackQuery, state: FSMContext):
+    await state.set_state(SettingsFSM.custom_system_prompt)
+    await callback.answer()
+    await callback.message.answer(await localise("Write your system prompt", state),
+                                  reply_markup=await sk.channel_settings_system_prompt_inline_keyboard(state))
+
+
+@settings_router.callback_query(F.data == "back", SettingsFSM.custom_system_prompt)
+async def back_handler(callback: CallbackQuery, state: FSMContext):
+    await state.set_state(SettingsFSM.channel_settings)
+
+    await callback.answer(await localise("You return back", state))
+
+    await callback.message.answer(await localise("Choose one of the options", state),
+                                  reply_markup=await sk.channel_settings_inline_keyboard(state))
+
+
+@settings_router.callback_query(F.data == "remove_system_prompt", SettingsFSM.custom_system_prompt)
+async def system_prompt_remove_handler(callback: CallbackQuery, state: FSMContext):
+    data = await state.get_data()
+    channel_id = data.get('channel_id')
+    update_system_prompt(channel_id, "")
+
+    await state.set_state(SettingsFSM.channel_settings)
+
+    await callback.answer()
+    await callback.message.answer(await localise("You successfully removed the system prompt", state))
+    await callback.message.answer(await localise("Choose one of the options", state),
+                                  reply_markup=await sk.channel_settings_inline_keyboard(state))
+
+
+@settings_router.message(SettingsFSM.custom_system_prompt)
+async def new_system_prompt_handler(message: Message, state: FSMContext):
+    data = await state.get_data()
+    channel_id = data.get('channel_id')
+    update_system_prompt(channel_id, message.html_text)
+
+    await state.set_state(SettingsFSM.channel_settings)
+
+    await message.answer(await localise("You successfully changed the system prompt", state))
     await message.answer(await localise("Choose one of the options", state),
                          reply_markup=await sk.channel_settings_inline_keyboard(state))

@@ -36,4 +36,5 @@ class SettingsFSM(StatesGroup):
     llm_ygpt = State()  # Todo: Use state or remove it
     ygpt_api = State()
     ygpt_id = State()
+    custom_system_prompt = State()
     data = State()  # Todo: Use state properly or remove it due to irrelevancy

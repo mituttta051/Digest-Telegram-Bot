@@ -35,7 +35,8 @@ def create_tables() -> None:
     auto_digest TEXT DEFAULT 'no',
     auto_digest_date TEXT DEFAULT '0 15 * * 6',
     api_key TEXT,
-    folder_id TEXT
+    folder_id TEXT,
+    system_prompt TEXT DEFAULT ''
 )"""
     )
     conn.commit()
@@ -175,3 +176,14 @@ def update_api_key(channel_id: Union[str, int], api_key: str) -> None:
 def update_folder_id(channel_id: Union[str, int], folder_id: str) -> None:
     cur.execute("UPDATE channels SET folder_id = %s WHERE channel_id = %s", (folder_id, channel_id))
     conn.commit()
+
+
+def update_system_prompt(channel_id: Union[str, int], system_prompt: str) -> None:
+    cur.execute("UPDATE channels SET system_prompt = %s WHERE channel_id = %s", (system_prompt, channel_id))
+    conn.commit()
+
+
+def get_system_prompt(channel_id: Union[str, int]) -> Union[str, None]:
+    cur.execute("SELECT system_prompt FROM channels WHERE channel_id = %s", (channel_id,))
+    result = cur.fetchone()
+    return result[0] if result else None

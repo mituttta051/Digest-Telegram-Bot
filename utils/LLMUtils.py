@@ -10,7 +10,8 @@ from aiogram.types import Message
 # Import project files
 from config import HUGGING_FACE_TOKEN
 from utils.botUtils import attach_link_to_message
-from utils.databaseUtils import get_main_language, get_additional_language, get_folder_id, get_api_key
+from utils.databaseUtils import get_main_language, get_additional_language, get_folder_id, get_api_key, \
+    get_system_prompt
 
 
 async def generate_summary(messages: list[tuple[int, str, str, str]], channel: str, user_message: Message,
@@ -125,6 +126,9 @@ async def create_response(messages: list[tuple[str, str]], by_one_message: bool,
             "max_tokens": 500,
             "stream": False,
         }
+    system_prompt = get_system_prompt(channel)
+    if system_prompt != "":
+        prompt["messages"].append({"role": "system", text: system_prompt})
     # text_ru = f"Опиши назначение инструмента 1 предложением с упоминанием его названия ОБЯЗАТЕЛЬНО через тире. Если ты не поставил тире, поставь тире. Всегда используй смайлик в начале сообщения. Если ты не поставил смайлик, поставь смайлик 🦄"
     # text_en = f"Опиши на английском назначение инструмента 1 предложением с упоминанием его названия ОБЯЗАТЕЛЬНО через тире. Если ты не поставил тире, поставь тире. Всегда используй смайлик в начале сообщения. Если ты не поставил смайлик, поставь смайлик 🦄"
 
