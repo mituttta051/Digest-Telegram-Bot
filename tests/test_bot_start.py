@@ -1,7 +1,12 @@
+# Import built-in packages
 import unittest
 from unittest.mock import AsyncMock, patch
+
+# Import downloaded packages
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
+
+# Import project files
 from content.FSMs.settings_FSMs import SettingsFSM
 from content.handlers.general_handlers import bot_start
 

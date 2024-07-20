@@ -1,4 +1,4 @@
-# Define a StatesGroup for the DigestFSM finite state machine
+# Import downloaded packages
 from aiogram.fsm.state import State, StatesGroup
 
 
@@ -11,7 +11,7 @@ class DigestFSM(StatesGroup):
 
     States:
         choose_channel (aiogram.fsm.state.State): The state where the user is prompted to choose a channel for the digest.
-        choose_period (aiogram.fsm.state.StateState): The state where the user is prompted to choose the period for the digest.
+        choose_period (aiogram.fsm.state.State): The state where the user is prompted to choose the period for the digest.
         digest (aiogram.fsm.state.StateState): The state where the digest is being generated or displayed.
         edit_text (aiogram.fsm.state.StateState): The state where the user is prompted to edit the text of the digest.
     """

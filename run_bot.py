@@ -1,11 +1,10 @@
 # Import downloaded packages
 import asyncio
+from apscheduler.schedulers.background import BackgroundScheduler  # Todo: Remove unused import
 
-from apscheduler.schedulers.background import BackgroundScheduler
-
-from content.schedulers.auto_digest_scheduler import update_scheduler
 # Import project files
 from create_bot import bot, dp, scheduler
+from content.schedulers.auto_digest_scheduler import update_scheduler
 from content.handlers.general_handlers import general_router
 from content.handlers.digest_handlers import digest_router
 from content.handlers.settings_handlers import settings_router

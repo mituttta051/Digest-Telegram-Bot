@@ -1,5 +1,9 @@
-from content.handlers.settings_handlers import chose_bot_language
+# Import built-in packages
 import unittest
+
+# Import project files
+from content.handlers.settings_handlers import chose_bot_language
+
 
 class TestChoseBotLanguage(unittest.TestCase):
 
@@ -8,7 +12,8 @@ class TestChoseBotLanguage(unittest.TestCase):
     @unittest.mock.patch('content.handlers.settings_handlers.localise')
     @unittest.mock.patch('content.handlers.settings_handlers.sk.settings_inline_keyboard')
     @unittest.mock.patch('content.handlers.settings_handlers.bot_settings')
-    async def test_successfully_change_bot_language(self, mock_bot_settings, mock_settings_inline_keyboard, mock_localise, mock_update_bot_language, mock_get_bot_language):
+    async def test_successfully_change_bot_language(self, mock_bot_settings, mock_settings_inline_keyboard,
+                                                    mock_localise, mock_update_bot_language, mock_get_bot_language):
         state = unittest.mock.AsyncMock()
         callback = unittest.mock.AsyncMock()
         callback.data = 'en'

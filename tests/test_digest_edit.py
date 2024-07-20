@@ -1,5 +1,9 @@
-from content.handlers.digest_handlers import digest_edit
+# Import built-in packages
 import unittest
+
+# Import project files
+from content.handlers.digest_handlers import digest_edit
+
 
 class TestDigestEdit(unittest.TestCase):
     async def test_acknowledges_edit_selection(self):

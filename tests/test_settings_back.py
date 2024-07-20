@@ -1,7 +1,13 @@
+# Import built-in packages
+import unittest
+
+# Import downloaded packages
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
+
+# Import project files
 from content.handlers.settings_handlers import settings_back
-import unittest
+
 
 class TestSettingsBack(unittest.TestCase):
 

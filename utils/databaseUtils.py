@@ -1,14 +1,17 @@
 # Import built-in packages
 from datetime import datetime
+from typing import Union
 
-import psycopg2
 # Import downloaded packages
+import psycopg2
 from aiogram.types import Message
 
+# Import project files
 from content.FSMs.settings_FSMs import SettingsFSM
 
 conn = None
 cur = None
+
 
 # Init database
 def init_db() -> None:
@@ -39,14 +42,14 @@ def create_tables() -> None:
 
 
 # Define a function to retrieve messages from a specific channel
-def get_messages(channel_id: str) -> list:
+def get_messages(channel_id: str) -> list[list]:
     table = "messages" + channel_id.replace("-", "_")
     cur.execute(f"""SELECT * FROM {table}""")
     return cur.fetchall()
 
 
 # Define a function to store a message in a specific channel's table
-def put_message(message: Message, channel_id: str) -> None:
+def put_message(message: Message, channel_id: Union[str, int]) -> None:
     base_url = "https://t.me/"
     chat_id = message.chat.id
     message_id = message.message_id
@@ -58,7 +61,7 @@ def put_message(message: Message, channel_id: str) -> None:
 
 
 # Define a function to store a channel in the database or update its name if it already exists
-def put_channel(channel_id: str, name: str) -> None:
+def put_channel(channel_id: Union[str, int], name: str) -> None:
     table = "messages" + str(channel_id).replace("-", "_")
     cur.execute(
         "INSERT INTO channels (channel_id, name, main_language, additional_language, auto_digest,auto_digest_date) VALUES (%s, %s, 'en', 'no', 'no', '0 15 * * 6') ON CONFLICT(channel_id) DO UPDATE SET name = EXCLUDED.name",
@@ -69,47 +72,54 @@ def put_channel(channel_id: str, name: str) -> None:
 
 
 # Define a function to retrieve all channels from the database
-def get_channels() -> list:
+def get_channels() -> list[list]:
     cur.execute(f"""SELECT * FROM channels""")
     return cur.fetchall()
 
-def get_main_language(channel_id):
+
+def get_main_language(channel_id: Union[str, int]) -> str:
     cur.execute("SELECT main_language FROM channels WHERE channel_id = %s", (str(channel_id),))
     return cur.fetchone()[0]
 
 
-def get_additional_language(channel_id):
+def get_additional_language(channel_id: Union[str, int]) -> str:
     cur.execute("SELECT additional_language FROM channels WHERE channel_id = %s", (str(channel_id),))
     return cur.fetchone()[0]
 
-def update_main_language(channel_id, new_language):
+
+def update_main_language(channel_id: Union[str, int], new_language: str) -> None:
     cur.execute("UPDATE channels SET main_language = %s WHERE channel_id = %s", (new_language, str(channel_id)))
     conn.commit()
 
-def update_additional_language(channel_id, new_language):
+
+def update_additional_language(channel_id: Union[str, int], new_language: str) -> None:
     cur.execute("UPDATE channels SET additional_language = %s WHERE channel_id = %s", (new_language, str(channel_id)))
     conn.commit()
 
 
-def put_user(user_id):
+def put_user(user_id: Union[str, int]) -> None:
     cur.execute(
         f"""INSERT INTO users (user_id, language) VALUES (%s, 'en') ON CONFLICT (user_id) DO NOTHING""",
         (str(user_id),))
     conn.commit()
 
-def get_bot_language_db(user_id):
+
+def get_bot_language_db(user_id: Union[str, int]) -> str:
     if user_id is None:
         return "en"
     cur.execute("SELECT language FROM users WHERE user_id = %s", (str(user_id),))
     return cur.fetchone()[0]
 
-def update_bot_language(user_id, new_language):
+
+def update_bot_language(user_id: Union[str, int], new_language: str) -> None:
     if user_id is None:
         return
     cur.execute("UPDATE users SET language = %s WHERE user_id = %s", (new_language, str(user_id)))
     conn.commit()
 
+
 async def change_auto_digest(state):
+    # Todo: Remove irrelevant state changing
     temp = await state.get_state()
     await state.set_state(SettingsFSM.data)
     data = await state.get_data()
@@ -123,39 +133,45 @@ async def change_auto_digest(state):
     change_auto_digest_(channel_id, switch)
 
 
-def change_auto_digest_(channel_id, option):
+def change_auto_digest_(channel_id: Union[str, int], option: str) -> None:
     if channel_id is None:
         return
     cur.execute("UPDATE channels SET auto_digest = %s WHERE channel_id = %s", (option, channel_id))
     conn.commit()
 
-def change_auto_digest_date(channel_id, date):
+
+def change_auto_digest_date(channel_id: Union[str, int], date: str) -> None:
     if channel_id is None:
         return
     cur.execute("UPDATE channels SET auto_digest_date = %s WHERE channel_id = %s", (date, channel_id))
     conn.commit()
 
-def get_auto_digest_data(channel_id):
+
+def get_auto_digest_data(channel_id: Union[str, int]) -> dict:
     if channel_id is None:
         return {"auto_digest": "no"}
     cur.execute("SELECT auto_digest, auto_digest_date FROM channels WHERE channel_id = %s", (channel_id,))
     result = cur.fetchone()
     return {"auto_digest": result[0], "auto_digest_date": result[1]} if result else {"auto_digest": "no"}
 
-def get_api_key(channel_id):
+
+def get_api_key(channel_id: Union[str, int]) -> Union[str, None]:
     cur.execute("SELECT api_key FROM channels WHERE channel_id = %s", (channel_id,))
     result = cur.fetchone()
     return result[0] if result else None
 
-def get_folder_id(channel_id):
+
+def get_folder_id(channel_id: Union[str, int]) -> Union[str, None]:
     cur.execute("SELECT folder_id FROM channels WHERE channel_id = %s", (channel_id,))
     result = cur.fetchone()
     return result[0] if result else None
 
-def update_api_key(channel_id, api_key):
+
+def update_api_key(channel_id: Union[str, int], api_key: str) -> None:
     cur.execute("UPDATE channels SET api_key = %s WHERE channel_id = %s", (api_key, channel_id))
     conn.commit()
 
-def update_folder_id(channel_id, folder_id):
+
+def update_folder_id(channel_id: Union[str, int], folder_id: str) -> None:
     cur.execute("UPDATE channels SET folder_id = %s WHERE channel_id = %s", (folder_id, channel_id))
     conn.commit()

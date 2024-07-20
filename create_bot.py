@@ -7,9 +7,9 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
-from apscheduler.jobstores.memory import MemoryJobStore
+from apscheduler.jobstores.memory import MemoryJobStore  # Todo: Remove unused import
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from pytz import utc, timezone
+from pytz import utc, timezone  # Todo: Remove unused import
 
 # Import project files
 from config import BOT_TOKEN

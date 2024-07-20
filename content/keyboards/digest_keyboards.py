@@ -1,12 +1,13 @@
-# A file that will store digest branch keyboards
-
 # Import downloaded packages
+from aiogram.fsm.context import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
+# Import project files
 from resources.locales.translation_dictionary import localise
 
 
 # Create an inline keyboard for digest actions
-async def digest_inline_keyboard(state):
+async def digest_inline_keyboard(state: FSMContext) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=await localise("✅Approve", state), callback_data="digest_approve")],
         [InlineKeyboardButton(text=await localise("✏️Edit", state), callback_data="digest_edit")],
@@ -16,7 +17,7 @@ async def digest_inline_keyboard(state):
 
 
 # Create an inline keyboard for supported period selection
-async def supported_period_inline_keyboard(state):
+async def supported_period_inline_keyboard(state: FSMContext) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=await localise("Week (7 days)", state), callback_data="7")],
         [InlineKeyboardButton(text=await localise("2 weeks (14 days)", state), callback_data="14")],
@@ -25,7 +26,7 @@ async def supported_period_inline_keyboard(state):
     ])
 
 
-async def return_back_button_keyboard(state):
+async def return_back_button_keyboard(state: FSMContext) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=await localise("⬅️Back", state), callback_data="back")]
     ])
