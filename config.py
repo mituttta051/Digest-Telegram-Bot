@@ -7,6 +7,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Load variables from environment (.env)
-BOT_TOKEN = os.getenv('BOT_TOKEN')
+BOT_TOKEN = '7018084887:AAH4IqHI-SzASDA2Mpc3YPPbi-j7Sb27n7c'
 
 HUGGING_FACE_TOKEN = os.getenv('HUGGING_FACE_TOKEN')

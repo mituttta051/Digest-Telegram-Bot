@@ -30,8 +30,8 @@ async def main():
 
     # Start polling to receive updates
     await dp.start_polling(bot)
+    loop.run_until_complete(main())
 
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())

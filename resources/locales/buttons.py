@@ -4,5 +4,6 @@ buttons = {
     "settings": {"⚙️Settings", "⚙️Настройки"},
     "back_button": {"⬅️Back", "⬅️Назад"},
     "channel_settings": {"⚙️Channel settings", "⚙️Настройки канала"},
-    "bot_language": {"🌍Bot language", "🌍Язык бота"}
+    "bot_language": {"🌍Bot language", "🌍Язык бота"},
+    "choose_custom_period": {"Custom Period", "Выбрать свой период"}
 }
