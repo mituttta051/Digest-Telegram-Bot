@@ -218,9 +218,9 @@ To run the bot:
 - [x] Add second language in digest
 - [x] Add preview text for the digest
 - [x] Deploy the new version
-- [ ] Add automatic digest publishing
-- [ ] Switch to free LLM
-- [ ] Add ability of user to change prompt
+- [x] Add automatic digest publishing
+- [x] Switch to free LLM
+- [x] Add ability of user to change prompt
 - [ ] Implement monetization
 - [ ] Create donate button
 
