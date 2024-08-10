@@ -43,9 +43,9 @@
     <br />
     <a href="https://www.youtube.com/watch?v=WjtujibU20U">View Demo</a>
     ·
-    <a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues/new">Report Bug</a>
+    <a href="https://github.com/mituttta051/Digest-Telegram-Bot/issues">Report Bug</a>
     ·
-    <a href="https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues/new">Request Feature</a>
+    <a href="https://github.com/mituttta051/Digest-Telegram-Bot/issues">Request Feature</a>
   </p>
 </div>
 
@@ -243,7 +243,6 @@ See the [open issues](https://gitlab.pg.innopolis.university/i.ershov/digestBot/
   * Some files:
    ```sh
    git add path/to/your/file1.py path/to/your/file2.py
-
    ```
   * All files:
   ```sh
@@ -322,22 +321,14 @@ Step-by-step instruction of how to use the DigestTelegramBot 👇:
     3. Check that the bot is an admin of the channel and is allowed to read messages.
 
 
-🤝 **Help DigestTelegramBot to become better:** Follow the [Link](https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues/new). Name and describe the problem you faced, attach the screenshots and/or screen recordings.
+🤝 **Help DigestTelegramBot to become better:** Follow the [Link](https://github.com/mituttta051/Digest-Telegram-Bot/issues). Name and describe the problem you faced, attach the screenshots and/or screen recordings.
 
-💡 **Have interesting ideas?** Follow the [Link](https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues/new). In the Title section, write "New Feature: " and its name. Dindescribe your vision, add links and/or attach references.
-
-
-
-
-
-
-
-
+💡 **Have interesting ideas?** Follow the [Link](https://github.com/mituttta051/Digest-Telegram-Bot/issues). In the Title section, write "New Feature: " and its name. Dindescribe your vision, add links and/or attach references.
 
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See [LICENSE](https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/LICENSE) for more information.
+Distributed under the MIT License. See [LICENSE](https://github.com/mituttta051/Digest-Telegram-Bot/blob/main/LICENSE) for more information.
 
 [Back to Top](#readme-top)
 
@@ -348,7 +339,7 @@ Distributed under the MIT License. See [LICENSE](https://gitlab.pg.innopolis.uni
 
 Ivan Ershov - [tg: @spiritonchic](https://t.me/spiritonchic) - i.ershov@innopolis.university
 
-Project Link: [https://gitlab.pg.innopolis.university/i.ershov/digestBot](https://gitlab.pg.innopolis.university/i.ershov/digestBot)
+Project Link: [https://github.com/mituttta051/Digest-Telegram-Bot](https://github.com/mituttta051/Digest-Telegram-Bot?tab=readme-ov-file)
 
 [Back to Top](#readme-top)
 
@@ -372,15 +363,15 @@ Here are several credits by [Team 49](#team-49).
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/badge/Contributors-lightblue?style=for-the-badge&color=41BAD5&link=https%3A%2F%2Fgitlab.pg.innopolis.university%2Fi.ershov%2FdigestBot%2F-%2Fgraphs%2Fmain%3Fref_type%3Dheads
-[contributors-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/graphs/main?ref_type=heads
+[contributors-url]: https://github.com/mituttta051/Digest-Telegram-Bot/graphs/contributors
 [forks-shield]: https://img.shields.io/badge/Forks-white?style=for-the-badge&color=F8F5F5&link=https%3A%2F%2Fgitlab.pg.innopolis.university%2Fi.ershov%2FdigestBot%2F-%2Fforks
-[forks-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/forks
+[forks-url]: https://github.com/mituttta051/Digest-Telegram-Bot/fork
 [stars-shield]: https://img.shields.io/badge/Starrers-white?style=for-the-badge&color=41BAD5&link=https%3A%2F%2Fgitlab.pg.innopolis.university%2Fi.ershov%2FdigestBot%2F-%2Fforks
-[stars-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/starrers
+[stars-url]: https://github.com/mituttta051/Digest-Telegram-Bot/stargazers
 [issues-shield]: https://img.shields.io/badge/Issues-white?style=for-the-badge&color=F8F5F5&link=https%3A%2F%2Fgitlab.pg.innopolis.university%2Fi.ershov%2FdigestBot%2F-%2Fissues
-[issues-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/issues
+[issues-url]: https://github.com/mituttta051/Digest-Telegram-Bot/issues
 [license-shield]: https://img.shields.io/badge/License-white?style=for-the-badge&color=41BAD5&link=https%3A%2F%2Fgitlab.pg.innopolis.university%2Fi.ershov%2FdigestBot%2F-%2Fblob%2Fmain%2FLICENSE%3Fref_type%3Dheads
-[license-url]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/LICENSE?ref_type=heads
+[license-url]: https://github.com/mituttta051/Digest-Telegram-Bot/blob/main/LICENSE
 [product-screenshot]: https://gitlab.pg.innopolis.university/i.ershov/digestBot/-/blob/main/assets/IMG_1855.jpg
 [Python.js]: https://img.shields.io/badge/Python-blue?style=for-the-badge&logo=python&logoColor=white&link=https%3A%2F%2Fwww.python.org
 [Python-url]: https://www.python.org
