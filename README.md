@@ -106,6 +106,7 @@ Key features 🌟:
 * Second digest language (Ru/Eng/none) 
 * Publish to the channel
 * Bot language (Ru/Eng)
+* Choice between [YaGPT](https://ya.ru/ai/gpt-2) and [01-ai/Yi-1.5-34B-Chat](https://huggingface.co/01-ai/Yi-1.5-34B-Chat) models
 
 
 [Back to Top](#readme-top)
@@ -219,7 +220,7 @@ To run the bot:
 - [x] Add preview text for the digest
 - [x] Deploy the new version
 - [x] Add automatic digest publishing
-- [x] Switch to free LLM
+- [x] Switch to free LLM [01-ai/Yi-1.5-34B-Chat](https://huggingface.co/01-ai/Yi-1.5-34B-Chat)
 - [x] Add ability of user to change prompt
 - [ ] Implement monetization
 - [ ] Create donate button
