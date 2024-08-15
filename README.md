@@ -97,7 +97,7 @@
 
 
 
-During the Software Project course in Innopolis University [Team 49](#team-49) has collaborated with customer Gleb Shamilov to create a Digest Telegram Bot that generates digests of channel posts using LLM. 
+During the Software Project course in Innopolis University [Team 49](#team-49) has collaborated with customer Gleb Shalimov to create a Digest Telegram Bot that generates digests of channel posts using LLM. 
 
 Key features 🌟:
 * Digest period (week, 2 weeks, month, custom) 
